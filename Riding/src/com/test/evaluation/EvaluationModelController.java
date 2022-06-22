@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class EhModelController
+public class EvaluationModelController
 {
 	//평가지(방장)폼에서 입력 받은 값 insert 시키기.
 	//@RequestMapping(value = "/evaluationinsertleader.action",method = RequestMethod.GET)

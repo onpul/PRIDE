@@ -31,7 +31,7 @@ public class InsertRidingController
 	{
 		String result = null;
 				
-		result = "/choonghee/CreateMeet.jsp";
+		result = "/WEB-INF/riding/CreateMeet.jsp";
 		
 		return result;
 	}
@@ -110,7 +110,7 @@ public class InsertRidingController
 	{
 		String result = null;
 		
-		result = "/choonghee/KakaoSearchMap.jsp";
+		result = "/WEB-INF/mapapi/KakaoSearchMap.jsp";
 		
 		model.addAttribute("openType", openType);
 		

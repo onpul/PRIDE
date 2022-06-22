@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.test.util.DBConn;
+
 public class MyPageMainDAO implements IMyPageMainDAO
 {
 	private Connection conn;

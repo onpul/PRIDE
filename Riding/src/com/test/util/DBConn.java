@@ -1,4 +1,4 @@
-package com.test.evaluation;
+package com.test.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

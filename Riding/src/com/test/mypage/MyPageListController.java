@@ -1,4 +1,4 @@
-package com.test.evaluation;
+package com.test.mypage;
 
 import java.util.ArrayList;
 
@@ -10,30 +10,18 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.test.evaluation.EvaluationDTO;
+import com.test.evaluation.IEvaluationDAO;
+
 @Controller
-public class EhController
+public class MyPageListController
 {
-	// 마이페이지메인 뷰 --> 따로 컨트롤러 만듬.
-	/*
-	@RequestMapping(value = "/mypagemain.action", method = RequestMethod.GET)
-	public String myPageMainView()
-	{
-		String view = "/WEB-INF/eh/MyPageMain.jsp";
-		return view;
-	}
-	*/
-	
 	@Autowired
 	private SqlSession sqlSession;
-	
-	// 마이페이지 --> 
-	
-	
 	
 	// 마이페이지 --> 평가페이지 
 	// 조건.
@@ -102,7 +90,7 @@ public class EhController
 	@RequestMapping(value = "/myinfoupdateform.action", method = RequestMethod.GET)
 	public String myInfoUpdateForm()
 	{
-		String view = "/WEB-INF/eh/MyInfoUpdateForm.jsp";
+		String view = "/WEB-INF/mypage/MyInfoUpdateForm.jsp";
 		return view;
 	}
 	
@@ -110,7 +98,7 @@ public class EhController
 	@RequestMapping(value = "/nicknameupdateform.action", method = RequestMethod.GET)
 	public String nickNameUpdateForm()
 	{
-		String view = "/WEB-INF/eh/NickNameUpdateForm.jsp";
+		String view = "/WEB-INF/mypage/NickNameUpdateForm.jsp";
 		return view;
 	}
 	
@@ -118,7 +106,7 @@ public class EhController
 	@RequestMapping(value = "/onewordupdateform.action", method = RequestMethod.GET)
 	public String oneWordUpdateForm()
 	{
-		String view = "/WEB-INF/eh/OneWordUpdateForm.jsp";
+		String view = "/WEB-INF/mypage/OneWordUpdateForm.jsp";
 		return view;
 	}
 	
@@ -126,7 +114,7 @@ public class EhController
 	@RequestMapping(value = "/profilephotoupdateform.action", method = RequestMethod.GET)
 	public String profilePhotoUpdateForm()
 	{
-		String view = "/WEB-INF/eh/ProfilePhotoUpdateForm.jsp";
+		String view = "/WEB-INF/mypage/ProfilePhotoUpdateForm.jsp";
 		return view;
 	}
 	
@@ -135,7 +123,7 @@ public class EhController
 	@RequestMapping(value = "/ridingstylelistupdateform.action", method = RequestMethod.GET)
 	public String ridingStyleListUpdateForm()
 	{
-		String view = "/WEB-INF/eh/RidingStyleListUpdateForm.jsp";
+		String view = "/WEB-INF/mypage/RidingStyleListUpdateForm.jsp";
 		return view;
 	}
 	
@@ -144,7 +132,7 @@ public class EhController
 	@RequestMapping(value = "/participateridinglist.action", method = RequestMethod.GET)
 	public String participateRidingList()
 	{
-		String view = "/WEB-INF/eh/ParticipateRidingList.jsp";
+		String view = "/WEB-INF/mypage/ParticipateRidingList.jsp";
 		return view;
 	}
 	
@@ -163,7 +151,7 @@ public class EhController
 		
 		
 		
-		String view = "/WEB-INF/eh/EvaluationLeaderForm.jsp";
+		String view = "/WEB-INF/evaluation/EvaluationLeaderForm.jsp";
 		//마이바티스 방법으로 dao 인스턴스 생성
 		IEvaluationDAO dao = sqlSession.getMapper(IEvaluationDAO.class);
 		
@@ -414,7 +402,7 @@ public class EhController
 		dto.setUser_id(Integer.toString((Integer)session.getAttribute("user_id")));
 		
 		
-		String view = "/WEB-INF/eh/EvaluationMemberForm.jsp";
+		String view = "/WEB-INF/evaluation/EvaluationMemberForm.jsp";
 		//마이바티스 방법으로 dao 인스턴스 생성
 		IEvaluationDAO dao = sqlSession.getMapper(IEvaluationDAO.class);
 		
@@ -493,7 +481,7 @@ public class EhController
 	@RequestMapping(value = "/myridingrecordlist.action", method = RequestMethod.GET)
 	public String myRidingRecordList()
 	{
-		String view = "/WEB-INF/eh/MyRidingRecordList.jsp";
+		String view = "/WEB-INF/mypage/MyRidingRecordList.jsp";
 		return view;
 	}
 	
@@ -501,7 +489,7 @@ public class EhController
 	@RequestMapping(value = "/myridingrecord.action", method = RequestMethod.GET)
 	public String myRidingRecord()
 	{
-		String view = "/WEB-INF/eh/MyRidingRecord.jsp";
+		String view = "/WEB-INF/mypage/MyRidingRecord.jsp";
 		return view;
 	}
 	
@@ -510,25 +498,16 @@ public class EhController
 	@RequestMapping(value = "/myrationandscorelist.action", method = RequestMethod.GET)
 	public String myRationAndScoreList()
 	{
-		String view = "/WEB-INF/eh/MyRationAndScoreList.jsp";
+		String view = "/WEB-INF/mypage/MyRationAndScoreList.jsp";
 		return view;
 	}
 	
-	
-	//내가작성한게시글조회 뷰
-	@RequestMapping(value = "/myreviewlist.action", method = RequestMethod.GET)
-	public String myReviewList()
-	{
-		String view = "/WEB-INF/eh/MyReviewList.jsp";
-		return view;
-	}
-	
-	
+
 	//패널티조회 뷰
 	@RequestMapping(value = "/mypenaltylist.action", method = RequestMethod.GET)
 	public String myPenaltyList()
 	{
-		String view = "/WEB-INF/eh/MyPenaltyList.jsp";
+		String view = "/WEB-INF/mypage/MyPenaltyList.jsp";
 		return view;
 	}
 	
@@ -537,47 +516,8 @@ public class EhController
 	@RequestMapping(value = "/membersecession.action", method = RequestMethod.GET)
 	public String memberSecession()
 	{
-		String view = "/WEB-INF/eh/MemberSecession.jsp";
+		String view = "/WEB-INF/mypage/MemberSecession.jsp";
 		return view;
 	}
 	
-	//쪽지 뷰
-	@RequestMapping(value = "/letter.action", method = RequestMethod.GET)
-	public String letter()
-	{
-		String view = "/WEB-INF/eh/Letter.jsp";
-		return view;
-	}
-	
-	//쪽지 뷰
-	@RequestMapping(value = "/letterlist.action", method = RequestMethod.GET)
-	public String letterList()
-	{
-		String view = "/WEB-INF/eh/LetterList.jsp";
-		return view;
-	}
-	
-	//쪽지 뷰
-	@RequestMapping(value = "/letterresendform.action", method = RequestMethod.GET)
-	public String letterReSendForm()
-	{
-		String view = "/WEB-INF/eh/LetterReSendForm.jsp";
-		return view;
-	}
-	
-	//쪽지 뷰
-	@RequestMapping(value = "/lettersendform.action", method = RequestMethod.GET)
-	public String letterSendForm()
-	{
-		String view = "/WEB-INF/eh/LetterSendForm.jsp";
-		return view;
-	}
-	
-	//쪽지 뷰
-	@RequestMapping(value = "/lettersendform2.action", method = RequestMethod.GET)
-	public String letterSendForm2()
-	{
-		String view = "/WEB-INF/eh/LetterSendForm2.jsp";
-		return view;
-	}
 }

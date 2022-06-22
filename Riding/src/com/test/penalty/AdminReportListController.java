@@ -50,7 +50,7 @@ public class AdminReportListController
 		model.addAttribute("prevPage", pageInfo[3]);
 		model.addAttribute("nextPage", pageInfo[4]);
 		
-		result = "/choonghee/ReportList.jsp";
+		result = "/WEB-INF/penalty/ReportList.jsp";
 		
 		return result;
 	}
@@ -73,7 +73,7 @@ public class AdminReportListController
 		if (list.get(0).getReport_type().equals("REVIEW"))
 			model.addAttribute("content", dao.reviewContent(list.get(0).r_id));
 		
-		result = "/choonghee/ReportDetail.jsp";
+		result = "/WEB-INF/penalty/ReportDetail.jsp";
 		
 		return result;
 	}

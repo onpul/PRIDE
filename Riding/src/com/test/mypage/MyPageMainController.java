@@ -77,8 +77,10 @@ public class MyPageMainController implements Controller
 		mav.addObject("oneword", oneword);
 		mav.addObject("pi_address", pi_address);
 		System.out.println("잠시만여");
-		mav.setViewName("/WEB-INF/eh/MyPageMain.jsp");
+		mav.setViewName("/WEB-INF/mypage/MyPageMain.jsp");
 		return mav;
 	}
+	
+	
 	
 }

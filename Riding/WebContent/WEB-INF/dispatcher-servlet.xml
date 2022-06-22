@@ -25,9 +25,10 @@
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-	<!-- 은혜 -->
-	<bean id="dao" class="com.test.eh.MyPageMainDAO"></bean>
-	<bean name="/mypagemain.action" class="com.test.eh.MyPageMainController">
+	
+	 
+	<bean id="dao" class="com.test.mypage.MyPageMainDAO"></bean>
+	<bean name="/mypagemain.action" class="com.test.mypage.MyPageMainController">
 		<property name="dao" ref="dao"></property>
 	</bean>
 	
