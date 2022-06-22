@@ -27,7 +27,7 @@
 	
  
 	<bean id="dao" class="com.test.mypage.MyPageMainDAO"/>
-	<bean name="/mypagemain.action" class="com.test.mypage.MyPageMainController">
+		<bean name="/mypagemain.action" class="com.test.mypage.MyPageMainController">
 	</bean>
 
 	<!-- transaction 용 -->

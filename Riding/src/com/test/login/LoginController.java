@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
-public class loginController
+public class LoginController
 {
 	@Autowired
 	private SqlSession sqlSession;

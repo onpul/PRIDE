@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
+//@Controller
 public class EvaluationController
 {
 	// 마이페이지메인 뷰 --> 따로 컨트롤러 만듬.
@@ -28,8 +28,8 @@ public class EvaluationController
 	}
 	*/
 	
-	@Autowired
-	private SqlSession sqlSession;
+	//@Autowired
+	//private SqlSession sqlSession;
 	
 	// 마이페이지 --> 
 	

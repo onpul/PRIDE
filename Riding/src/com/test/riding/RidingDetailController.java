@@ -16,7 +16,7 @@ import com.test.login.UserDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
-public class ridingDetailController
+public class RidingDetailController
 {
 	@Autowired
 	private SqlSession sqlSession;

@@ -19,7 +19,7 @@ import com.test.login.RidingDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
-public class ridingListController
+public class RidingListController
 {
 	@Autowired
 	private SqlSession sqlSession;

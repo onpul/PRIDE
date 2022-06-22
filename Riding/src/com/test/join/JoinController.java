@@ -13,7 +13,7 @@ import com.test.login.UserDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
-public class joinController
+public class JoinController
 {
 	@Autowired
 	private SqlSession sqlSession;
@@ -23,7 +23,7 @@ public class joinController
 	public String joinForm()
 	{
 		String result = null;
-		result = "WEB-INF/login/JoinForm.jsp";
+		result = "/WEB-INF/login/JoinForm.jsp";
 		return result;
 	}
 	

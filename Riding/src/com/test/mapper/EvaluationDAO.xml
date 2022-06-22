@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.test.eh.IEvaluationDAO">
+<mapper namespace="com.test.evaluation.IEvaluationDAO">
 	
 	<!-- 모임명 / 작성자 닉네임 / 참여자 명단 / 문항 / 가져오기 -->
 	<!-- // 1. 평가기간인 모임이 있는지 조회하는 메소드 -->
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- // 6. 참여자 명단 조회 메소드	/ 닉네임만 뿌릴 예정 -->
-	<select id="memberList" resultType="com.test.eh.EvaluationDTO">
+	<select id="memberList" resultType="com.test.evaluation.EvaluationDTO">
 		SELECT PM.USER_ID AS USER_ID
 		    ,P.NICKNAME AS NICKNAME
 		FROM PARTICIPATED_MEMBER PM JOIN PROFILE P

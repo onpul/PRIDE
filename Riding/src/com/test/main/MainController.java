@@ -15,7 +15,7 @@ import com.test.login.UserDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
-public class mainController
+public class MainController
 {
 	@Autowired
 	private SqlSession sqlSession;
@@ -25,7 +25,7 @@ public class mainController
 	public String main()
 	{
 		String result = null;
-		result = "WEB-INF/main/Main.jsp";
+		result = "/WEB-INF/main/Main.jsp";
 		return result;
 	}
 	
