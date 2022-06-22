@@ -1,9 +1,3 @@
-<!--
-RidingList.jsp 
-모임 리스트 페이지
-메인 페이지 > 상단메뉴 > 모임 리스트
-메인 페이지 > 캘린더 > 모임 리스트
--->
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,6 +6,13 @@ RidingList.jsp
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 %>
+<!--
+RidingList.jsp 
+모임 리스트 페이지
+메인 페이지 > 상단메뉴 > 모임 리스트
+메인 페이지 > 캘린더 > 모임 리스트
+-->
+
 <c:set var="user_id" value="${user_id}" scope="session"/> 
 <!DOCTYPE html>
 <html>
@@ -255,7 +256,7 @@ RidingList.jsp
 </head>
 <body>
 <div>
-	<c:import url="Header.jsp"></c:import>
+	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 </div>
 <form class="ridingListForm" name="ridingListForm">
 	<div class="form-group form-inline">
@@ -454,6 +455,6 @@ RidingList.jsp
 	</c:choose>
 </div>
 <!-- 푸터 -->
-<jsp:include page="../layout/Footer.jsp" />
+<jsp:include page="${request.contextPath}/WEB-INF/layout/Footer.jsp" />
 </body>
 </html>

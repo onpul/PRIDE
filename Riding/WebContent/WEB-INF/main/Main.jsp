@@ -9,6 +9,7 @@ Main.jsp
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
 %>
 <c:set var="user_id" value="${user_id}" scope="session"/> 
 <!DOCTYPE html>
@@ -428,7 +429,7 @@ Main.jsp
 <body>
 <!-- 헤더 -->
 <div>
-	<c:import url="Header.jsp"></c:import>
+	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"></c:import>
 </div>
 <div class="row">
 	<!-- 달력 들어갈 div -->

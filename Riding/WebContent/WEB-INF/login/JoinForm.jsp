@@ -403,7 +403,7 @@ JoinForm.jsp
 </head>
 <body>
 <div>
-	<c:import url="Header.jsp"></c:import>
+	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 </div>
 <div class="joinFormBox">
 	<form class="joinForm" name="joinForm">
@@ -551,7 +551,7 @@ JoinForm.jsp
 		</div>
 	</form>
 <!-- 푸터 -->
-<jsp:include page="../layout/Footer.jsp" />
+<jsp:include page="${request.contextPath}/WEB-INF/layout/Footer.jsp" />
 </div>
 </body>
 </html>

@@ -25,7 +25,7 @@ public class LoginController
 	public String loginform()
 	{
 		String result = null;
-		result = "WEB-INF/login/LoginForm.jsp";
+		result = "/WEB-INF/login/LoginForm.jsp";
 		return result;
 	}
 	
@@ -92,7 +92,7 @@ public class LoginController
 	public String searchIdForm()
 	{
 		String result = null;
-		result = "WEB-INF/login/SearchIdForm.jsp";
+		result = "/WEB-INF/login/SearchIdForm.jsp";
 		return result;
 	}
 	
@@ -127,7 +127,7 @@ public class LoginController
 	{
 		String result = null;
 		
-		result = "WEB-INF/login/SearchPasswordForm.jsp";
+		result = "/WEB-INF/login/SearchPasswordForm.jsp";
 		
 		return result;
 	}

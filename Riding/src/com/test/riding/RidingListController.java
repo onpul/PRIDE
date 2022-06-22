@@ -65,7 +65,7 @@ public class RidingListController
 	public String ridingList()
 	{
 		String result = null;
-		result = "WEB-INF/riding/RidingList.jsp";
+		result = "/WEB-INF/riding/RidingList.jsp";
 		return result;
 	}
 	

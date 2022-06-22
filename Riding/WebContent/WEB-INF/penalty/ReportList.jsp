@@ -14,7 +14,7 @@
 <title>신고 내역 조회</title>
 
 <!-- 헤더 -->
-<c:import url="<%=header %>"></c:import>
+<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 
 <script type="text/javascript">
 	$(function()

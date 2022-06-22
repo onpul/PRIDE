@@ -124,7 +124,7 @@ LoginForm.jsp
 </head>
 <body>
 <div>
-	<c:import url="Header.jsp"></c:import>
+	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 </div>
 <div class="loginFormBox">
 	<form id="loginForm" name="loginForm" method="post" action=submit>
@@ -146,7 +146,7 @@ LoginForm.jsp
 		</div>
 	</form>
 <!-- 푸터 -->
-<jsp:include page="../layout/Footer.jsp" />
+<jsp:include page="${request.contextPath}/WEB-INF/layout/Footer.jsp" />
 </div>	
 </body>
 </html>

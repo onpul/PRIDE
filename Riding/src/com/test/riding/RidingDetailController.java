@@ -42,7 +42,7 @@ public class RidingDetailController
 			System.out.println(i + " = " + ridingMember.get(i).getUser_id());
 		}
 		
-		result = "WEB-INF/riding/RidingDetail.jsp";
+		result = "/WEB-INF/riding/RidingDetail.jsp";
 		return result;
 	}
 }

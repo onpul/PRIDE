@@ -166,18 +166,6 @@
 		});
 				
 	}
-	
-	// 패널티 적용하기
-	function ajaxInsertPenalty(params)
-	{
-		var url = "";
-		/* 
-		$.post(url, params, function()
-		{
-			alert("최종 처리 완료")
-		});
-		*/
-	}
 
 
 </script>

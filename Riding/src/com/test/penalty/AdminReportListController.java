@@ -27,7 +27,7 @@ public class AdminReportListController
 	private SqlSession sqlSession;
 		
 	// 관리자용. 신고 내역 조회
-	@RequestMapping(value = "/reportlist.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/reportlist.action", method = RequestMethod.GET)
 	public String reportList(Model model, HttpServletRequest request)
 	{
 		String result = null;
