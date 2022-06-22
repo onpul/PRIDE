@@ -146,7 +146,7 @@ LoginForm.jsp
 		</div>
 	</form>
 <!-- 푸터 -->
-<jsp:include page="Footer.jsp" />
+<jsp:include page="../layout/Footer.jsp" />
 </div>	
 </body>
 </html>

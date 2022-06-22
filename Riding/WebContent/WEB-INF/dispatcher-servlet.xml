@@ -26,11 +26,12 @@
 	</bean>
 	
 	<!-- 은혜 -->
+	<!-- 
 	<bean id="dao" class="com.test.eh.MyPageMainDAO"></bean>
 	<bean name="/mypagemain.action" class="com.test.eh.MyPageMainController">
 		<property name="dao" ref="dao"></property>
 	</bean>
-	
+	 -->
 	<!-- transaction 용 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="localDataSource"></property>
