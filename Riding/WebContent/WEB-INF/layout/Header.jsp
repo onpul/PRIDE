@@ -34,87 +34,6 @@ Header.jsp
 	body {height: 100%;}
 	img{width:20px;}
 </style>
-<script type="text/javascript">
-
-	$(document).ready(function()
-	{
-		//var user_id = ${user_id};
-		
-		//location.href = "noticeCount.action?user_id="+user_id;
-		//alert("확인");
-		
-		//alert(user_id);
-		
-		// 쪽지 수 가져오기
-		$.ajax(
-		{
-			type:"POST"
-			, asynx:false
-			, url:"messageCount.action"
-			, success:function(data)
-			{
-				//alert(data);
-				$("#messageCount").html(data);
-			}
-			, error:function(e)
-			{
-				alert(e.responseText);
-			}
-		});
-		
-		// 알림 수 가져오기
-		$.ajax(
-		{
-			type:"POST"
-			, asynx:false
-			, url:"noticeCount.action"
-			, success:function(data)
-			{
-				$("#noticeCount").html(data);
-			}
-			, error:function(e)
-			{
-				alert(e.responseText);
-			}
-		});
-		
-		// 알림 가져오기
-		$.ajax(
-		{
-			type:"POST"
-			, asynx:false
-			, url:"notice.action"
-			, dataType:"JSON"
-			, contentType:"application/json; charset:UTF-8"
-			, success:function(data)
-			{
-				//alert("success 진입");
-				//alert(data);
-				
-				//console.log(typeof data);
-				//console.log(data[1].content);
-				
-				var str = "";
-				
-				//alert(data.length);
-				
-				for (var i = 0; i < data.length; i++)
-				{
-					str += "<li><a class=\"dropdown-item\" href=\"#\">";
-					str += data[i].content + " 알림";
-					str += "</a></li>";
-					$("#noticeList").html(str);
-				}
-			}
-			, error:function(e)
-			{
-				alert(e.responseText);
-			}
-		});
-		
-	});
-	
-</script>
 </head>
 <body>
 <span style="color:blue;">[테스트용 구문]로그인한 user_id : ${sessionScope.user_id}</span>
@@ -145,23 +64,6 @@ Header.jsp
         	<li><a href="#">지도</a></li>
       	</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<!-- 알림, 쪽지는 회원일 경우에만 적용 /  -->
-			<c:choose>
-			<c:when test="${sessionScope.user_id!=null }">  
-	   		<li>
-	   			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">알림<span class="badge" id="noticeCount"></span> <span class="caret"></span></a>
-	   			<ul class="dropdown-menu" role="menu" id="noticeList">
-			       	<!--  
-			       	<li><a class="dropdown-item" href="#">패널티가 적용되었습니다.</a></li>
-			        <li><a class="dropdown-item" href="#">[짱구]님이 초대하셨습니다.</a></li> 
-			        -->
-			    </ul>   
-	   		</li>
-	   		<li>
-	   			<a href="letterlist.action">쪽지<span class="badge" id="messageCount"></span></a>
-	   		</li>
-	   		</c:when> 
-	   		</c:choose>
 	   		<li class="dropdown">
 	     		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="https://bigxdata.io/common/img/default_profile.png" alt="" class="img-circle"/></a>
 				<ul class="dropdown-menu" role="menu">

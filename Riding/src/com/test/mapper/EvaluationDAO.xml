@@ -34,11 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- // 3-1. 문항 조회 메소드 → 방장 -->
+	<!-- 
 	<select id="leaderQuestionList" resultType="com.test.eh.EvaluationDTO">
 		SELECT QUESTION_ID , QU_CONTENT
 		FROM QUESTION
 		
 	</select>
+	 -->
 	<!-- // 3-2. 문항 조회 메소드 → 참여자 일 때는 리더십에 관한 문항 추가. -->
 	
 	

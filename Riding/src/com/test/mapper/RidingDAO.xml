@@ -82,29 +82,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  AND BIRTHDAY = #{birthday}
 	</select>
 	
-	<!-- 알림 불러오기 -->
-	<select id="noticeList" resultType="java.lang.String">
-		SELECT B.CONTENT
-		FROM NOTICE A JOIN NOTICE_CONTENT B
-		ON A.N_CONTENT_ID = B.N_CONTENT_ID
-		WHERE USER_ID=#{user_id}
-	</select>
-	
-	<!-- 알림 개수 -->
-	<select id="noticeCount" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS COUNT
-		FROM NOTICE A JOIN NOTICE_CONTENT B
-		ON A.N_CONTENT_ID = B.N_CONTENT_ID
-		WHERE USER_ID=#{user_id}
-	</select>
-	
-	<!-- 쪽지 개수 -->
-	<select id="messageCount" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS COUNT
-		FROM MESSAGE
-		WHERE RECEIVER_ID=#{user_id}
-	</select>
-	
 	<!-- 참여 가능한 모임 개수 -->
 	<select id="openRidingCount" resultType="java.lang.Integer">
 		SELECT COUNT(*) AS COUNT
