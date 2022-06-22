@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ○ mapper 엘리먼트의 『namespace="패키지 경로가 포함된 인터페이스"』 -->
+<!--    - 인터페이스 내부에 메소드명이 선언되어 있어야 한다. -->
+<!--    - 이 메소드 명과 『id="식별자"』가 일치해야 한다. -->
+<mapper namespace="com.test.choonghee.IViewReportListDAO">
+	<select id="list" resultType="com.test.choonghee.ViewReportListDTO">
+		<![CDATA[
+			
+			SELECT NUM, R_ID, USER_ID, NICKNAME, REPORT_DATE, STATUS, STATUS_ID, REPORT_TYPE, CONTENT
+			FROM
+			(
+				SELECT L.*, ROWNUM AS RNUMBER
+				FROM VIEW_REPORT_LIST L
+			)
+			WHERE RNUMBER<=#{num}
+		]]>		
+	</select>
+	
+	<select id="listDetail" resultType="com.test.choonghee.ViewReportListDTO">
+		SELECT NUM, R_ID, USER_ID, NICKNAME, REPORT_DATE, STATUS, STATUS_ID, REPORT_TYPE
+			 , CONTENT, REPORTED_USER_ID, R_USER_NICKNAME
+		FROM VIEW_REPORT_LIST
+		${where} 
+	</select>
+	 
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM VIEW_REPORT_LIST
+		${where}
+	</select>
+	
+	
+	<select id="listPage" resultType="com.test.choonghee.ViewReportListDTO">
+		<![CDATA[
+			SELECT NUM, R_ID, USER_ID, NICKNAME, REPORT_DATE, STATUS, STATUS_ID, REPORT_TYPE, CONTENT
+			FROM 
+			(
+			    SELECT A.*, ROWNUM AS NEWNUM
+			    FROM
+			    (
+			        SELECT *
+			        FROM VIEW_REPORT_LIST
+			        ${where}
+			        ${orderBy}
+			    ) A
+			) B
+			WHERE NEWNUM >= #{start} AND NEWNUM <= #{end}
+		]]>
+		
+	</select>
+	
+	<select id="reviewContent" resultType="java.lang.String">
+		SELECT V.CONTENT AS CONTENT
+		FROM RESTAURANT_REVIEW V, REVIEW_REPORT R
+		WHERE V.R_REVIEW_ID = R.R_REVIEW_ID
+		  AND R.REVIEW_R_ID = #{r_id}
+	</select>
+	
+	<insert id="insertReviewProcess">
+		INSERT INTO REVIEW_REPORT_PROCESS(RR_PROC_ID, REVIEW_R_ID, ADMIN_ID, PROC_STATUS_ID, PROCESS_DATE)
+		VALUES (SEQ_REPORT_PROCESS.nextval, #{r_id}, #{admin_id}, #{status}, SYSDATE)
+	</insert>
+	
+	<insert id="insertParticiProcess">
+		INSERT INTO PARTICIPANT_REPORT_PROCESS(PR_PROC_ID, PARTICI_R_ID, ADMIN_ID, PROC_STATUS_ID, PROCESS_DATE)
+		VALUES (SEQ_REPORT_PROCESS.nextval, #{r_id}, #{admin_id}, #{status}, SYSDATE)
+	</insert>
+</mapper>

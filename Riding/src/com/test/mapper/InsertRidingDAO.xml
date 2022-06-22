@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ○ mapper 엘리먼트의 『namespace="패키지 경로가 포함된 인터페이스"』 -->
+<!--    - 인터페이스 내부에 메소드명이 선언되어 있어야 한다. -->
+<!--    - 이 메소드 명과 『id="식별자"』가 일치해야 한다. -->
+<mapper namespace="com.test.choonghee.IInsertRidingDAO">
+	<insert id = "insertRiding" parameterType="com.test.choonghee.InsertRidingDTO">
+		
+		<selectKey keyProperty="riding_id" resultType="java.lang.String" order="AFTER">
+            SELECT RIDING_ID
+			FROM
+			(
+			    SELECT RIDING_ID, ROW_NUMBER() OVER(ORDER BY CREATED_DATE DESC) DATE_NUM
+			    FROM RIDING
+			    WHERE LEADER_ID = #{user_id}
+			)
+			WHERE DATE_NUM = 1
+        </selectKey>
+	    
+		INSERT INTO RIDING ( RIDING_ID, LEADER_ID, STEP_ID
+			, SPEED_ID, MOOD_P_ID, DINING_P_ID, EAT_P_ID
+			, AGE_P_ID, SEX_P_ID, EV_GRADE_ID, RIDING_NAME, START_DATE
+			, END_DATE, CREATED_DATE, MAXIMUM, MEET_LATI
+			, MEET_LONGI, MEET_ADDRESS, MEET_DETAIL
+			, START_LATI, START_LONGI, START_ADDRESS
+			, START_DETAIL, END_LATI, END_LONGI
+			, END_ADDRESS, END_DETAIL, CONFIRM_DATE, COMMENTS)
+		VALUES (SEQ_RIDING.NEXTVAL, #{user_id}, #{step_id}
+			, #{speed_id}, #{mood_p_id}, #{dining_p_id}, #{eat_p_id}
+			, #{age_p_id}, #{sex_p_id}, #{ev_grede_id}, #{riding_name}, #{start_date}
+			, #{end_date}, SYSDATE, #{maximum}, #{meet_lati}
+			, #{meet_longi}, #{meet_address}, #{meet_detail}
+			, #{start_lati}, #{start_longi}, #{start_address}
+			, #{start_detail}, #{end_lati}, #{end_longi}
+			, #{end_address}, #{end_detail}, NULL, #{comments})
+		
+		
+	</insert>
+	
+	<insert id="insertRidingPoint">
+		INSERT INTO RIDING_POINT (POINT_ID, RIDING_ID, LATITUDE
+				      		   , LONGITUDE, ADDRESS, DETAIL_ADDRESS)
+		VALUES (SEQ_RIDING_POINT.NEXTVAL, #{riding_id}, #{latitude}
+			 , #{longitude}, #{address}, #{detail_address})
+	</insert>	
+	
+	
+</mapper>

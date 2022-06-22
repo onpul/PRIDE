@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.ljy.NoticeDAO">
+
+    
+	<select id="list_Notice" resultType="com.test.ljy.NoticeDTO">
+      	SELECT NOTICE_ID,USER_ID,N_CONTENT_ID,SEND_DATE,OPEN_DATE
+		FROM NOTICE
+    </select>
+	
+	<delete id= "delete" >
+		DELETE
+		FROM NOTICE
+		WHERE NOTICE_ID = #{notice_id}
+	</delete>
+    
+    <delete id= "delete_all" >
+		DELETE
+		FROM NOTICE
+	</delete>
+	
+    <delete id= "delete_read" >
+    DELETE
+	FROM NOTICE
+	WHERE OPEN_DATE IS NOT NULL
+	</delete>
+    </mapper>
+
+
+
+

@@ -1,0 +1,56 @@
+/*
+StudentDTO.java
+*/
+
+package com.test.ljy;
+
+
+public class InvDTO
+{
+	private String invite_id, sender_id, riding_id, receiver_id;
+	private String send_date;
+	public String getInvite_id()
+	{
+		return invite_id;
+	}
+	public void setInvite_id(String invite_id)
+	{
+		this.invite_id = invite_id;
+	}
+	public String getSender_id()
+	{
+		return sender_id;
+	}
+	public void setSender_id(String sender_id)
+	{
+		this.sender_id = sender_id;
+	}
+	public String getRiding_id()
+	{
+		return riding_id;
+	}
+	public void setRiding_id(String riding_id)
+	{
+		this.riding_id = riding_id;
+	}
+	public String getReceiver_id()
+	{
+		return receiver_id;
+	}
+	public void setReceiver_id(String receiver_id)
+	{
+		this.receiver_id = receiver_id;
+	}
+	public String getSend_date()
+	{
+		return send_date;
+	}
+	public void setSend_date(String send_date)
+	{
+		this.send_date = send_date;
+	}
+	
+	
+	
+	
+}

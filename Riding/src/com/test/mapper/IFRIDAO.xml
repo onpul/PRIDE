@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.ljy.FriDAO">
+
+    
+	<select id="list_Fri" resultType="com.test.ljy.FriDTO">
+      	SELECT ADD_FRIEND_ID, SENDER_ID, RECEIVER_ID, ADD_DATE, OPEN_DATE, ACCEPT_DATE
+		FROM ADD_FRIEND
+    </select>
+	<select id="count_Fri">
+	SELECT COUNT(*) AS COUNT
+	FROM ADD_FRIEND
+	
+	</select>
+
+    
+    
+    </mapper>
+
+
+
+
