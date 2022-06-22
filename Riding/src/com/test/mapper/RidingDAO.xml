@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="com.test.mj.IRidingDAO">
+<mapper namespace="com.test.login.IRidingDAO">
 	
 	<!-- 회원가입 -->
 	<insert id = "join">
@@ -82,29 +82,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  AND BIRTHDAY = #{birthday}
 	</select>
 	
-	<!-- 알림 불러오기 -->
-	<select id="noticeList" resultType="java.lang.String">
-		SELECT B.CONTENT
-		FROM NOTICE A JOIN NOTICE_CONTENT B
-		ON A.N_CONTENT_ID = B.N_CONTENT_ID
-		WHERE USER_ID=#{user_id}
-	</select>
-	
-	<!-- 알림 개수 -->
-	<select id="noticeCount" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS COUNT
-		FROM NOTICE A JOIN NOTICE_CONTENT B
-		ON A.N_CONTENT_ID = B.N_CONTENT_ID
-		WHERE USER_ID=#{user_id}
-	</select>
-	
-	<!-- 쪽지 개수 -->
-	<select id="messageCount" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS COUNT
-		FROM MESSAGE
-		WHERE RECEIVER_ID=#{user_id}
-	</select>
-	
 	<!-- 참여 가능한 모임 개수 -->
 	<select id="openRidingCount" resultType="java.lang.Integer">
 		SELECT COUNT(*) AS COUNT
@@ -129,14 +106,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 나의 라이딩 스타일 조회(검색 분류 적용) -->
-	<select id="myRidingStyle" resultType="com.test.mj.RidingDTO">
+	<select id="myRidingStyle" resultType="com.test.login.RidingDTO">
 		SELECT MOOD_P_ID, EAT_P_ID, DINING_P_ID, SEX_P_ID, AGE_P_ID
 		FROM VIEW_MY_RIDING_STYLE
 		WHERE USER_ID = #{user_id}
 	</select>
 	
 	<!-- 리스트 조회 -->
-	<select id="ridingList" resultType="com.test.mj.RidingDTO">
+	<select id="ridingList" resultType="com.test.login.RidingDTO">
 		SELECT RIDING_ID, RIDING_NAME, MAXIMUM, OPEN, START_DATE, END_DATE
 		FROM VIEW_RIDING_LIST
 		${where}
@@ -144,7 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 라이딩 상세 보기 -->
-	<select id="ridingDetailList" resultType="com.test.mj.RidingDTO">
+	<select id="ridingDetailList" resultType="com.test.login.RidingDTO">
 		SELECT R.RIDING_ID, R.LEADER_ID, R.STEP_ID, R.SPEED_ID, R.MOOD_P_ID, R.DINING_P_ID
 		    , R.EAT_P_ID, R.AGE_P_ID, R.SEX_P_ID, R.EV_GRADE_ID, R.RIDING_NAME, R.START_DATE
 		    , R.END_DATE, R.CREATED_DATE, R.MAXIMUM, R.MEET_LATI, R.MEET_LONGI, R.MEET_ADDRESS
@@ -163,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 참여한 회원 조회 -->
-	<select id="ridingMember" resultType="com.test.mj.RidingDTO">
+	<select id="ridingMember" resultType="com.test.login.RidingDTO">
 		SELECT USER_ID
 		FROM RIDING R JOIN PARTICIPATED_MEMBER P
 		ON R.RIDING_ID = P.RIDING_ID

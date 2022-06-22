@@ -25,12 +25,11 @@
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-	<!-- 은혜 -->
-	<bean id="dao" class="com.test.eh.MyPageMainDAO"></bean>
-	<bean name="/mypagemain.action" class="com.test.eh.MyPageMainController">
-		<property name="dao" ref="dao"></property>
+ 
+	<bean id="dao" class="com.test.mypage.MyPageMainDAO"/>
+		<bean name="/mypagemain.action" class="com.test.mypage.MyPageMainController">
 	</bean>
-	
+
 	<!-- transaction 용 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="localDataSource"></property>
