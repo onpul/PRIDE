@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id = "profile">
 		INSERT INTO PROFILE(PROFILE_ID, USER_ID, MOOD_P_ID, EAT_P_ID, PIMG_ID, DINING_P_ID, SEX_P_ID, AGE_P_ID, EMAIL, BIRTHDAY, SEX, PASSWORD, NICKNAME)
 		VALUES(SEQ_PROFILE.NEXTVAL, #{user_id}, #{mood_p_id}, #{eat_p_id}, 1, #{dining_p_id}
-		, #{sex_p_id}, #{age_p_id}, #{email}, #{birthday}, #{sex_p_id}, #{password}, #{nickname})
+		, #{sex_p_id}, #{age_p_id}, #{email}, #{birthday}, '${sex}', #{password}, #{nickname})
 	</insert> 
 	
 	<!-- 회원가입한 userId 얻어내기 (개인정보 insert용) -->
