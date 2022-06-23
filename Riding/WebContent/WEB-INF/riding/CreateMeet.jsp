@@ -332,11 +332,16 @@
 					<label>
 						<input type="radio" name="sex_p_id" value="0"/>제한없음
 					</label>
+					
 					<label>
-						<input type="radio" name="sex_p_id" value="1"/>남
-					</label>
-					<label>
-						<input type="radio" name="sex_p_id" value="2" />여
+					<c:choose>
+						<c:when test="${sex eq'M' }">
+							<input type="radio" name="sex_p_id" value="1"/>남
+						</c:when>
+						<c:otherwise>
+							<input type="radio" name="sex_p_id" value="2" />여
+						</c:otherwise>
+					</c:choose>
 					</label>
 				</td>
 			</tr>
@@ -347,22 +352,11 @@
 						<input type="radio" name="age_p_id"  value="0"/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="age_p_id" value="1" />10대
-					</label>
-					<label>
-						<input type="radio" name="age_p_id" value="2" />20대
-					</label>
-					<label>
-						<input type="radio" name="age_p_id" value="3" />30대
-					</label>
-					<label>
-						<input type="radio" name="age_p_id" value="4" />40대
-					</label>
-					<label>
-						<input type="radio" name="age_p_id" value="5" />50대
-					</label>
-					<label>
-						<input type="radio" name="age_p_id" value="6" />60대 이상
+					<c:if test="${age_p_id != '0' }">
+						<input type="radio" name="age_p_id" value="${age_p_id }">${age_p_id }0대 
+						<c:if test="${age_p_id == '6' }">이상
+						</c:if>
+					</c:if>
 					</label>
 				</td>
 			</tr>
