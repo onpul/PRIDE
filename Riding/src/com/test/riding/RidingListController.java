@@ -98,7 +98,6 @@ public class RidingListController
 		ArrayList<RidingDTO> ridingList = new ArrayList<RidingDTO>();
 		
 		String where = "";
-		String orderby = "";
 		
 		where += "WHERE RIDING_ID IS NOT NULL";
 		if (sex_p_id != -1) // 전체 선택이 아니면
@@ -116,9 +115,7 @@ public class RidingListController
 		if (mood_p_id != -1)
 			where += " AND MOOD_P_ID = " + mood_p_id;
 		
-		orderby = "ORDER BY START_DATE";
-		
-		ridingList = dao.ridingList(where, orderby);
+		ridingList = dao.ridingList(where);
 		
 		//System.out.println("where = " + where);
 		

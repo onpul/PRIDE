@@ -26,15 +26,6 @@ RidingList.jsp
 	$(document).ready(function()
 	{
 		searchList();
-		
-		var th = ""; 
-		th += "<tr id=\"first\"><th>모임명</th>"
-		th += "<th>최대<input type=\"button\" value=\"정렬\"/></th>"
-		th += "<th>참여가능<input type=\"button\" value=\"정렬\"/></th>"
-		th += "<th>기간<input type=\"button\" value=\"정렬\"/></th>"
-		th += "<th>참석가능여부<input type=\"button\" value=\"정렬\"/></th></tr>" 
-		
-		$(".ridingList").append(th);
 	});
 	
 	$(function()
@@ -175,16 +166,6 @@ RidingList.jsp
 				//console.log("jObj = ", jObj);
 				//console.log("jObj.length = ", jObj.length);
 				//console.log(jObj[0].riding_name);
-				
-				var th = ""; 
-				th += "<tr id=\"first\"><th>모임명</th>"
-				th += "<th>최대<input type=\"button\" value=\"정렬\"/></th>"
-				th += "<th>참여가능<input type=\"button\" value=\"정렬\"/></th>"
-				th += "<th>기간<input type=\"button\" value=\"정렬\"/></th>"
-				th += "<th>참석가능여부<input type=\"button\" value=\"정렬\"/></th></tr>" 
-				
-				$(".ridingList").empty();
-				$(".ridingList").append(th);
 				
 				if (jObj == "")
 				{
@@ -402,50 +383,13 @@ RidingList.jsp
 </form>
 <div>
 	<table class="table table-bordered ridingList">
-		<!-- <tr id="first">
+		<tr id="first">
 			<th>모임명</th>
-			<th>최대<input type="button" value="정렬"/></th>
-			<th>참여가능<input type="button" value="정렬"/></th>
-			<th>기간<input type="button" value="정렬"/></th>
-			<th>참석가능여부<input type="button" value="정렬"/></th>
-		</tr>  -->
-		<!-- 
-		<tr>
-			<td>인천 피플</td>
-			<td>9</td>
-			<td>2</td>
-			<td>2022.06.20 12:00 ~ 2022.06.20 16:00</td>
-			<td>참석 가능</td>
-		</tr>
-		<tr>
-			<td>인천 피플</td>
-			<td>9</td>
-			<td>2</td>
-			<td>2022.06.20 12:00 ~ 2022.06.20 16:00</td>
-			<td>참석 가능</td>
-		</tr>
-		<tr>
-			<td>인천 피플</td>
-			<td>9</td>
-			<td>2</td>
-			<td>2022.06.20 12:00 ~ 2022.06.20 16:00</td>
-			<td>참석 가능</td>
-		</tr>
-		<tr>
-			<td>인천 피플</td>
-			<td>9</td>
-			<td>2</td>
-			<td>2022.06.20 12:00 ~ 2022.06.20 16:00</td>
-			<td>참석 가능</td>
-		</tr>
-		<tr>
-			<td>인천 피플</td>
-			<td>9</td>
-			<td>2</td>
-			<td>2022.06.20 12:00 ~ 2022.06.20 16:00</td>
-			<td>참석 가능</td>
-		</tr>
-		-->
+			<th>최대<button type="button" value="maximum">정렬</button></th>
+			<th>참여가능<button type="button" value="open">정렬</button></th>
+			<th>기간<button type="button" value="정렬">정렬</button></th>
+			<th>참석가능여부<button type="button" value="정렬">정렬</button></th>
+		</tr> 
 	</table>
 	<input type="text" style="display: none;" name="user_id" id="user_id" value="${user_id}"/>
 	<c:choose>
