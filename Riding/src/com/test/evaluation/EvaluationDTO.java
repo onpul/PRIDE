@@ -10,7 +10,7 @@ public class EvaluationDTO
 	private String riding_id, riding_name;
 	private String question_id, qu_content;
 	private String attendance, kindness, notKindness,dangerRiding, notCompletion, different;
-	private String p_member_id, check_atte_id, answer_id;
+	private String pa_member_id, check_atte_id, answer_id;
 	private String leaderCheck;
 	public String getNickName()
 	{
@@ -108,13 +108,13 @@ public class EvaluationDTO
 	{
 		this.different = different;
 	}
-	public String getP_member_id()
+	public String getPa_member_id()
 	{
-		return p_member_id;
+		return pa_member_id;
 	}
-	public void setP_member_id(String p_member_id)
+	public void setPa_member_id(String pa_member_id)
 	{
-		this.p_member_id = p_member_id;
+		this.pa_member_id = pa_member_id;
 	}
 	public String getCheck_atte_id()
 	{
