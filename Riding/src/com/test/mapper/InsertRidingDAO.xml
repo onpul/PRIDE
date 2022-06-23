@@ -9,11 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.test.riding.IInsertRidingDAO">
 	<insert id = "insertRiding" parameterType="com.test.riding.InsertRidingDTO">
 		
-		<selectKey keyProperty="riding_id" resultType="java.lang.String" order="AFTER">
-            SELECT RIDING_ID
+		<selectKey keyProperty="riding_id,created_date" resultType="com.test.riding.InsertRidingDTO" order="AFTER">
+            SELECT RIDING_ID, CREATED_DATE
 			FROM
 			(
-			    SELECT RIDING_ID, ROW_NUMBER() OVER(ORDER BY CREATED_DATE DESC) DATE_NUM
+			    SELECT RIDING_ID, CREATED_DATE, ROW_NUMBER() OVER(ORDER BY CREATED_DATE DESC) DATE_NUM
 			    FROM RIDING
 			    WHERE LEADER_ID = #{user_id}
 			)
@@ -47,5 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 , #{longitude}, #{address}, #{detail_address})
 	</insert>	
 	
-	
+	<insert id="insertParticipatedMember">
+		INSERT INTO PARTICIPATED_MEMBER (PA_MEMBER_ID, USER_ID, RIDING_ID, PARTICI_DATE)
+		VALUES (SEQ_PARTICIPATED_MEMBER.NEXTVAL, #{user_id}, #{riding_id}, TO_DATE(#{created_date}, 'yyyy-mm-dd hh24:mi:ss'))
+	</insert>
 </mapper>

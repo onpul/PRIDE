@@ -11,4 +11,6 @@ public interface IInsertRidingDAO
 	public int insertRidingPoint(@Param("riding_id")String riding_id
 			, @Param("latitude")String latitude, @Param("longitude")String longitude
 			, @Param("address")String address, @Param("detail_address")String detail_address);
+	
+	public int insertParticipatedMember(InsertRidingDTO dto);
 }

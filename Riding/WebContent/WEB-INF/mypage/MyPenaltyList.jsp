@@ -62,6 +62,7 @@
 				<td>2022-05-14 15:53 ~ 2022-05-28 15:53</td>
 			</tr>
 		</table>
+	</div>
 	<div class="col col-xs-12" style="text-align: right;">
 		<!-- Inquiry.jsp 로 이동. -->
 		<button type="button" id="inquiry" class="btn btn-default">문의하기</button>

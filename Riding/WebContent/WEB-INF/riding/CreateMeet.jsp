@@ -3,6 +3,8 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	//System.out.println(session.getAttribute("user_id"));
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +29,6 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet"  type="text/css" href="<%=cp%>/choonghee/CreateMeetCSS.css">
 
 <script type="text/javascript">
 	//라이딩 시작 일시
@@ -108,6 +109,23 @@
 		{
 			$("form#insertRiding").submit();
 		});
+		
+		$("#myRidingBtn").click(function()
+		{
+			//alert("확인");
+			
+			// 사용자의 라이딩 스타일 받아오기 전 모든 체크를 해제
+			$("input:radio[name='sex_p_id']").prop("checked", false);
+			$("input:radio[name='age_p_id']").prop("checked", false);
+			$("input:radio[name='speed_id']").prop("checked", false);
+			$("input:radio[name='step_id']").prop("checked", false);
+			$("input:radio[name='eat_p_id']").prop("checked", false);
+			$("input:radio[name='dining_p_id']").prop("checked", false);
+			$("input:radio[name='mood_p_id']").prop("checked", false);
+			
+			// 사용자의 라이딩 스타일을 받아와 checked 적용
+			myRidingCheck();
+		});
 	});
  		
 	function searchMap(val)
@@ -145,6 +163,47 @@
 			$("label."+openType).append(longiInput);
 		}
 		
+	}
+	
+	function myRidingCheck()
+	{
+		var user_id = ${user_id};
+			
+		$.ajax(
+		{
+			type:"POST"
+			, asynx:false
+			, url:"myRidingCheck.action?user_id="+user_id
+			, success:function(data)
+			{
+				
+				var jObj = JSON.parse(data);
+				
+				var age_p_id = jObj[0].age_p_id;
+				var dining_p_id = jObj[1].dining_p_id;
+				var eat_p_id = jObj[2].eat_p_id;
+				var mood_p_id = jObj[3].mood_p_id;
+				var sex_p_id = jObj[4].sex_p_id;
+				
+				//alert(mood_p_id);
+				
+				$('input:radio[name="age_p_id"][value=' + age_p_id + ']').prop('checked', true);
+				$('input:radio[name="dining_p_id"][value=' + dining_p_id + ']').prop('checked', true);
+				$('input:radio[name="eat_p_id"][value=' + eat_p_id + ']').prop('checked', true);
+				$('input:radio[name="mood_p_id"][value=' + mood_p_id + ']').prop('checked', true);
+				$('input:radio[name="sex_p_id"][value=' + sex_p_id + ']').prop('checked', true);
+				
+				// 속도, 숙련도는 제한 없음 디폴트
+				$('input:radio[name="speed_id"][value=0]').prop('checked', true);
+				$('input:radio[name="step_id"][value=0]').prop('checked', true);
+				
+				
+			}
+			, error:function(e)
+			{
+				alert(e.responseText);
+			}
+		})
 	}
 </script>
 </head>
@@ -264,6 +323,9 @@
 		<h2>라이딩 스타일 지정</h2>
         <hr>
         
+        <div class="form-group myRidingBtn">
+			<input type="button" class="btn btn-default" id="myRidingBtn" value="나의 라이딩스타일 적용"/>
+		</div>        
         <table class="table table-bordered riding-style">
         	<tr>
 				<th>성별</th>
@@ -408,6 +470,7 @@
 				</td>
 			</tr>
         </table>
+        
 		<div>
 			<hr />
 			<button type="button" id="submitRiding" class="btn btn-primary" >모임 생성하기</button>   

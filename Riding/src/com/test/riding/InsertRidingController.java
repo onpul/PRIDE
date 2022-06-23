@@ -96,6 +96,11 @@ public class InsertRidingController
 					}				
 				}
 			}
+			
+			System.out.println(dto.getCreated_date());
+			
+			// 방장 자신을 참여중인 명단에 추가
+			dao.insertParticipatedMember(dto);
 		}
 		
 		result = "redirect:main.action";
