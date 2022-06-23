@@ -6,8 +6,8 @@ public class UserDTO
 	// SEX_P_ID, AGE_P_ID, EMAIL, BIRTHDAY, SEX, PASSWORD, NICKNAME
 	
 	// 주요 속성 구성
-	private int profile_id, user_id, mood_p_id, eat_p_id, pimg_id, dining_p_id,
-	            sex_p_id, age_p_id;
+	private int profile_id, mood_p_id, eat_p_id, pimg_id, dining_p_id,
+	            sex_p_id, age_p_id, user_id;
 	private String email, birthday, sex, password, nickname;
 	
 	// getter / setter 구성

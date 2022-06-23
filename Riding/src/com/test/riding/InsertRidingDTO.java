@@ -7,7 +7,7 @@ public class InsertRidingDTO
 {
 	
 	// 다인라이딩
-	private int user_id;
+	private String user_id;
 	private int mood_p_id, eat_p_id, dining_p_id, sex_p_id, age_p_id, step_id, speed_id;
 	
 	private String riding_id, leader_id, riding_name, start_date, end_date, created_date;
@@ -31,12 +31,12 @@ public class InsertRidingDTO
 		this.meet_address = meet_address;
 	}
 	
-	public int getUser_id()
+	public String getUser_id()
 	{
 		return user_id;
 	}
 
-	public void setUser_id(int user_id)
+	public void setUser_id(String user_id)
 	{
 		this.user_id = user_id;
 	}

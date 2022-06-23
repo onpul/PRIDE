@@ -27,10 +27,16 @@ public class InsertRidingController
 	
 	// 라이딩 모임 생성 폼
 	@RequestMapping(value = "/insertridingform.action", method = RequestMethod.GET )
-	public String createMeetForm()
+	public String createMeetForm(HttpServletRequest request)
 	{
 		String result = null;
-				
+		
+		HttpSession session = request.getSession();
+		
+		String user_id= String.valueOf(session.getAttribute("user_id"));
+		
+		System.out.println(user_id);
+		
 		result = "/WEB-INF/riding/CreateMeet.jsp";
 		
 		return result;
@@ -44,18 +50,15 @@ public class InsertRidingController
 		
 		HttpSession session = request.getSession();
 		
-		int userId = (Integer) session.getAttribute("user_id");
+		String user_id = null;
 		
-		
-		String user_id =  Integer.toString(userId);
-		
-		System.out.println(user_id);
+		user_id = String.valueOf(session.getAttribute("user_id"));
 		
 		// 세션에 아이디가 없다면... 임시..
 		if(user_id == null)
 			user_id = "2";
 		
-		
+		System.out.println(user_id);
 		
 		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
 		
@@ -68,6 +71,7 @@ public class InsertRidingController
 		if (dto.getComments().equals(""))
 			dto.setComments("없음");
 		
+		dto.setUser_id(user_id);
 		
 		// 모임 insert 후, 경유지도 insert
 		if (dao.insertRiding(dto) > 0)
