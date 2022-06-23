@@ -24,6 +24,24 @@ public class RidingDTO
 	// 라이딩 속성
 	private String sp_content, ap_content, ep_content, dp_content, mp_content, step_type, speed_type;
 
+	// 참여가능 참여불가
+	private String status;
+	
+	public String getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(String status)
+	{
+		this.status = status;
+	}
+
+	public String getPoint_detail_address()
+	{
+		return point_detail_address;
+	}
+
 	public int getUser_id()
 	{
 		return user_id;

@@ -163,14 +163,17 @@ RidingList.jsp
 				
 				console.log(typeof data);
 				var jObj = JSON.parse(data);
-				//console.log("jObj = ", jObj);
-				//console.log("jObj.length = ", jObj.length);
-				//console.log(jObj[0].riding_name);
+				console.log("jObj = ", jObj);
+				console.log("jObj.length = ", jObj.length);
+				//console.log(jObj[0].status);
 				
-				if (jObj == "")
+				$(".ridingList > tbody").empty();
+				//$(".ridingList > tbody > tr").remove();
+				
+				if (jObj.length == 0)
 				{
 					//alert("비었음");
-					var html = "<tr><td colspan='5'>조건을 만족하는 라이딩 모임이 존재하지 않습니다.</td></tr>"
+					var html = "<tbody><tr><td colspan='5'>조건을 만족하는 라이딩 모임이 존재하지 않습니다.</td></tr></tbody>"
 					$(".ridingList").append(html);
 				}
 				else if (jObj != "") 
@@ -184,7 +187,7 @@ RidingList.jsp
 						if (jObj[i].riding_name != undefined)
 						{
 							console.log("i = " + i);
-							content += "<tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+6].riding_id + "'>" + jObj[i].riding_name + "</a></td>";
+							content += "<tbody><tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+6].riding_id + "'>" + jObj[i].riding_name + "</a></td>";
 						}
 						if (jObj[i].maximum != undefined)
 						{
@@ -207,18 +210,10 @@ RidingList.jsp
 							console.log("i = " + i);
 							content += jObj[i].end_date + "</td>";
 						}
-						if (jObj[i].confirm_date != undefined)
+						if (jObj[i].status != undefined)
 						{
-							console.log("i = " + i);
-							
-							if (open<0 && jObj[i].confirm_date != null)
-							{
-								content += "<td>참여 불가</td>";
-							}
-							else
-								content += "<td>참여 가능</td>"
-							
-							content += "</tr>";
+							content += "<td>" + jObj[i].status + "</td>";
+							content += "</tr></tbody>";
 						}
 					}
 					console.log("content = " + content);
@@ -231,6 +226,66 @@ RidingList.jsp
 			}
 		});
 	}
+	
+	$(document).ready(function()
+	{
+		// 정렬 버튼 눌렀을 때 클래스와 value 값 전환
+		$("#maximum, #open, #start_date, #status").click(function()
+		{	
+			if ($(this).attr("id") != "status") // status 제외
+			{
+				if($(this).hasClass("glyphicon-arrow-up")) 
+				{
+					$(this).addClass("glyphicon-arrow-down").removeClass("glyphicon-arrow-up");
+					$(this).val("desc");
+				} 
+				else
+				{
+				    $(this).addClass("glyphicon-arrow-up").removeClass("glyphicon-arrow-down");
+				    $(this).val("asc");
+				}
+			}
+			else // status일 때
+			{
+				if($(this).html() == "참여 가능") 
+				{
+					//alert($(this).html());
+					$(this).html("");
+					$(this).html("참여 불가");
+					$(this).val("off");
+				} 
+				else if($(this).html() == "참여 불가")
+				{
+					//alert("여기");
+					$(this).html("");
+					$(this).html("참여 가능");
+					$(this).val("on");
+				}
+			}
+			
+			var maximum = $("#maximum").val();
+			var open = $("#open").val();
+			var start_date = $("#start_date").val();
+			var status = $("#status").val();
+			
+			$.ajax(
+			{
+				type:"POST"
+				, url:"ridinglistsort.action?maximum="+maximum+"&open="+open+"&start_date="+start_date+"&status="+status
+				, success:function(data)
+				{
+					alert("성공");
+					alert(data);
+				}
+				, error:function(e)
+				{
+					alert(e.responseText);
+				}
+			});
+			
+		});
+	});
+	
 </script>
 <style type="text/css">
 </style>
@@ -383,13 +438,23 @@ RidingList.jsp
 </form>
 <div>
 	<table class="table table-bordered ridingList">
-		<tr id="first">
-			<th>모임명</th>
-			<th>최대<button type="button" value="maximum">정렬</button></th>
-			<th>참여가능<button type="button" value="open">정렬</button></th>
-			<th>기간<button type="button" value="정렬">정렬</button></th>
-			<th>참석가능여부<button type="button" value="정렬">정렬</button></th>
-		</tr> 
+		<thead>
+			<tr id="first" class="sorting">
+				<th>모임명</th>
+				<th>
+					최대<button type="button" id="maximum" class="glyphicon glyphicon-arrow-down" value=""></button>
+				</th>
+				<th>
+					참여가능<button type="button" id="open" class="glyphicon glyphicon-arrow-down"  value=""></button>
+				</th>
+				<th>
+					기간<button type="button" id="start_date" class="glyphicon glyphicon-arrow-up" value=""></button>
+				</th>
+				<th>
+					상태<button type="button" id="status" value="">참여 가능</button>
+				</th>
+			</tr> 
+		</thead>
 	</table>
 	<input type="text" style="display: none;" name="user_id" id="user_id" value="${user_id}"/>
 	<c:choose>

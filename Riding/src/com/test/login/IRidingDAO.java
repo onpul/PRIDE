@@ -53,7 +53,7 @@ public interface IRidingDAO
 	public ArrayList<RidingDTO> myRidingStyle(@Param("user_id")int user_id); // 완
 	
 	// 라이딩 리스트 조회
-	public ArrayList<RidingDTO> ridingList(@Param("where")String where); // 완
+	public ArrayList<RidingDTO> ridingList(@Param("where")String where, @Param("orderBy")String orderBy); // 완
 	
 	// 라이딩 상세보기 조회
 	public ArrayList<RidingDTO> ridingDetailList(@Param("riding_id")int riding_id);

@@ -3,6 +3,7 @@ package com.test.riding;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
@@ -69,21 +70,12 @@ public class RidingListController
 		return result;
 	}
 	
-	// 라이딩 리스트 (분류 적용마다 호출되는 컨트롤러)
-	@RequestMapping(value = "/ridinglistform.action")
+	// 라이딩 리스트 (분류, 정렬 적용마다 호출되는 컨트롤러)
+	@RequestMapping(value = {"/ridinglistform.action", "/ridinglistsort.action"})
 	@ResponseBody
-	public void ridingList(RidingDTO dto, HttpServletResponse response) throws IOException
+	public void ridingList(RidingDTO dto, HttpServletRequest request, HttpServletResponse response) throws IOException
 	{	
-		// 테스트
-		System.out.println("-----ridinglist() 진입-----");
-		System.out.println(dto.getSex_p_id());
-		System.out.println(dto.getAge_p_id());
-		System.out.println(dto.getSpeed_id());
-		System.out.println(dto.getStep_id());
-		System.out.println(dto.getEat_p_id());
-		System.out.println(dto.getDining_p_id());
-		System.out.println(dto.getMood_p_id());
-		
+		System.out.println("---분류, 정렬 적용마다 호출되는 컨트롤러 진입---");
 		String result = "";
 		
 		int sex_p_id = dto.getSex_p_id();
@@ -98,6 +90,7 @@ public class RidingListController
 		ArrayList<RidingDTO> ridingList = new ArrayList<RidingDTO>();
 		
 		String where = "";
+		String orderBy = "";
 		
 		where += "WHERE RIDING_ID IS NOT NULL";
 		if (sex_p_id != -1) // 전체 선택이 아니면
@@ -115,12 +108,8 @@ public class RidingListController
 		if (mood_p_id != -1)
 			where += " AND MOOD_P_ID = " + mood_p_id;
 		
-		ridingList = dao.ridingList(where);
-		
-		//System.out.println("where = " + where);
-		
-		//System.out.println("ridingList.size() = " + ridingList.size());
-		
+		ridingList = dao.ridingList(where, orderBy);
+
 		result += "[";
 		
 		for(RidingDTO data : ridingList)
@@ -133,18 +122,36 @@ public class RidingListController
 			result += "{\"start_date\":" + "\"" + data.getStart_date() + "\"},";
 			result += "{\"end_date\":" + "\"" + data.getEnd_date() + "\"},";
 			result += "{\"confirm_date\":" + "\"" + data.getConfirm_date() + "\"},";
+			result += "{\"status\":" + "\"" + data.getStatus() + "\"},";
 			result += "{\"riding_id\":" + "\"" + data.getRiding_id() + "\"},";
 		}
 		
 		result = result.replaceAll(",$","");
 		
 		result += "]";
-		
-		//System.out.println(result);
-		
+
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(result);
+	}
+	
+	// 라이딩 리스트 정렬
+	@RequestMapping(value = "/ridinglistsort.action", method = RequestMethod.POST)
+	public String ridingList(HttpServletRequest request, HttpServletResponse response)
+	{
+		System.out.println("---라이딩 리스트 정렬 컨트롤러 진입---");
+		String result = null;
 		
-		//return result;
+		//System.out.println(request.getParameter("maximum"));
+		
+		String maximum = request.getParameter("maximum");
+		String open = request.getParameter("open");
+		String start_date = request.getParameter("start_date");
+		String status = request.getParameter("status");
+		
+		
+		
+		
+		result = "/WEB-INF/riding/RidingList.jsp";
+		return result;
 	}
 }
