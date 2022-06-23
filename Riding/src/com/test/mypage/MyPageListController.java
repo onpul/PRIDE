@@ -267,7 +267,7 @@ public class MyPageListController
 		System.out.println("완주 ㄴㄴ id : " + dto.getNotCompletion());
 		System.out.println("실제숙련도와다른사람 id : " + dto.getDifferent());
 		
-		dto.setP_member_id(dao.searchPMemberId(dto.getUser_id()));
+		dto.setPa_member_id(dao.searchPMemberId(dto.getUser_id()));
 		dao.answerInsert(dto);
 		
 		System.out.println("어딘데 ㅠㅠㅠㅠ ");
@@ -276,15 +276,15 @@ public class MyPageListController
 		//checkInsert , searchCheckId
 		if (!dto.getAttendance().equals("not"))
 		{
-			dto.setP_member_id(dao.searchPMemberId(dto.getUser_id()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getUser_id()));
 			
-			dao.checkInsert(dto);	//--SEQ , 제출자의 P_MEMBER_ID / 날짜
+			dao.checkInsert(dto);	//--SEQ , 제출자의 PA_MEMBER_ID / 날짜
 			
 			//2. 출석체크 응답내용 insert
-			//-- seq , check_atte_id,결석지목받은사람 p_member_id
+			//-- seq , check_atte_id,결석지목받은사람 pa_member_id
 			
 			dto.setCheck_atte_id(dao.searchCheckId(dto.getUser_id()));//--제출자의 check_atte_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getAttendance())); //--결석자의 p_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getAttendance())); //--결석자의 pa_member_id
 			dao.checkDetailInsert(dto);
 			//-- 여기까진 ㅇㅋㅇㅋ
 		}
@@ -313,7 +313,7 @@ public class MyPageListController
 		
 		// answerDetailInsert 메소드
 		// ANSWER_DETAIL 테이블
-		// SEQ , 응답 ID(answer_id), 질문ID(QUESTION_ID),지목받은사람(P_MEMBER_ID)
+		// SEQ , 응답 ID(answer_id), 질문ID(QUESTION_ID),지목받은사람(PA_MEMBER_ID)
 		
 		// 친절한 사람이 NOT (없음 체크)라면 실행 X
 		if (!dto.getKindness().equals("not"))
@@ -324,8 +324,8 @@ public class MyPageListController
 			dto.setAnswer_id(dao.searchAnswerId(dto.getUser_id()));
 			// question_id
 			dto.setQuestion_id("1");
-			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getKindness()));
+			// 지목받은 사람 pa_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getKindness()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -338,8 +338,8 @@ public class MyPageListController
 			dto.setAnswer_id(dao.searchAnswerId(dto.getUser_id()));
 			// question_id
 			dto.setQuestion_id("2");
-			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getNotKindness()));
+			// 지목받은 사람 pa_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getNotKindness()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -352,8 +352,8 @@ public class MyPageListController
 			dto.setAnswer_id(dao.searchAnswerId(dto.getUser_id()));
 			// question_id
 			dto.setQuestion_id("3");
-			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getDangerRiding()));
+			// 지목받은 사람 pa_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getDangerRiding()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -365,8 +365,8 @@ public class MyPageListController
 			dto.setAnswer_id(dao.searchAnswerId(dto.getUser_id()));
 			// question_id
 			dto.setQuestion_id("7");
-			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getNotCompletion()));
+			// 지목받은 사람 pa_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getNotCompletion()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -378,8 +378,8 @@ public class MyPageListController
 			dto.setAnswer_id(dao.searchAnswerId(dto.getUser_id()));
 			// question_id
 			dto.setQuestion_id("8");
-			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getDifferent()));
+			// 지목받은 사람 pa_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getDifferent()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);

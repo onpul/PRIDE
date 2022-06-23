@@ -11,7 +11,7 @@
 	<context:component-scan	base-package="com.test.*" />
 	<bean id="localDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@211.238.142.157:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@211.238.142.153:1521:xe"></property>
 		<property name="username" value="TEAM1"></property>
 		<property name="password" value="java006$"></property>
 	</bean>
