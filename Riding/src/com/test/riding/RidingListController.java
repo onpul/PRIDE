@@ -78,6 +78,7 @@ public class RidingListController
 		System.out.println("---분류, 정렬 적용마다 호출되는 컨트롤러 진입---");
 		String result = "";
 		
+		// 라이딩 분류 
 		int sex_p_id = dto.getSex_p_id();
 		int age_p_id = dto.getAge_p_id();
 		int speed_id = dto.getSpeed_id();
@@ -85,13 +86,22 @@ public class RidingListController
 		int eat_p_id = dto.getEat_p_id();
 		int dining_p_id = dto.getDining_p_id();
 		int mood_p_id = dto.getMood_p_id();
+		System.out.println("sex_p_id = " + sex_p_id);
 		
+		// 라이딩 정렬
+		String maximum_sort = request.getParameter("maximum_sort");
+		String open_sort = request.getParameter("open_sort");
+		String start_date_sort = request.getParameter("start_date_sort");
+		String status_sort = request.getParameter("status_sort");
+		System.out.println("maximum_sort = " + maximum_sort);
+		System.out.println("open_sort = " + open_sort);
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		ArrayList<RidingDTO> ridingList = new ArrayList<RidingDTO>();
 		
 		String where = "";
 		String orderBy = "";
 		
+		// 라이딩 분류
 		where += "WHERE RIDING_ID IS NOT NULL";
 		if (sex_p_id != -1) // 전체 선택이 아니면
 			where += " AND SEX_P_ID = " + sex_p_id;
@@ -107,6 +117,28 @@ public class RidingListController
 			where += " AND DINING_P_ID = " + dining_p_id;
 		if (mood_p_id != -1)
 			where += " AND MOOD_P_ID = " + mood_p_id;
+		System.out.println(where);
+			
+		// 첫 로드 시 기본은 기간 오름차순
+		orderBy += "ORDER BY START_DATE ASC";
+		
+		// 라이딩 정렬
+		if (maximum_sort != "" && maximum_sort != null)
+		{
+			orderBy = "";
+			orderBy += "ORDER BY MAXIMUM " + maximum_sort;
+		}
+		if (open_sort != "" && open_sort != null)	
+		{
+			orderBy = "";
+			orderBy += "ORDER BY OPEN " + open_sort;
+		}
+		if (start_date_sort != "" && start_date_sort != null)
+		{
+			orderBy = "";
+			orderBy += "ORDER BY START_DATE " + start_date_sort;
+		}
+		System.out.println(orderBy);
 		
 		ridingList = dao.ridingList(where, orderBy);
 
@@ -132,26 +164,5 @@ public class RidingListController
 
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(result);
-	}
-	
-	// 라이딩 리스트 정렬
-	@RequestMapping(value = "/ridinglistsort.action", method = RequestMethod.POST)
-	public String ridingList(HttpServletRequest request, HttpServletResponse response)
-	{
-		System.out.println("---라이딩 리스트 정렬 컨트롤러 진입---");
-		String result = null;
-		
-		//System.out.println(request.getParameter("maximum"));
-		
-		String maximum = request.getParameter("maximum");
-		String open = request.getParameter("open");
-		String start_date = request.getParameter("start_date");
-		String status = request.getParameter("status");
-		
-		
-		
-		
-		result = "/WEB-INF/riding/RidingList.jsp";
-		return result;
 	}
 }

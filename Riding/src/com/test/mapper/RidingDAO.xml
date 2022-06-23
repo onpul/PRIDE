@@ -117,6 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT RIDING_ID, RIDING_NAME, MAXIMUM, OPEN, START_DATE, END_DATE, STATUS
 		FROM VIEW_RIDING_LIST
 		${where}
+		${orderBy}
 	</select>
 	
 	<!-- 라이딩 상세 보기 -->

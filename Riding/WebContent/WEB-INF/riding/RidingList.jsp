@@ -149,7 +149,7 @@ RidingList.jsp
 		
 		var params = "ridinglistform.action?" + $(".ridingListForm").serialize();
 		
-		//alert(params);
+		alert(params);
 		
 		$.ajax(
 		{
@@ -230,52 +230,83 @@ RidingList.jsp
 	$(document).ready(function()
 	{
 		// 정렬 버튼 눌렀을 때 클래스와 value 값 전환
-		$("#maximum, #open, #start_date, #status").click(function()
+		$("#maximum, #open, #start_date").click(function()
 		{	
 			if ($(this).attr("id") != "status") // status 제외
 			{
 				if($(this).hasClass("glyphicon-arrow-up")) 
 				{
 					$(this).addClass("glyphicon-arrow-down").removeClass("glyphicon-arrow-up");
-					$(this).val("desc");
+					$(this).val("asc");
 				} 
 				else
 				{
 				    $(this).addClass("glyphicon-arrow-up").removeClass("glyphicon-arrow-down");
-				    $(this).val("asc");
+				    $(this).val("desc");
 				}
 			}
-			else // status일 때
-			{
-				if($(this).html() == "참여 가능") 
-				{
-					//alert($(this).html());
-					$(this).html("");
-					$(this).html("참여 불가");
-					$(this).val("off");
-				} 
-				else if($(this).html() == "참여 불가")
-				{
-					//alert("여기");
-					$(this).html("");
-					$(this).html("참여 가능");
-					$(this).val("on");
-				}
-			}
-			
 			var maximum = $("#maximum").val();
 			var open = $("#open").val();
 			var start_date = $("#start_date").val();
-			var status = $("#status").val();
 			
 			$.ajax(
 			{
 				type:"POST"
-				, url:"ridinglistsort.action?maximum="+maximum+"&open="+open+"&start_date="+start_date+"&status="+status
+				, url:"ridinglistsort.action?maximum_sort="+maximum+"&open_sort="+open+"&start_date_sort="+start_date
 				, success:function(data)
 				{
-					alert("성공");
-					alert(data);
+					var jObj = JSON.parse(data);
+					
+					$(".ridingList > tbody").empty();
+					
+					if (jObj.length == 0)
+					{
+						var html = "<tbody><tr><td colspan='5'>조건을 만족하는 라이딩 모임이 존재하지 않습니다.</td></tr></tbody>"
+						$(".ridingList").append(html);
+					}
+					else if (jObj != "") 
+					{
+						var content = "";
+						var open = "";
+						var confirm_date = "";
+						
+						for (var i = 0; i < jObj.length; i++)
+						{
+							if (jObj[i].riding_name != undefined)
+							{
+								console.log("i = " + i);
+								content += "<tbody><tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+6].riding_id + "'>" + jObj[i].riding_name + "</a></td>";
+							}
+							if (jObj[i].maximum != undefined)
+							{
+								console.log("i = " + i);
+								content += "<td>" + jObj[i].maximum + "</td>";
+							}
+							if (jObj[i].open != undefined)
+							{
+								console.log("i = " + i);
+								content += "<td>" + jObj[i].open + "</td>";
+								open = jObj[i].open;
+							}
+							if (jObj[i].start_date != undefined)
+							{
+								console.log("i = " + i);
+								content += "<td>" + jObj[i].start_date + " ~ ";
+							}
+							if (jObj[i].end_date != undefined)
+							{
+								console.log("i = " + i);
+								content += jObj[i].end_date + "</td>";
+							}
+							if (jObj[i].status != undefined)
+							{
+								content += "<td>" + jObj[i].status + "</td>";
+								content += "</tr></tbody>";
+							}
+						}
+						console.log("content = " + content);
+						$(".ridingList").append(content);
+					}
 				}
 				, error:function(e)
 				{
@@ -448,10 +479,10 @@ RidingList.jsp
 					참여가능<button type="button" id="open" class="glyphicon glyphicon-arrow-down"  value=""></button>
 				</th>
 				<th>
-					기간<button type="button" id="start_date" class="glyphicon glyphicon-arrow-up" value=""></button>
+					기간<button type="button" id="start_date" class="glyphicon glyphicon-arrow-down" value=""></button>
 				</th>
 				<th>
-					상태<button type="button" id="status" value="">참여 가능</button>
+					상태
 				</th>
 			</tr> 
 		</thead>
