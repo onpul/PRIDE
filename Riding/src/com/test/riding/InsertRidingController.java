@@ -6,6 +6,7 @@ package com.test.riding;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +28,7 @@ public class InsertRidingController
 	
 	// 라이딩 모임 생성 폼
 	@RequestMapping(value = "/insertridingform.action", method = RequestMethod.GET )
-	public String createMeetForm(HttpServletRequest request)
+	public String createMeetForm(HttpServletRequest request, Model model)
 	{
 		String result = null;
 		
@@ -35,7 +36,22 @@ public class InsertRidingController
 		
 		String user_id= String.valueOf(session.getAttribute("user_id"));
 		
-		System.out.println(user_id);
+		System.out.println("user_id: " + user_id);
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		// 성별 조건, 나이 조건 가져오기
+		Map<String, String> preference = dao.preference(user_id);
+		
+		//System.out.println("sex: " + preference.get("sex"));
+		//System.out.println(preference.get("age_p_id"));
+		
+		String sex = preference.get("sex");
+		String age_p_id = preference.get("age_p_id");
+		
+		// 성별 조건, 나이 조건 보내주기
+		model.addAttribute("sex", sex);
+		model.addAttribute("age_p_id", age_p_id);
 		
 		result = "/WEB-INF/riding/CreateMeet.jsp";
 		

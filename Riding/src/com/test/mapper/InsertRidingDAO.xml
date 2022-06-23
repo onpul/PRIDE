@@ -51,4 +51,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO PARTICIPATED_MEMBER (PA_MEMBER_ID, USER_ID, RIDING_ID, PARTICI_DATE)
 		VALUES (SEQ_PARTICIPATED_MEMBER.NEXTVAL, #{user_id}, #{riding_id}, TO_DATE(#{created_date}, 'yyyy-mm-dd hh24:mi:ss'))
 	</insert>
+	
+	<resultMap type="Map" id="preferMap">
+		<id column="SEX" property="sex"/>
+		<id column="AGE_P_ID" property="age_p_id"/>
+	</resultMap>
+	
+	<select id="preference" resultMap="preferMap">
+		SELECT SEX
+		     , TO_CHAR(CASE WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 60
+		            THEN 6
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 50
+		            THEN 5
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 40
+		            THEN 4
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 30
+		            THEN 3
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 20
+		            THEN 2
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 10
+		            THEN 1
+		            ELSE 0
+		       END) "AGE_P_ID"
+		FROM PROFILE
+		WHERE USER_ID = #{user_id}
+	</select>
+	
 </mapper>

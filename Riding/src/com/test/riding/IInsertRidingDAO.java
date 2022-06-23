@@ -1,6 +1,7 @@
 package com.test.riding;
 
-import java.util.ArrayList;
+
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -13,4 +14,6 @@ public interface IInsertRidingDAO
 			, @Param("address")String address, @Param("detail_address")String detail_address);
 	
 	public int insertParticipatedMember(InsertRidingDTO dto);
+	
+	public Map<String, String> preference(String user_id);
 }
