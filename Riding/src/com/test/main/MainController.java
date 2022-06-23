@@ -2,6 +2,7 @@ package com.test.main;
 
 import java.util.Calendar;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -226,10 +227,11 @@ public class MainController
 	// 모임 생성 패널티 조회
 	@RequestMapping(value = "/penaltycheck.action", method = RequestMethod.POST)
 	@ResponseBody
-	public String penaltyCheck(UserDTO dto)
+	public String penaltyCheck(HttpServletRequest request, UserDTO dto)
 	{
+				
 		System.out.println("-----penaltyCheck() 진입 성공-----");
-		System.out.println("user_id = " + dto.getUser_id());
+		System.out.println("user_id = " + String.valueOf(request.getSession().getAttribute("user_id")));
 		
 		String result = "";
 		
@@ -237,9 +239,9 @@ public class MainController
 		
 		try
 		{
-			String user_id = Integer.toString(dto.getUser_id());
+			String user_id = String.valueOf(request.getSession().getAttribute("user_id"));
 			
-			result = dao.penaltyCheck(user_id);
+			result = String.valueOf(dao.penaltyCheck(user_id));
 			
 			System.out.println("result = " + result);
 			
