@@ -217,12 +217,12 @@ JoinForm.jsp
 		// 선택한 성별에 따라 라디오 박스 동적으로 노출
 		var content = "";
 		
-		if (sex == "m")
+		if (sex == "M")
 		{
 			//alert("male");
 			content = "<input type=\"radio\" name=\"sex_p_id\" id=\"sex_p_id\" value=\"1\"/>남성";
 		}
-		else if (sex == "f") 
+		else if (sex == "F") 
 		{
 			//alert("female");
 			content = "<input type=\"radio\" name=\"sex_p_id\" id=\"sex_p_id\" value=\"2\"/>여성";
@@ -446,8 +446,8 @@ JoinForm.jsp
 			<label for="sex">성별*</label>
 			<select name="sex" id="sex" class="form-control" onchange="genderOption(this.value)">
 				<option>선택</option>
-				<option value="m">남성</option>
-				<option value="f">여성</option>
+				<option value="M">남성</option>
+				<option value="F">여성</option>
 			</select>
 		</div>
 		<hr />

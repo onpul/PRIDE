@@ -12,6 +12,8 @@ public class RidingDTO
 	private String riding_id, leader_id, riding_name, start_date, end_date, created_date;
 	private int e_grede_id, maximum, open;
 	
+	private String sex;
+	
 	private String meet_lati, meet_longi, meet_detail, start_lati, start_longi, start_address
 			, start_detail, end_lati, end_longi, end_address, end_detail, confirm_date, comments;
 	
@@ -34,6 +36,17 @@ public class RidingDTO
 		this.user_id = user_id;
 	}
 
+	public String getSex()
+	{
+		return sex;
+	}
+
+	public void setSex(String sex)
+	{
+		this.sex = sex;
+	}
+
+	
 	public int getMood_p_id()
 	{
 		return mood_p_id;

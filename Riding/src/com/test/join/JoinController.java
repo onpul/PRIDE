@@ -38,6 +38,8 @@ public class JoinController
 		String resultstr = "0";
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
+		System.out.println(dto.getSex());
+		
 		try
 		{
 			// 탈퇴한 회원인지 체크
