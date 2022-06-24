@@ -42,76 +42,11 @@
 	{
 		//alert("확인");
 		
-		var date = new Date();
+		//-------------------------------------
+		// 기간 선택 기능
+		addDate();
 		
-		var hour = date.getHours().toString();
-		
-		
-		var min = new Date();
-		var max = new Date();
-		
-		min.setDate(min.getDate()+3);
-		max.setMonth(max.getMonth()+3);
-		
-		$("#start_date").datepicker(
-		{
-			dateFormat : "yy-mm-dd"
-			, changeMonth : true
-			, minDate : min
-			, maxDate : max
-			, onSelect : function()
-			{
-				$("#start_time").timepicker({
-					timeFormat: 'HH:mm'
-					, interval: 10
-					, minTime: '0'
-					, maxTime: '23:59'
-					, startTime: hour
-				    , scrollbar: true
-				    , change: function()
-					{
-				    	var h = $("#start_time").val().split(":")[0];
-				    	var m = $("#start_time").val().split(":")[1];
-				    	
-				    	console.log(h);
-				    	console.log(m);
-				    	
-				    	var min_end = $("#start_date").datepicker("getDate");
-				    	var max_end = $("#start_date").datepicker("getDate"); 	
-				    	max_end.setHours(h);
-				    	max_end.setMinutes(m);
-				    	
-				    	max_end.setDate(max_end.getDate()+7);
-				    	
-				    	$("#end_date").datepicker(
-						{
-							dateFormat : "yy-mm-dd"
-							, changeMonth : true
-							, minDate : min_end
-							, maxDate : max_end
-							, onSelect : function()
-							{
-								$("#end_time").timepicker({
-									timeFormat: 'HH:mm'
-									, interval: 10
-									, minTime: '0'
-									, maxTime: '23:59'
-									, startTime: hour
-								    , scrollbar: true
-								    
-								});
-							}
-						});
-					}
-				});
-				
-
-				
-					
-				
-			}
-		});
-		
+		//---------------------------------------------------------------------
 		
 		
 		
@@ -132,6 +67,7 @@
 			if($("span.point").children("label").length >= 1)
 				$(".pointBtn button:eq(1)").css("display", "");
 			
+			// 경유지 입력 추가하기
 			if($("span.point").children("label").length < 5 )
 			{
 				var numIdx = $("span.point").children("label").length + 1;
@@ -145,6 +81,7 @@
 				 
 				$("span.point").append(str);
 				
+				// 이벤트 다시 활성화
 				$(".searchMap").on("click", function()
 				{
 					searchMap($(this).val());
@@ -152,19 +89,22 @@
 			}	
 		});
 		
+		// 경유지 삭제버튼 눌렀을 때
 		$(".pointBtn button:eq(1)").on("click", function()
 		{
+			// 삭제 눌렀을 때
 			if($("span.point").children("label").length > 1 )
 			{
 				$("span.point").children("label:last-child").remove();
 				$("span.point").children("br:last-child").remove();
 			}
-				
+			
+			// 경유지 1개 남았을 때는 숨기기
 			if($("span.point").children().length < 2)
 				$(".pointBtn button:eq(1)").css("display", "none");
-				
 		})
 			
+		// 지도 검색 활성화
 		$(".searchMap").on("click", function()
 		{
 			searchMap($(this).val());
@@ -172,8 +112,11 @@
 		
 		$("#submitRiding").on("click", function()
 		{
+			
+			
 			$("form#insertRiding").submit();
 		});
+		
 		
 		$("#myRidingBtn").click(function()
 		{
@@ -192,7 +135,7 @@
 			myRidingCheck();
 		});
 	});
- 		
+ 	
 	function searchMap(val)
 	{
 		
@@ -270,6 +213,127 @@
 			}
 		})
 	}
+	
+	// 기간 설정 기능 추가.
+	function addDate()
+	{
+		var date = new Date();
+		
+		// 현재 시 분 기록. 
+		
+		// 최소 3일 이후부터 
+		var min = new Date();
+		min.setDate(min.getDate()+3);
+		
+		// 최대 3개월 까지
+		var max = new Date();
+		max.setMonth(max.getMonth()+3);
+		
+		$("#start_day").datepicker(
+		{
+			dateFormat : "yy-mm-dd"
+			, changeMonth : true
+			, minDate : min
+			, maxDate : max
+			, onSelect : function(date, instance)
+			{
+				// 현재 날짜와 데이트피커의 마지막 입력값 날짜가 다르다면....
+				if (date !== instance.lastVal)
+				{
+					$(this).change();
+				}
+				
+			}
+		})
+		.on("change", function()
+		{
+			//alert("접속 테스트");
+			
+			// 최소 3일 이후일 때, 최소 시작 시간 시:분 구하기
+			// 27일 12:00 PM     >> 3일 후 >>>>  30일 12:00 PM. 
+			// 분은 10분 단위로 쓰고, 1분 단위는 올림. 
+			var minute = (Math.ceil(min.getMinutes()/10)*10);
+			var hour = min.getHours();
+			
+			// 60분이면 0분 치환. 시간은 1시간 +.
+			if (minute == 60)
+			{
+				minute = 0;
+				hour = hour + 1;
+			}
+			
+			// 최소 시작 시:분
+			var min_hour_minute = hour.toString() + ":" + minute.toString();
+			
+			// ex) 현재 24일 12시라면, 시작 날짜는 3일 후(27일 12시)부터 가능한데
+			//     이 때, 27일을 선택했으면 시간은 27일 12시부터 선택 가능.
+			//     만약 28일, 29일 등을 선택했으면 0~24시 자유롭게 선택 가능
+			var start_time = $("#start_day").datepicker("getDate").getDate() > min.getDate()
+								? '0' : min_hour_minute;
+			//alert(start_time);	
+			
+			$("#span_start_time").empty();
+			
+			var timepicker = '<input type="text" id="start_time" name="start_time" required size="9" placeholder="시:분"/>';
+			
+			$("#span_start_time").append(timepicker);
+						
+			$("#start_time").timepicker({
+				timeFormat: 'HH:mm'
+				, interval: 10
+				, minTime: start_time
+				, maxTime: '23:59'
+				, scrollbar: true
+			    , change: function()
+				{
+			    	//alert("dd");
+			    	// 시 분 변수로 빼내기.
+			    	var h = $("#start_time").val().split(":")[0];
+			    	var m = $("#start_time").val().split(":")[1];
+			    	
+			    	// 최소, 최대 시간 설정
+			    	var min_end = $("#start_day").datepicker("getDate");
+			    	var max_end = $("#start_day").datepicker("getDate"); 	
+			    	max_end.setHours(h);
+			    	max_end.setMinutes(m);
+			    	max_end.setDate(max_end.getDate()+7); // 시작일로부터 최대 7일
+					
+			    	var end_hour_minute = max_end.getHours().toString() + ":" + max_end.getMinutes().toString();
+			    	
+			    	/*
+			    	$("#end_day").datepicker(
+					{
+						dateFormat : "yy-mm-dd"
+						, changeMonth : true
+						, minDate : min_end
+						, maxDate : max_end
+						, onSelect : function()
+						{
+							var start_minTime = end_hour_minute;
+							var end_maxTime = "24:00";
+							
+							// 선택한 종료 날짜가, 시작 날짜와 같지 않을 때
+							if ( $("#end_day").datepicker("getDate").getDate() != $("#start_day").datepicker("getDate").getDate() )
+								start_minTime = '0';
+							// 선택한 종료 날짜가, 최대 선택 가능한 날짜랑 같을 때
+							if ( $("#end_day").datepicker("getDate").getDate() == max_end.getDate() )
+								end_maxTime = end_hour_minute;
+									
+							$("#end_time").timepicker({
+								timeFormat: 'HH:mm'
+								, interval: 10
+								, minTime: start_minTime
+								, maxTime: end_maxTime
+							    , scrollbar: true
+							    
+							});
+						}
+					});
+			    	*/
+				}
+			});
+		});
+	}
 </script>
 </head>
 <body>
@@ -292,10 +356,11 @@
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<input type="text" id="start_date" name="start_date" required size="8" placeholder="시작 날짜">
-					<input type="text" id="start_time" name="start_time" required size="9"/> 
-					~ <input type="text" id="end_date" name="end_date" required size="8" placeholder="종료 날짜">
-					<input type="text" id="end_time" name="end_time" required size="9"/>
+					<span id="span_start_day"><input type="text" id="start_day" name="start_day" required size="8" placeholder="시작 날짜"></span>
+					<span id="span_start_time"><input type="text" id="start_time" name="start_time" required size="9" placeholder="시:분"/></span>
+					~ 
+					<span id="span_end_day"><input type="text" id="end_day" name="end_day" required size="8" placeholder="종료 날짜"></span>
+					<span id="span_end_time"><input type="text" id="end_time" name="end_time" required size="9" placeholder="시:분"/></span>
 					
 				</td>
 			</tr>
