@@ -181,8 +181,6 @@ RidingDetail.jsp
 				<li>
 					<ul>
 						<li>여성</li>
-						<!-- 친구관계일 때는 친구 버튼 보이지 않게 구현 -->
-						<li><input type="button" class="btn btn-default" value="친구 추가"/></li>
 					</ul>
 				</li>
 			</ul>
@@ -199,8 +197,6 @@ RidingDetail.jsp
 				<li>
 					<ul>
 						<li>여성</li>
-						<!-- 친구관계일 때는 친구 버튼 보이지 않게 구현 -->
-						<li><input type="button" class="btn btn-default" value="친구 추가"/></li>
 					</ul>
 				</li>
 			</ul>
@@ -217,8 +213,6 @@ RidingDetail.jsp
 				<li>
 					<ul>
 						<li>여성</li>
-						<!-- 친구관계일 때는 친구 버튼 보이지 않게 구현 -->
-						<li><input type="button" class="btn btn-default" value="친구 추가"/></li>
 					</ul>
 				</li>
 			</ul>

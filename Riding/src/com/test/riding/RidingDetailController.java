@@ -30,17 +30,30 @@ public class RidingDetailController
 		
 		model.addAttribute("ridingDetailList", dao.ridingDetailList(Integer.parseInt(dto.getRiding_id())));
 		
-		//System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
+		System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
 		
 		// 참여한 회원 user_id 명단
 		ArrayList<RidingDTO> ridingMember = new ArrayList<RidingDTO>();
 		ridingMember = dao.ridingMember(Integer.parseInt(dto.getRiding_id()));
 		
+		System.out.println("ridingMember.size() = " + ridingMember.size());
 		for (int i = 0; i < ridingMember.size(); i++)
 		{
 			System.out.println(i + " = " + ridingMember.get(i).getUser_id());
+			
+			result += "[";
+			
+			result += "{\"user_id\":" + ridingMember.get(i).getUser_id() + "}";
+			
+			if (i != ridingMember.size()-1)
+			{
+				result += ",";
+			}
+		
+			result += "]";
 		}
 		
+		System.out.println(result);
 		result = "/WEB-INF/riding/RidingDetail.jsp";
 		return result;
 	}

@@ -215,7 +215,7 @@ RidingList.jsp
 						for (var i = 0; i < jObj.length; i++)
 						{
 							if (jObj[i].riding_name != undefined)
-								content += "<tbody><tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+6].riding_id + "'>" + jObj[i].riding_name + "</a></td>";
+								content += "<tbody><tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+7].riding_id + "'>" + jObj[i].riding_name + "</a></td>";
 							if (jObj[i].maximum != undefined)
 								content += "<td>" + jObj[i].maximum + "</td>";
 							if (jObj[i].open != undefined)
@@ -233,6 +233,7 @@ RidingList.jsp
 								content += "</tr></tbody>";
 							}
 						}
+						console.log(content);
 						$(".ridingList").append(content);
 					}
 				}
