@@ -473,7 +473,7 @@ Main.jsp
 <c:choose>
 <c:when test="${sessionScope.user_id==0 || sessionScope.user_id==1 }">  
 <div class="row btn-box"> 
-	<input type="button" class="btn btn-default" value="관리자 페이지로 이동" onclick="location.href='Manager.action'"/>
+	<input type="button" class="btn btn-default" value="관리자 페이지로 이동" onclick="location.href='reportlist.action'"/>
 </div>
 </c:when>
 </c:choose>
