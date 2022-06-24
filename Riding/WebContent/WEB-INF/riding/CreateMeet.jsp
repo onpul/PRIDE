@@ -21,6 +21,13 @@
 
 <!-- jqueryUI css -->
 <link rel="stylesheet" href="https://releases.jquery.com/git/ui/jquery-ui-git.css">
+
+<!-- timepicker css -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<!-- timepicker js -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- 부가적인 테마 -->
@@ -35,26 +42,78 @@
 	{
 		//alert("확인");
 		
+		var date = new Date();
+		
+		var hour = date.getHours().toString();
+		
+		
 		var min = new Date();
 		var max = new Date();
+		
 		min.setDate(min.getDate()+3);
 		max.setMonth(max.getMonth()+3);
 		
-		$("#datepicker").datepicker(
+		$("#start_date").datepicker(
 		{
 			dateFormat : "yy-mm-dd"
 			, changeMonth : true
 			, minDate : min
 			, maxDate : max
-			
+			, onSelect : function()
+			{
+				$("#start_time").timepicker({
+					timeFormat: 'HH:mm'
+					, interval: 10
+					, minTime: '0'
+					, maxTime: '23:59'
+					, startTime: hour
+				    , scrollbar: true
+				    , change: function()
+					{
+				    	var h = $("#start_time").val().split(":")[0];
+				    	var m = $("#start_time").val().split(":")[1];
+				    	
+				    	console.log(h);
+				    	console.log(m);
+				    	
+				    	var min_end = $("#start_date").datepicker("getDate");
+				    	var max_end = $("#start_date").datepicker("getDate"); 	
+				    	max_end.setHours(h);
+				    	max_end.setMinutes(m);
+				    	
+				    	max_end.setDate(max_end.getDate()+7);
+				    	
+				    	$("#end_date").datepicker(
+						{
+							dateFormat : "yy-mm-dd"
+							, changeMonth : true
+							, minDate : min_end
+							, maxDate : max_end
+							, onSelect : function()
+							{
+								$("#end_time").timepicker({
+									timeFormat: 'HH:mm'
+									, interval: 10
+									, minTime: '0'
+									, maxTime: '23:59'
+									, startTime: hour
+								    , scrollbar: true
+								    
+								});
+							}
+						});
+					}
+				});
+				
+
+				
+					
+				
+			}
 		});
 		
-		$("#datepicker2").datepicker(
-		{
-			dateFormat : "yy-mm-dd"
-			, changeMonth : true
-			
-		});
+		
+		
 		
 		// 라이딩 스타일 최초 '제한없음' 선택으로 초기화
 		$(".riding-style input[value='0']").prop('checked', 'checked');
@@ -233,8 +292,11 @@
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<input type="text" id="start_date" name="start_date" placeholder="시작 날짜"> 
-					~ <input type="text" id="end_date" name="end_date" placeholder="종료 날짜">
+					<input type="text" id="start_date" name="start_date" required size="8" placeholder="시작 날짜">
+					<input type="text" id="start_time" name="start_time" required size="9"/> 
+					~ <input type="text" id="end_date" name="end_date" required size="8" placeholder="종료 날짜">
+					<input type="text" id="end_time" name="end_time" required size="9"/>
+					
 				</td>
 			</tr>
 			<tr>
