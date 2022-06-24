@@ -35,18 +35,25 @@
 	{
 		//alert("확인");
 		
+		var min = new Date();
+		var max = new Date();
+		min.setDate(min.getDate()+3);
+		max.setMonth(max.getMonth()+3);
+		
 		$("#datepicker").datepicker(
 		{
 			dateFormat : "yy-mm-dd"
 			, changeMonth : true
-			, changeYear : true
+			, minDate : min
+			, maxDate : max
+			
 		});
 		
 		$("#datepicker2").datepicker(
 		{
 			dateFormat : "yy-mm-dd"
 			, changeMonth : true
-			, changeYear : true
+			
 		});
 		
 		// 라이딩 스타일 최초 '제한없음' 선택으로 초기화
@@ -226,8 +233,8 @@
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<input type="text" id="datepicker" name="start_date" placeholder="시작 날짜"> 
-					~ <input type="text" id="datepicker2" name="end_date" placeholder="시작 날짜">
+					<input type="text" id="start_date" name="start_date" placeholder="시작 날짜"> 
+					~ <input type="text" id="end_date" name="end_date" placeholder="종료 날짜">
 				</td>
 			</tr>
 			<tr>
