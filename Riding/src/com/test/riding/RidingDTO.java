@@ -1,4 +1,4 @@
-package com.test.login;
+package com.test.riding;
 
 public class RidingDTO
 {

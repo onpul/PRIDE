@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
-import com.test.login.RidingDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
@@ -78,6 +77,9 @@ public class RidingListController
 		System.out.println("---분류, 정렬 적용마다 호출되는 컨트롤러 진입---");
 		String result = "";
 		
+		// 라이딩 모임 명 검색
+		String riding_name = dto.getRiding_name();
+		
 		// 라이딩 분류 
 		int sex_p_id = dto.getSex_p_id();
 		int age_p_id = dto.getAge_p_id();
@@ -92,17 +94,19 @@ public class RidingListController
 		String maximum_sort = request.getParameter("maximum_sort");
 		String open_sort = request.getParameter("open_sort");
 		String start_date_sort = request.getParameter("start_date_sort");
-		String status_sort = request.getParameter("status_sort");
-		System.out.println("maximum_sort = " + maximum_sort);
-		System.out.println("open_sort = " + open_sort);
+
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		ArrayList<RidingDTO> ridingList = new ArrayList<RidingDTO>();
 		
 		String where = "";
 		String orderBy = "";
 		
+		System.out.println("riding_name = " + riding_name);
+		
 		// 라이딩 분류
 		where += "WHERE RIDING_ID IS NOT NULL";
+		if (riding_name != null)
+			where += " AND RIDING_NAME = " + riding_name;
 		if (sex_p_id != -1) // 전체 선택이 아니면
 			where += " AND SEX_P_ID = " + sex_p_id;
 		if (age_p_id != -1)

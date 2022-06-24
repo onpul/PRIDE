@@ -244,7 +244,7 @@ RidingList.jsp
 <form class="ridingListForm" name="ridingListForm">
 	<div class="form-group form-inline">
 		<label for="gender" class="">모임명</label>
-		<input type="text" class="form-control" placeholder="모임명">
+		<input type="text" class="form-control" name="riding_name" id="riding_name" placeholder="모임명">
 		<button type="submit" class="btn btn-default">검색</button>
 	</div>
 	<div>

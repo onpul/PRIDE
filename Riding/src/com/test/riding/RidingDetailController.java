@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
-import com.test.login.RidingDTO;
 import com.test.login.UserDTO;
 
 @Controller
