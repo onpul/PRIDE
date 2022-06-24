@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="listDetail" resultType="com.test.penalty.ViewReportListDTO">
 		SELECT NUM, R_ID, USER_ID, NICKNAME, REPORT_DATE, STATUS, STATUS_ID, REPORT_TYPE
-			 , CONTENT, REPORTED_USER_ID, R_USER_NICKNAME
+			 , CONTENT, REPORTED_USER_ID, R_USER_NICKNAME, PENALTY_TYPE_ID, PENALTY_CONTENT
 		FROM VIEW_REPORT_LIST
 		${where} 
 	</select>
@@ -69,4 +69,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO PARTICIPANT_REPORT_PROCESS(PR_PROC_ID, PARTICI_R_ID, ADMIN_ID, PROC_STATUS_ID, PROCESS_DATE)
 		VALUES (SEQ_REPORT_PROCESS.nextval, #{r_id}, #{admin_id}, #{status}, SYSDATE)
 	</insert>
+	
+	<select id="checkAccess" resultType="java.lang.Integer">
+		SELECT ACCESS_ID
+		FROM MEMBER
+		WHERE USER_ID=#{user_id}
+	</select>
 </mapper>

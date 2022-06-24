@@ -3,6 +3,8 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	String user_id = String.valueOf(session.getAttribute("user_id"));
 %>
 <!DOCTYPE html>
 <html>
@@ -108,7 +110,7 @@
 			var report_type = $("#reportType").val(); // 1 후기, 2 참여자
 			
 			// 관리자 ID. 최종 결정자가 누구인지.
-			var admin_id = sessionStorage.getItem("userId") != null ? sessionStorage.getItem("userId") : "1";
+			var admin_id =  <%=user_id%> != null ? <%=user_id%> : "1";
 			
 			// 최종 처리 상태. 승인? 허위? 반려?
 			var status = $(this).val();
@@ -119,9 +121,11 @@
 							+"&admin_id="+admin_id
 							+"&status="+status;
 			
+			console.log(admin_id);
+			
 			// 반려일 때
 			if (status == '3')
-				ajaxInsert(params, false)
+				ajaxInsert(params, false);
 			// 승인, 허위일 때
 			else
 				ajaxInsert(params, true);
@@ -322,7 +326,6 @@
 								<div>패널티 대상자</div>
 							</th>
 							<td>
-								<div>(패널티 받는 사람 ID(닉네임)</div>
 								<div class="approve">${detail[0].reported_user_id }(${detail[0].r_user_nickname})</div>
 								<div class="punish">${detail[0].user_id }(${detail[0].nickname })</div>
 							</td>
@@ -344,7 +347,7 @@
 								<div>패널티 내용</div>
 							</th>
 							<td>
-								<div>(패널티 내용 및 기간)</div> <!-- ${list.penaltyContent} -->
+								<div>${detail[0].penalty_content } 14일</div> 
 							</td>
 						</tr>
 					</tbody>

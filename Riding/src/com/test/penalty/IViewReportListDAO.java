@@ -27,4 +27,7 @@ public interface IViewReportListDAO
 	
 	// 신고 처리 - 참여자
 	public int insertParticiProcess(@Param("r_id")String r_id, @Param("admin_id")String admin_id, @Param("status")String status);
+	
+	// 관리자 페이지 액세스 권한 확인
+	public int checkAccess(String user_id);
 }

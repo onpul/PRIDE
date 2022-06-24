@@ -32,7 +32,17 @@ public class AdminReportListController
 	{
 		String result = null;
 		
+		String user_id = String.valueOf(request.getSession().getAttribute("user_id"));
+		
 		IViewReportListDAO dao = sqlSession.getMapper(IViewReportListDAO.class);
+		
+		// 관리자가 아니라면 내보내기
+		if (dao.checkAccess(user_id) != 0)
+		{
+			result = "redirect:main.action";
+			return result;
+		}
+		
 		
 		// 한 페이지에 글 갯수
 		int numPerPage = 5;

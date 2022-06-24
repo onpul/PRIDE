@@ -5,8 +5,31 @@ package com.test.penalty;
 public class ViewReportListDTO
 {
 	String r_id, user_id, nickname, report_date, status
-	, status_id, report_type, content, reported_user_id, r_user_nickname, num;
+	, status_id, report_type, content, reported_user_id
+	, r_user_nickname, num, penalty_type_id, penalty_content;
+	
+	
 		
+	public String getPenalty_content()
+	{
+		return penalty_content;
+	}
+
+	public void setPenalty_content(String penalty_content)
+	{
+		this.penalty_content = penalty_content;
+	}
+
+	public String getPenalty_type_id()
+	{
+		return penalty_type_id;
+	}
+
+	public void setPenalty_type_id(String penalty_type_id)
+	{
+		this.penalty_type_id = penalty_type_id;
+	}
+
 	public String getR_user_nickname()
 	{
 		return r_user_nickname;

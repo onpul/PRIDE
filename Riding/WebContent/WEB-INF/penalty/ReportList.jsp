@@ -4,8 +4,8 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	String header = "/WEB-INF/view/Header.jsp";
-	System.out.println("header = " + header);
+	//String header = "/WEB-INF/view/Header.jsp";
+	//System.out.println("header = " + header);
 %>
 <!DOCTYPE html>
 <html>
