@@ -70,7 +70,7 @@ public class RidingListController
 	}
 	
 	// 라이딩 리스트 (분류, 정렬 적용마다 호출되는 컨트롤러)
-	@RequestMapping(value = {"/ridinglistform.action", "/ridinglistsort.action"})
+	@RequestMapping(value = "/ridinglistsort.action")
 	@ResponseBody
 	public void ridingList(RidingDTO dto, HttpServletRequest request, HttpServletResponse response) throws IOException
 	{	
@@ -105,8 +105,8 @@ public class RidingListController
 		
 		// 라이딩 분류
 		where += "WHERE RIDING_ID IS NOT NULL";
-		if (riding_name != null)
-			where += " AND RIDING_NAME = " + riding_name;
+		if (riding_name != "" && riding_name != null)
+			where += " AND RIDING_NAME LIKE '%" + riding_name + "%'";
 		if (sex_p_id != -1) // 전체 선택이 아니면
 			where += " AND SEX_P_ID = " + sex_p_id;
 		if (age_p_id != -1)

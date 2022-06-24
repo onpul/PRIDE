@@ -39,4 +39,4 @@ VALUES ('1', '1', 0, 0, '1', 0, 0, 0, 'admin1@test.com', SYSDATE, 'F', '12341234
 COMMIT;
 
 SELECT *
-FROM MEMBER;
+FROM RIDING;

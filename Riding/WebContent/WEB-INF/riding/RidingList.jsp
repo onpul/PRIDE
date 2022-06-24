@@ -26,8 +26,18 @@ RidingList.jsp
 	// 문서 로드 시 모임 리스트 출력하기
 	$(document).ready(function()
 	{
-		var params = "ridinglistsort.action?" + $(".ridingListForm").serialize() +"&maximum_sort="+$("#maximum").val()+"&open_sort="+$("#open").val()+"&start_date_sort="+$("#start_date").val();
+		var params = "ridinglistsort.action?riding_name="+$("#riding_name").val()+"&"+$(".ridingListForm").serialize()+"&maximum_sort="+$("#maximum").val()+"&open_sort="+$("#open").val()+"&start_date_sort="+$("#start_date").val();
 		printList(params);
+	});
+	
+	// 검색 버튼 클릭 시 모임 리스트 출력하기
+	$(document).ready(function()
+	{
+		$("#search").click(function()
+		{
+			var params = "ridinglistsort.action?riding_name="+$("#riding_name").val()+"&"+$(".ridingListForm").serialize()+"&maximum_sort="+$("#maximum").val()+"&open_sort="+$("#open").val()+"&start_date_sort="+$("#start_date").val();
+			printList(params);
+		});
 	});
 	
 	// 나의 라이딩스타일 적용
@@ -168,12 +178,13 @@ RidingList.jsp
 			var open = $("#open").val();
 			var start_date = $("#start_date").val();
 			
-			var params = "ridinglistsort.action?" + $(".ridingListForm").serialize() +"&maximum_sort="+maximum+"&open_sort="+open+"&start_date_sort="+start_date;
+			var params = "ridinglistsort.action?riding_name="+$("#riding_name").val()+"&"+$(".ridingListForm").serialize()+"&maximum_sort="+$("#maximum").val()+"&open_sort="+$("#open").val()+"&start_date_sort="+$("#start_date").val();
 			
 			printList(params);
 		});
 	});
 	
+	// 리스트 출력
 	function printList(params)
 	{
 		console.log(params);
@@ -235,18 +246,26 @@ RidingList.jsp
 	
 </script>
 <style type="text/css">
+.paging-div 
+{
+  padding: 15px 0 5px 10px;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
 </style>
 </head>
 <body>
 <div>
 	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 </div>
+<div class="form-group form-inline">
+	<label for="gender">모임명</label>
+	<input type="text" class="form-control" id="riding_name" placeholder="모임명">
+	<button type="submit" class="btn btn-default" id="search">검색</button>
+</div>
 <form class="ridingListForm" name="ridingListForm">
-	<div class="form-group form-inline">
-		<label for="gender" class="">모임명</label>
-		<input type="text" class="form-control" name="riding_name" id="riding_name" placeholder="모임명">
-		<button type="submit" class="btn btn-default">검색</button>
-	</div>
 	<div>
 		<div class="form-group">
 			<label for="gender" >성별</label>
@@ -403,6 +422,10 @@ RidingList.jsp
 			</tr> 
 		</thead>
 	</table>
+	
+	<!-- 페이징 처리 -->
+	
+	
 	<input type="text" style="display: none;" name="user_id" id="user_id" value="${user_id}"/>
 	<c:choose>
 	<c:when test="${sessionScope.user_id!=null }">
