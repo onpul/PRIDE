@@ -433,7 +433,7 @@ Main.jsp
 </div>
 <div class="row">
 	<!-- 달력 들어갈 div -->
-	<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 ">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
 		<div class="calendar-box">
 			<table align="center" id="calendar" class="table table-bordered">
 				<tr>
@@ -456,31 +456,6 @@ Main.jsp
 			</table>
 		</div>
 	</div>
-	
-	<!-- 지도 들어갈 div -->
-	<!-- 회원일 경우 적용 -->
-	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-		<div class="select-box">
-			<select name="" id="" class="form-control">
-				<option value="">맛집 보기</option>
-				<option value="">편의시설 보기</option>
-			</select>
-		</div>
-		
-		<div class="map-box">
-			<!-- 지도 들어갈 div -->
-		</div>
-	</div>
-	
-	<!-- 비회원일 경우 적용 -->
-	<!-- 
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-		<p>편의시설 보기</p>
-		<div class="map-box">
-			지도 들어갈 div
-		</div>
-	</div> 
-	-->
 </div>
 
 <!-- 하단 버튼(회원/관리자) / 비회원일 경우 적용 안 함 -->
