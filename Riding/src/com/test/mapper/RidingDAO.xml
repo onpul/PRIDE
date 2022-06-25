@@ -98,11 +98,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 모임 생성 패널티 조회 -->
 	<select id="penaltyCheck" resultType="java.lang.Integer">
-		SELECT COUNT(*)
-		FROM PARTICIPANT_REPORT A JOIN PARTICIPANT_REPORT_PROCESS B
-		ON A.PARTICI_R_ID = B.PARTICI_R_ID
-		WHERE PROC_STATUS_ID = 1
-		AND USER_ID = #{user_id}
+		SELECT COUNT(*) AS COUNT
+		FROM PARTICI_PENALTY_CHECK
+		WHERE USER_ID = #{user_id}
 	</select>
 	
 	<!-- 나의 라이딩 스타일 조회(검색 분류 적용) -->
