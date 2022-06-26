@@ -3,7 +3,8 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-		
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -45,7 +46,6 @@
 		// 기간 선택 기능
 		addDate();
 				
-		
 		// 라이딩 스타일 최초 '제한없음' 선택으로 초기화
 		$(".riding-style input[value='0']").prop('checked', 'checked');
 		
@@ -73,6 +73,7 @@
 				str +=			'<input type="text" class="txt" name="address"/> ';
 				str +=			'<input type="text" class="txt" name="detail_address"/>';
 				str +=			'<button type="button" class="searchMap" value="point'+numIdx+'">검색</button>';
+				str += 			'<span class="hidden_point'+numIdx+'" style="display: none;"></span>'
 				str +=		'</label>';
 				 
 				$("span.point").append(str);
@@ -98,6 +99,8 @@
 			// 경유지 1개 남았을 때는 숨기기
 			if($("span.point").children().length < 2)
 				$(".pointBtn button:eq(1)").css("display", "none");
+			
+			setMarkers();
 		})
 			
 		// 지도 검색 활성화
@@ -151,20 +154,70 @@
 			var latiInput = '<input type="hidden" name="'+lati+'" value="'+lat+'"/>'; 
 			var longiInput = '<input type="hidden" name="'+longi+'" value="'+lng+'"/>'; 
 			
-			$("span."+openType).append(latiInput);
-			$("span."+openType).append(longiInput);
-			
-			
+			$("span.hidden_"+openType).empty();
+			$("span.hidden_"+openType).append(latiInput);
+			$("span.hidden_"+openType).append(longiInput);
 		}
 		else
 		{
+			
 			$('label.'+openType).children("input[name=address]").val(addr);
 			
 			var latiInput = '<input type="hidden" name="latitude" value="'+lat+'"/>'; 
 			var longiInput = '<input type="hidden" name="longitude" value="'+lng+'"/>';
 			
-			$("label."+openType).append(latiInput);
-			$("label."+openType).append(longiInput);
+			$("span.hidden_"+openType).empty();
+			$("span.hidden_"+openType).append(latiInput);
+			$("span.hidden_"+openType).append(longiInput);
+		}
+		
+		// 지도 마커 표시
+		setMarkers();
+	}
+	
+	function setMarkers()
+	{
+		// KakaoMap.jsp 안에 작성된 마커, 인포윈도우 초기화 function
+		reset();
+		
+		// 모임 장소 설정했다면
+		if ($("input[name='meet_lati']").length)
+		{
+			var lat = $("input[name='meet_lati']").val();
+			var lng = $("input[name='meet_longi']").val();
+			var addr = $("input[name='meet_address']").val();
+			addMarker(lng, lat, addr, 'meet');
+		}
+		
+		// 출발점 설정했다면
+		if ($("input[name='start_lati']").length)
+		{
+			var lat = $("input[name='start_lati']").val();
+			var lng = $("input[name='start_longi']").val();
+			var addr = $("input[name='start_address']").val();
+			addMarker(lng, lat, addr, 'start');
+		}
+		
+		// 도착점 설정했다면
+		if ($("input[name='end_lati']").length)
+		{
+			var lat = $("input[name='end_lati']").val();
+			var lng = $("input[name='end_longi']").val();
+			var addr = $("input[name='end_address']").val();
+			addMarker(lng, lat, addr, 'end');
+		}
+		
+		// 경유지 설정했다면...
+		if ($("input[name='latitude']").length)
+		{
+			for (var i=0; i<$("input[name='latitude']").length; i++)
+			{
+				var lat = $("input[name='latitude']:eq("+i+")").val();
+				var lng = $("input[name='longitude']:eq("+i+")").val();
+				var addr = $("input[name='address']:eq("+i+")").val();
+				addMarker(lng, lat, addr, 'point');	
+			}
+			
 		}
 		
 	}
@@ -401,7 +454,6 @@
     <hr>
 </div>
 
-
 <div class="container">
 	<form id="insertRiding" action ="insertriding.action" method="post">
 		<table class="table table-bordered">
@@ -449,6 +501,7 @@
 						<input type="text" name="meet_detail"
 						id="meet_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="meet">검색</button>
+						<span class="hidden_meet" style="display: none;"></span>
 					</span>
 				</td>
 			</tr>
@@ -461,6 +514,7 @@
 						<input type="text" class="txt" name="start_detail"
 						id="start_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="start">검색</button>
+						<span class="hidden_start" style="display: none;"></span>
 					</span>
 					
 				</td>
@@ -474,6 +528,7 @@
 						<input type="text" class="txt" name="end_detail"
 						id="end_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="end">검색</button>
+						<span class="hidden_end" style="display: none;"></span>
 					</span>
 				</td>
 			</tr>
@@ -494,6 +549,7 @@
 								<input type="text" class="txt" name="address"/>
 								<input type="text" class="txt" name="detail_address"/>
 								<button type="button" class="searchMap" value="point1">검색</button>
+								<span class="hidden_point1" style="display: none;"></span>
 							</label>
 						</span>
 						<span class="pointBtn">
@@ -512,6 +568,11 @@
 		</table>
 		
 		<br />
+		
+		<div>
+			<c:import url="${request.contextPath }/KakaoMap.jsp"/>
+		</div>
+				
 		
 		<!-- 여기서부터는 라이딩 스타일을 지정하는 구간입니다 -->
 		<h2>라이딩 스타일 지정</h2>
