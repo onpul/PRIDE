@@ -94,9 +94,6 @@ a.searchAddr:hover {text-decoration:underline;}
     
 </div>
 
-
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1909d4b371a9e2607d601df68359a078&libraries=services"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929c19987c7012d98e56f65300690f4a&libraries=services"></script>
 <script>
 
