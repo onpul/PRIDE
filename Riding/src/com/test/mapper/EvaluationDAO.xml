@@ -34,15 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- // 3-1. 문항 조회 메소드 → 방장 -->
-	<!-- 
-	<select id="leaderQuestionList" resultType="com.test.eh.EvaluationDTO">
+	<!-- // 3-2. 문항 조회 메소드 → 참여자 일 때는 리더십에 관한 문항 추가. -->
+	<select id="leaderQuestionList" resultType="com.test.evaluation.EvaluationDTO">
 		SELECT QUESTION_ID , QU_CONTENT
 		FROM QUESTION
-		
 	</select>
-	 -->
-	<!-- // 3-2. 문항 조회 메소드 → 참여자 일 때는 리더십에 관한 문항 추가. -->
-	
 	
 	
 	<!-- // 4. 모임명 조회 메소드 -->
@@ -153,7 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    SELECT ROW_NUMBER() OVER (ORDER BY R.END_DATE DESC) AS ROW1,R.*
 		    FROM RIDING R JOIN PARTICIPATED_MEMBER PM
 		    ON R.RIDING_ID = PM.RIDING_ID
-		    WHERE SYSDATE <![CDATA[<=]]> END_DATE AND PM.USER_ID = #{user_id}
+		    WHERE SYSDATE <![CDATA[>=]]> END_DATE+7/24 AND PM.USER_ID = #{user_id}
 		)TEMP
 		WHERE TEMP.ROW1 = 1
 	</select>

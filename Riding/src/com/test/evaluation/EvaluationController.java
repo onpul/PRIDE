@@ -28,13 +28,13 @@ public class EvaluationController
 	}
 	*/
 	
-	//@Autowired
-	//private SqlSession sqlSession;
+	@Autowired
+	private SqlSession sqlSession;
 	
 	// 마이페이지 --> 
 	
 	
-	/*
+	
 	// 마이페이지 --> 평가페이지 
 	// 조건.
 	@RequestMapping(value = "/evaldate_ok.action", method = RequestMethod.GET)
@@ -194,23 +194,6 @@ public class EvaluationController
 			 System.out.println("leaderQuestion"+i); 
 			 System.out.println("문항 내용: " + leaderQuestionList.get(i).getQu_content());
 			 
-			    문항 id: 1
-		        leaderQuestion0
-				문항 내용: 가장 친절한 사람은 누구인가요?
-				문항 id: 2
-				leaderQuestion1
-				문항 내용: 가장 불친절한 사람은 누구인가요?
-				문항 id: 3
-				leaderQuestion2
-				문항 내용: 위험하게 라이딩한 사람은 누구인가요?
-				문항 id: 7
-				leaderQuestion3
-				문항 내용: 완주하지 못한 사람은 누구인가요?
-				문항 id: 8
-				leaderQuestion4
-				문항 내용: 실제 난이도에 못 미친 사람은 누구인가요?
-			 
-			//model.addAttribute("leaderQuestion"+i,leaderQuestionList.get(i).getQ_content());
 		}
 		
 		
@@ -264,6 +247,7 @@ public class EvaluationController
 	@RequestMapping(value = "/evaluationinsertleader.action",method = RequestMethod.GET)
 	public String evalAdd(EvaluationDTO dto)
 	{
+		System.out.println("평가지 insert 에 진입----------------");
 		String view = "redirect:mypagemain.action";
 		//String user_id = "40";
 		//String riding_id = "4";
@@ -272,23 +256,24 @@ public class EvaluationController
 		
 		IEvaluationDAO dao = sqlSession.getMapper(IEvaluationDAO.class);
 		
+		/*
 		System.out.println("결석자 id : " + dto.getAttendance());
 		System.out.println("친절한 사람 id : " + dto.getKindness());
 		System.out.println("불친절한 id : " + dto.getNotKindness());
 		System.out.println("위험한 라이딩 id : " + dto.getDangerRiding());
 		System.out.println("완주 ㄴㄴ id : " + dto.getNotCompletion());
 		System.out.println("실제숙련도와다른사람 id : " + dto.getDifferent());
-		
-		dto.setP_member_id(dao.searchPMemberId(dto.getUser_id()));
+		*/
+		dto.setPa_member_id(dao.searchPMemberId(dto.getUser_id()));
 		dao.answerInsert(dto);
 		
-		System.out.println("어딘데 ㅠㅠㅠㅠ ");
+		//System.out.println("어딘데 ㅠㅠㅠㅠ ");
 		
 		//넘어온 값이 not 이면 실행 안시킴
 		//checkInsert , searchCheckId
 		if (!dto.getAttendance().equals("not"))
 		{
-			dto.setP_member_id(dao.searchPMemberId(dto.getUser_id()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getUser_id()));
 			
 			dao.checkInsert(dto);	//--SEQ , 제출자의 P_MEMBER_ID / 날짜
 			
@@ -296,7 +281,7 @@ public class EvaluationController
 			//-- seq , check_atte_id,결석지목받은사람 p_member_id
 			
 			dto.setCheck_atte_id(dao.searchCheckId(dto.getUser_id()));//--제출자의 check_atte_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getAttendance())); //--결석자의 p_member_id
+			dto.setPa_member_id(dao.searchPMemberId(dto.getAttendance())); //--결석자의 p_member_id
 			dao.checkDetailInsert(dto);
 			//-- 여기까진 ㅇㅋㅇㅋ
 		}
@@ -304,19 +289,31 @@ public class EvaluationController
 		//-- 리더 1 참여자 0 
 		if (leaderCheck == 0)
 		{
+			System.out.println("리더십 넘어온 값 확인 "+ dto.getLeaderCheck());
+			System.out.println("큐콘텐츠 넘어온 값 : " + dto.getQu_content());
 			System.out.println("당신은 참여자입니다.");
+			
 			if (!dto.getLeaderCheck().equals("not"))
 			{
 				//1. 작성자의 answer_id
+				System.out.println("리더십 체크 진입----------");
 				dto.setAnswer_id(dao.searchAnswerId(dto.getUser_id()));
 				//2. question_id --> 넘어오는건 q_content 
 				//   q_content로 question_id 찾기
 				//4 / 5 /6
 				
-				//quesiont_id 4 /5/ 6
-				System.out.println("큐 콘텐트가 뭔데 :" +dto.getQu_content());
+				//{answer_id}, #{question_id},#{qu_content}
+				// -----------  ------------- ---------------
+				//                                leaderCheck 값 
+				
+				//qu_content set
+				dto.setQu_content(dto.getLeaderCheck());
+				
+				//question_id 찾기
 				dto.setQuestion_id(dao.searchQuestionId(dto.getQu_content()));
-				System.out.println("제발제발");
+				
+				System.out.println("QU 콘텐츠용 : " + dto.getQu_content());
+				System.out.println("QU 아이디용 : " + dto.getQuestion_id());
 				
 				dao.leadershipDetailInsert(dto);
 			}
@@ -337,7 +334,7 @@ public class EvaluationController
 			// question_id
 			dto.setQuestion_id("1");
 			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getKindness()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getKindness()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -351,7 +348,7 @@ public class EvaluationController
 			// question_id
 			dto.setQuestion_id("2");
 			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getNotKindness()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getNotKindness()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -365,7 +362,7 @@ public class EvaluationController
 			// question_id
 			dto.setQuestion_id("3");
 			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getDangerRiding()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getDangerRiding()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -378,7 +375,7 @@ public class EvaluationController
 			// question_id
 			dto.setQuestion_id("7");
 			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getNotCompletion()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getNotCompletion()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
@@ -391,11 +388,13 @@ public class EvaluationController
 			// question_id
 			dto.setQuestion_id("8");
 			// 지목받은 사람 p_member_id
-			dto.setP_member_id(dao.searchPMemberId(dto.getDifferent()));
+			dto.setPa_member_id(dao.searchPMemberId(dto.getDifferent()));
 			
 			//insert 실행
 			dao.answerDetailInsert(dto);
 		}
+		
+		
 		System.out.println("어딘데 fffffffffffffㅠㅠㅠㅠ ");
 		return view;
 	}			
@@ -487,7 +486,7 @@ public class EvaluationController
 		
 		return view;
 	}
-		
+	/*
 	
 	//라이딩기록조회 뷰
 	@RequestMapping(value = "/myridingrecordlist.action", method = RequestMethod.GET)
