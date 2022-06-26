@@ -68,7 +68,7 @@
 	<!-- 다음줄 center에 위치 -->
 	<!-- 평가폼 -->
 	<div>	
-		<form id="form" action="/Riding/evaluationinsertleader.action" method="get">
+		<form id="form" action="evaluationinsertleader.action" method="get">
 			<div class="col col-xs-12">
 				<h1>모임 평가하기</h1>
 				<br />
@@ -89,12 +89,18 @@
 				<span style="font-weight: bold;"> 결석한 사람을 체크해 주세요.</span>
 				
 				<!-- 참여자 명단 보여주기 -->
-				<input type="radio" name="attendance" value="not" style="display: none;" checked="checked">
+				<!-- <input type="radio" name="attendance" value="not" style="display: none;" checked="checked"> -->
+				<label for="attendanceNot">
+					<input type="radio" name="attendance" value="not" id="attendanceNot" checked="checked">
+					결석자 없음.
+				</label>
 				<c:forEach var="dto" items="${memberList }">
-					<label for="${dto.user_id }">
+					<c:if test="${dto.user_id!=user_id }">
+						<label for="${dto.user_id }">
 						<input type="radio" name="attendance" value="${dto.user_id }" id="${dto.user_id }">
 						${dto.nickName }
-					</label>
+						</label>
+					</c:if>
 				</c:forEach>
 			</div>
 			
@@ -108,19 +114,19 @@
 				<c:forEach var="dto" items="${leaderQuestionList }">
 					<c:if test="${dto.question_id ==4}">
 						<label for = "good">
-						 	<input type="radio" name="qu_content" id="good" value="${dto.qu_content }">
+						 	<input type="radio" name="leaderCheck" id="good" value="${dto.qu_content }">
 						 	<p>${dto.qu_content }</p>
 						 </label>
 					</c:if>
 					<c:if test="${dto.question_id ==5}">
 						<label for = "soso">
-						 	<input type="radio" name="qu_content" id="soso" value="${dto.qu_content }">
+						 	<input type="radio" name="leaderCheck" id="soso" value="${dto.qu_content }">
 							<p>${dto.qu_content }</p>
 						</label>
 					</c:if>
 					<c:if test="${dto.question_id ==6}">
 						<label for = "bad">
-						 	<input type="radio" name="qu_content" id="bad" value="${dto.qu_content }">
+						 	<input type="radio" name="leaderCheck" id="bad" value="${dto.qu_content }">
 							<p>${dto.qu_content }</p>
 						</label>
 					</c:if>
@@ -144,7 +150,9 @@
 				<select class="form-control" name="kindness" id="kindness">
 					<option value="not" selected="selected">없음.</option>
 					<c:forEach var="dto" items="${memberList }">
-						<option value="${dto.user_id }">${dto.nickName }</option>
+						<c:if test="${dto.user_id!=user_id }">
+							<option value="${dto.user_id }">${dto.nickName }</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>
@@ -165,7 +173,9 @@
 				<select class="form-control" name="notKindness">
 					<option value="not" selected="selected">없음.</option>
 					<c:forEach var="dto" items="${memberList }">
-						<option value="${dto.user_id }">${dto.nickName }</option>
+						<c:if test="${dto.user_id!=user_id }">
+							<option value="${dto.user_id }">${dto.nickName }</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>
@@ -183,7 +193,9 @@
 				<select class="form-control" name="dangerRiding">
 					<option value="not" selected="selected">없음.</option>
 					<c:forEach var="dto" items="${memberList }">
-						<option value="${dto.user_id }">${dto.nickName }</option>
+						<c:if test="${dto.user_id!=user_id }">
+							<option value="${dto.user_id }">${dto.nickName }</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>
@@ -202,7 +214,9 @@
 				<select class="form-control" name="notCompletion">
 					<option value="not" selected="selected">없음.</option>
 					<c:forEach var="dto" items="${memberList }">
-						<option value="${dto.user_id }">${dto.nickName }</option>
+						<c:if test="${dto.user_id!=user_id }">
+							<option value="${dto.user_id }">${dto.nickName }</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>
@@ -222,7 +236,9 @@
 				<select class="form-control" name="different">
 					<option value="not" selected="selected">없음.</option>
 					<c:forEach var="dto" items="${memberList }">
-						<option value="${dto.user_id }">${dto.nickName }</option>
+						<c:if test="${dto.user_id!=user_id }">
+							<option value="${dto.user_id }">${dto.nickName }</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>

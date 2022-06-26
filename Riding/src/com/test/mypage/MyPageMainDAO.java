@@ -11,13 +11,15 @@ import com.test.util.DBConn;
 public class MyPageMainDAO implements IMyPageMainDAO
 {
 	private Connection conn;
+	
+	
 	@Override
 	public ArrayList<MyPageMainDTO> memberList(String user_id) throws ClassNotFoundException, SQLException
 	{
+		System.out.println("어디서 문제인가요 ? 진입은 하시나요 ? " + user_id);
 		conn = DBConn.getConnection();
 		ArrayList<MyPageMainDTO> result = new ArrayList<MyPageMainDTO>();
 		
-		//System.out.println("넘어오는 user_id 값 " + user_id );
 		
 		String sql = "SELECT USER_ID,EMAIL,NICKNAME,ONEWORD,PI_ADDRESS\r\n" + 
 				"FROM VIEW_MYPAGEMAIN\r\n" + 
@@ -27,9 +29,6 @@ public class MyPageMainDAO implements IMyPageMainDAO
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		try
 		{
-			//int user_id_number = Integer.parseInt(user_id);
-			
-			//pstmt.setInt(1, user_id_number);
 			pstmt.setString(1, user_id);
 			ResultSet rs = pstmt.executeQuery();
 
