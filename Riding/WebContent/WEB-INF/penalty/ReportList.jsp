@@ -19,6 +19,7 @@
 <script type="text/javascript">
 	$(function()
 	{
+		
 		// 최초 페이지 요청 시 세션 초기화
 		sessionStorage.setItem("page", 1);
 		sessionStorage.setItem("status", 'none');
