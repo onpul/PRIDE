@@ -34,27 +34,34 @@ RidingDetail.jsp
 		
 		$("#attendBtn").click(function()
 		{
-			//alert("확인");
+			alert("확인");
+			
+			var riding_id = $("#riding_id").val();
+			var user_id = $("#user_id").val();
+			
+			alert(riding_id);
 			
 			$.ajax(
 			{
 				type:"POST"
-				, url:"gendercheck.action"
-				, data:"회원코드"
+				, url:"participation.action?user_id="+user_id+"&riding_id="+riding_id
 				, success:function(data)
 				{
-					if (genderOption == null || data == genderOption)
+					if (data == 0) // 참여 인서트 완료
 					{
-						location.href = "라이딩대기실.action"
+						location.href="JoinRoom.jsp";
 					}
-					else if (data != genderOption) 
+					else if (data == 1) // 모임 생성 참여 패널티
 					{
-						switch (genderOption)
-						{
-							case "male" : genderOption = "남성"; break;
-							case "female" : genderOption = "여성"; break;
-						}
-						alert("해당 모임은 " + genderOption + "만 참여할 수 있습니다.");
+						alert("모임 생성 및 참여 패널티가 적용 중이므로 참여할 수 없습니다.")
+					}
+					else if (data == 2) // 모임 참여 개수 제한
+					{
+						alert("참여 중인 모임이 존재하므로 참여할 수 없습니다.");
+					}
+					else if (data == 3) // 성별 제한
+					{
+						alert("해당 모임의 성별 조건을 만족하지 않아 참여할 수 없습니다.");
 					}
 				}
 				, error:function(e)
@@ -173,6 +180,7 @@ RidingDetail.jsp
 <div class="container">
 	<c:forEach var="info" items="${ridingDetailList }">
 	<div>
+		<input type="text" style="display: none;" name="riding_id" id="riding_id" value="${info.riding_id }"/>
 		<h1>${info.riding_name }</h1>
 		<div class="property">
 			<c:if test="${info.sex_p_id != 0}">
@@ -232,6 +240,9 @@ RidingDetail.jsp
 			<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
 		</div>
 	</div>
+	
+	
+	<input type="text" style="display: none;" name="user_id" id="user_id" value="${user_id}"/>
 <!-- 푸터 -->
 <jsp:include page="${request.contextPath}/WEB-INF/layout/Footer.jsp" />
 </div>

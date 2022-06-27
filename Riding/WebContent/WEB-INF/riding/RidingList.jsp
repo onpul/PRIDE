@@ -88,7 +88,7 @@ RidingList.jsp
 				$('input:radio[name="speed_id"][value=0]').prop('checked', true);
 				$('input:radio[name="step_id"][value=0]').prop('checked', true);
 				
-				searchList();
+				//searchList();
 			}
 			, error:function(e)
 			{
