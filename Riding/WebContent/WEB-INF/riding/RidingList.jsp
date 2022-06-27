@@ -116,17 +116,15 @@ RidingList.jsp
 	{
 		$("#openRidingBtn").click(function()
 		{
-			var user_id = $("#user_id").val();
-			alert("확인");
-			alert("user_id = " + user_id);
-			
 			// 패널티 적용 여부 확인해서 패널티 있으면 경고창, 없으면 라이딩 생성 요청
+			// 참여 중인 모임 존재하면 경고창, 없으면 라이딩 생성 요청
 			$.ajax(
 			{
-				type:"GET"
-				, url:"ridingcheck.action?user_id="+${user_id}
+				type:"POST"
+				, url:"ridingcheck.action"
 				, success:function(data)
 				{
+					console.log(data);
 					if (Number(data) == 1) 
 					{
 						alert("패널티가 적용 중이므로 모임을 생성할 수 없습니다.");
