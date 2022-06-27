@@ -42,6 +42,9 @@ public interface IRidingDAO
 	// 모임 생성 패널티 적용 체크 액션
 	public int penaltyCheck(String user_id); // 완
 	
+	// 모임 참여 여부 체크
+	public int participationCheck(String user_id);
+	
 	// 로그인 상태인 회원의 성별 체크 액션
 	public String genderCheck(String user_id);
 	

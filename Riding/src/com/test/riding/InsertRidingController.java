@@ -36,7 +36,7 @@ public class InsertRidingController
 		
 		String user_id= String.valueOf(session.getAttribute("user_id"));
 		
-		System.out.println("user_id: " + user_id);
+		//System.out.println("user_id: " + user_id);
 		
 		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
 		
@@ -74,7 +74,7 @@ public class InsertRidingController
 		if(user_id == null)
 			user_id = "2";
 		
-		System.out.println(user_id);
+		//System.out.println(user_id);
 		
 		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
 		
@@ -89,10 +89,11 @@ public class InsertRidingController
 		
 		dto.setUser_id(user_id);
 		
+		
 		// 모임 insert 후, 경유지도 insert
 		if (dao.insertRiding(dto) > 0)
 		{
-			System.out.println(dto.getRiding_id());
+			//System.out.println(dto.getRiding_id());
 			// 경유지 없어도 "" 로 1개는 무조건 들어오기 때문에..
 			if ( !(dto.getAddress().size() == 1 && dto.getAddress().get(0).trim().equals("")) )
 			{
@@ -117,7 +118,7 @@ public class InsertRidingController
 				}
 			}
 			
-			System.out.println(dto.getCreated_date());
+			//System.out.println(dto.getCreated_date());
 			
 			// 방장 자신을 참여중인 명단에 추가
 			dao.insertParticipatedMember(dto);
@@ -138,6 +139,17 @@ public class InsertRidingController
 		result = "/WEB-INF/mapapi/KakaoSearchMap.jsp";
 		
 		model.addAttribute("openType", openType);
+		
+		return result;
+	}
+	
+	// 지도 열기
+	@RequestMapping(value = "/displaymap.action", method = RequestMethod.GET )
+	public String displayMap()
+	{
+		String result = null;
+		
+		result = "/WEB-INF/mapapi/KakaoMap.jsp";
 		
 		return result;
 	}

@@ -107,17 +107,21 @@ RidingList.jsp
 			// 패널티 적용 여부 확인해서 패널티 있으면 경고창, 없으면 라이딩 생성 요청
 			$.ajax(
 			{
-				type:"POST"
-				, url:"penaltycheck.action?user_id="+user_id
+				type:"GET"
+				, url:"ridingcheck.action?user_id="+${user_id}
 				, success:function(data)
 				{
-					if (data == 0)
-					{
-						location.href = "insertridingform.action";
-					}
-					else if (data > 0) 
+					if (Number(data) == 1) 
 					{
 						alert("패널티가 적용 중이므로 모임을 생성할 수 없습니다.");
+					}
+					else if (Number(data) == 2)
+					{
+						alert("참여 중인 모임이 존재하므로 모임을 생성할 수 없습니다.");
+					}
+					else
+					{
+						location.href = "insertridingform.action";
 					}
 				}
 				, error:function(e)
@@ -125,6 +129,7 @@ RidingList.jsp
 					alert(e.responseText);
 				}
 			});
+			
 		});
 	});
 	

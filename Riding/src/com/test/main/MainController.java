@@ -225,26 +225,29 @@ public class MainController
 	}
 	
 	// 모임 생성 패널티 조회
-	@RequestMapping(value = "/penaltycheck.action", method = RequestMethod.POST)
+	@RequestMapping(value = "/ridingcheck.action", method = RequestMethod.GET)
 	@ResponseBody
-	public String penaltyCheck(HttpServletRequest request, UserDTO dto)
+	public String ridingCheck(String user_id)
 	{
 				
-		System.out.println("-----penaltyCheck() 진입 성공-----");
-		System.out.println("user_id = " + String.valueOf(request.getSession().getAttribute("user_id")));
+		System.out.println("-----ridingCheck() 진입 성공-----");
 		
-		String result = "";
+		String result = "0";
 		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
 		try
 		{
-			String user_id = String.valueOf(request.getSession().getAttribute("user_id"));
 			
-			result = String.valueOf(dao.penaltyCheck(user_id));
-			
-			System.out.println("result = " + result);
-			
+			if (dao.penaltyCheck(user_id) > 0)
+			{
+				result = "1";
+				return result;
+			}
+			if (dao.participationCheck(user_id) > 0)
+			{
+				result = "2";
+			}
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
