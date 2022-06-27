@@ -103,6 +103,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID = #{user_id}
 	</select>
 	
+	<!-- 현재 진행중인 모임 조회 -->
+	<select id="participationCheck" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM PARTICIPATED_MEMBER P, RIDING R
+		WHERE P.USER_ID= #{user_id}
+		  AND P.RIDING_ID=R.RIDING_ID
+		  AND R.END_DATE <![CDATA[>]]> SYSDATE
+	</select>
+	
 	<!-- 나의 라이딩 스타일 조회(검색 분류 적용) -->
 	<select id="myRidingStyle" resultType="com.test.login.RidingDTO">
 		SELECT MOOD_P_ID, EAT_P_ID, DINING_P_ID, SEX_P_ID, AGE_P_ID

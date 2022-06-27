@@ -6,7 +6,6 @@
 	
 	String openType = request.getParameter("openType");
 	
-	System.out.println(openType);
 %>
 <!DOCTYPE html>
 <html>

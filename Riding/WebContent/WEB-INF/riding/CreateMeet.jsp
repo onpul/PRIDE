@@ -215,7 +215,8 @@
 				var lat = $("input[name='latitude']:eq("+i+")").val();
 				var lng = $("input[name='longitude']:eq("+i+")").val();
 				var addr = $("input[name='address']:eq("+i+")").val();
-				addMarker(lng, lat, addr, 'point');	
+				var num = String(i+1);
+				addMarker(lng, lat, addr, 'point '+num);	
 			}
 			
 		}
@@ -570,7 +571,8 @@
 		<br />
 		
 		<div>
-			<c:import url="${request.contextPath }/KakaoMap.jsp"/>
+			<%-- <c:import url="${request.contextPath }/KakaoMap.jsp"/> --%>
+			<c:import url="/displaymap.action"/>			
 		</div>
 				
 		
