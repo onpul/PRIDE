@@ -139,9 +139,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 참여한 회원 조회 -->
 	<select id="ridingMember" resultType="com.test.riding.RidingDTO">
-		SELECT USER_ID
-		FROM RIDING R JOIN PARTICIPATED_MEMBER P
-		ON R.RIDING_ID = P.RIDING_ID
-		WHERE R.RIDING_ID = #{riding_id}
+		SELECT PA.USER_ID
+		FROM RIDING RI JOIN PARTICIPATED_MEMBER PA
+		ON RI.RIDING_ID = PA.RIDING_ID
+		WHERE RI.RIDING_ID = #{riding_id}
+	</select>
+	
+	<!-- 참여한 회원의 프로필 -->
+	<select id="memberProfile" resultType="com.test.login.UserDTO">
+		SELECT B.PI_ADDRESS, A.NICKNAME, A.INTRODUCE, A.SEX
+		     , TO_CHAR(ROUND((TO_NUMBER(EXTRACT(YEAR FROM SYSDATE)) - TO_NUMBER(EXTRACT(YEAR FROM BIRTHDAY)+1)) / 10)) || '0' AS AGEGROUP
+		FROM PROFILE A JOIN PROFILE_IMG B
+		ON A.PIMG_ID = B.PIMG_ID
+		WHERE USER_ID = #{user_id}
 	</select>
 </mapper>
