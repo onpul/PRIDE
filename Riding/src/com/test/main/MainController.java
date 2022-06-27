@@ -227,7 +227,7 @@ public class MainController
 		return result;
 	}
 	
-	// 모임 생성 패널티 조회
+	// 모임 생성 입장 가능한지 조회
 	@RequestMapping(value = "/ridingcheck.action", method = RequestMethod.POST)
 	@ResponseBody
 	public String ridingCheck(HttpSession session)
@@ -235,6 +235,7 @@ public class MainController
 				
 		System.out.println("-----ridingCheck() 진입 성공-----");
 		
+		// 아무 제약도 걸리지 않았을 때 0
 		String result = "0";
 		
 		String user_id = String.valueOf(session.getAttribute("user_id"));
@@ -243,12 +244,13 @@ public class MainController
 		
 		try
 		{
-			
+			// 패널티가 존재한다면 1
 			if (dao.penaltyCheck(user_id) > 0)
 			{
 				result = "1";
 				return result;
 			}
+			// 현재 참여 중인 모임이 있다면 2
 			if (dao.participationCheck(user_id) > 0)
 			{
 				result = "2";

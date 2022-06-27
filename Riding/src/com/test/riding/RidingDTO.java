@@ -10,7 +10,7 @@ public class RidingDTO
 	private int mood_p_id, eat_p_id, dining_p_id, sex_p_id, age_p_id, step_id, speed_id;
 	
 	private String riding_id, leader_id, riding_name, start_date, end_date, created_date;
-	private int e_grede_id, maximum, open;
+	private int ev_grede_id, maximum, open;
 	
 	private String sex;
 	
@@ -18,10 +18,10 @@ public class RidingDTO
 			, start_detail, end_lati, end_longi, end_address, end_detail, confirm_date, comments;
 	
 	// (다인라이딩) 참여한 회원정보
-	private String p_member_id, partici_date;
+	private String pa_member_id, partici_date;
 	
 	// 다인라이딩 경유지
-	private String point_id, latitude, longitude, address, point_detail_address;
+	//private String point_id, latitude, longitude, address, detail_address;
 	
 	// 라이딩 속성
 	private String sp_content, ap_content, ep_content, dp_content, mp_content, step_type, speed_type;
@@ -37,11 +37,6 @@ public class RidingDTO
 	public void setStatus(String status)
 	{
 		this.status = status;
-	}
-
-	public String getPoint_detail_address()
-	{
-		return point_detail_address;
 	}
 
 	public int getUser_id()
@@ -195,14 +190,14 @@ public class RidingDTO
 		this.created_date = created_date;
 	}
 
-	public int getE_grede_id()
+	public int getEv_grede_id()
 	{
-		return e_grede_id;
+		return ev_grede_id;
 	}
 
-	public void setE_grede_id(int e_grede_id)
+	public void setE_grede_id(int ev_grede_id)
 	{
-		this.e_grede_id = e_grede_id;
+		this.ev_grede_id = ev_grede_id;
 	}
 
 	public int getMaximum()
@@ -355,14 +350,14 @@ public class RidingDTO
 		this.comments = comments;
 	}
 
-	public String getP_member_id()
+	public String getPa_member_id()
 	{
-		return p_member_id;
+		return pa_member_id;
 	}
 
-	public void setP_member_id(String p_member_id)
+	public void setP_member_id(String pa_member_id)
 	{
-		this.p_member_id = p_member_id;
+		this.pa_member_id = pa_member_id;
 	}
 
 	public String getPartici_date()
@@ -374,7 +369,8 @@ public class RidingDTO
 	{
 		this.partici_date = partici_date;
 	}
-
+	
+	/*
 	public String getPoint_id()
 	{
 		return point_id;
@@ -417,14 +413,14 @@ public class RidingDTO
 
 	public String getDetail_address()
 	{
-		return point_detail_address;
+		return detail_address;
 	}
 
-	public void setPoint_detail_address(String point_detail_address)
+	public void setDetail_address(String detail_address)
 	{
-		this.point_detail_address = point_detail_address;
+		this.detail_address = detail_address;
 	}
-
+	*/
 	public String getSp_content()
 	{
 		return sp_content;

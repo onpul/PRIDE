@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.test.riding.RidingDTO;
+import com.test.riding.RidingPointDTO;
 
 public interface IRidingDAO
 {
@@ -62,6 +63,12 @@ public interface IRidingDAO
 	
 	// 라이딩 상세보기 조회
 	public ArrayList<RidingDTO> ridingDetailList(@Param("riding_id")int riding_id); // 완
+	
+	// 경유지 존재 여부
+	public int checkRidingPoint(@Param("riding_id")String riding_id);
+	
+	// 경유지 리스트 조회
+	public ArrayList<RidingPointDTO> ridingPointDetailList(@Param("riding_id")String riding_id);
 	
 	// 참여한 회원 조회
 	public ArrayList<RidingDTO> ridingMember(@Param("riding_id")int riding_id); // 완
