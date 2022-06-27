@@ -176,4 +176,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON A.PIMG_ID = B.PIMG_ID
 		WHERE USER_ID = #{user_id}
 	</select>
+	
+	<!-- 회원의 성별 -->
+	<select id="userGender" resultType="java.lang.String">
+		SELECT SEX
+		FROM PROFILE
+		WHERE USER_ID = #{user_id}
+	</select>
+	
+	<!-- 모임의 성별 제한 -->
+	<select id="ridingGender" resultType="java.lang.String">
+		SELECT 
+		CASE WHEN SEX_P_ID = 0 THEN '0' 
+		     WHEN SEX_P_ID = 1 THEN 'M' 
+		     WHEN SEX_P_ID = 2 THEN 'F' ELSE '판별불가' END AS 성별
+		FROM RIDING
+		WHERE RIDING_ID = #{riding_id}
+	</select>
 </mapper>

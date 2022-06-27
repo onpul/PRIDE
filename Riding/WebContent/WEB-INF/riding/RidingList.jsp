@@ -87,7 +87,7 @@ RidingList.jsp
 				// 속도, 숙련도는 제한 없음 디폴트
 				$('input:radio[name="speed_id"][value=0]').prop('checked', true);
 				$('input:radio[name="step_id"][value=0]').prop('checked', true);
-				
+
 			}
 			, error:function(e)
 			{

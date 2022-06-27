@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -261,4 +262,52 @@ public class MainController
 		
 		return result;
 	}
+	
+	// 모임 생성 체크 ... 문정용(복사)
+	@RequestMapping(value = "/participation.action", method = RequestMethod.POST)
+	@ResponseBody
+	public String participationCheck(HttpSession session, @RequestParam int riding_id)
+	{
+		System.out.println("-----participationCheck() 진입 성공-----");
+		
+		String result = "0";
+		
+		String user_id = String.valueOf(session.getAttribute("user_id"));
+		
+		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
+		
+		try
+		{
+			// 모임 생성 참여 패널티
+			if (dao.penaltyCheck(user_id) > 0)
+			{
+				result = "1";
+				return result;
+			}
+			// 현재 참여 중인 모임 여부 체크
+			if (dao.participationCheck(user_id) > 0)
+			{
+				result = "2";
+			}
+			// 모임 성별 제한 체크
+			if (dao.ridingGender(riding_id) != "0" && !dao.userGender(user_id).equals(dao.ridingGender(riding_id)))
+			{
+				System.out.println("dao.ridingGender(riding_id) = " + dao.ridingGender(riding_id));
+				System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
+				result = "3";
+			}
+			
+			if (result == "0")
+			{
+				// 모임 참여
+			}
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
+		System.out.println("result = " + result);
+		return result;
+	}
+	
 }

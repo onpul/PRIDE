@@ -62,7 +62,7 @@ public interface IRidingDAO
 	public ArrayList<RidingDTO> ridingList(@Param("where")String where, @Param("orderBy")String orderBy); // 완
 	
 	// 라이딩 상세보기 조회
-	public ArrayList<RidingDTO> ridingDetailList(@Param("riding_id")int riding_id);
+	public ArrayList<RidingDTO> ridingDetailList(@Param("riding_id")int riding_id); // 완
 	
 	// 경유지 존재 여부
 	public int checkRidingPoint(@Param("riding_id")String riding_id);
@@ -71,8 +71,16 @@ public interface IRidingDAO
 	public ArrayList<RidingPointDTO> ridingPointDetailList(@Param("riding_id")String riding_id);
 	
 	// 참여한 회원 조회
-	public ArrayList<RidingDTO> ridingMember(@Param("riding_id")int riding_id);
+	public ArrayList<RidingDTO> ridingMember(@Param("riding_id")int riding_id); // 완
 	
 	// 참여한 회원의 프로필 읽어오기
-	public ArrayList<UserDTO> memberProfile(@Param("user_id")int user_id);
+	public ArrayList<UserDTO> memberProfile(@Param("user_id")int user_id); // 완
+	
+	// 회원의 성별 
+	public String userGender(@Param("user_id")String user_id);
+	
+	// 모임의 성별 제한
+	public String ridingGender(@Param("riding_id")int riding_id);
+	
+	
 }
