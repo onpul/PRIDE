@@ -118,7 +118,7 @@ JoinForm.jsp
 	// 닉네임 중복 검사 여부
 	function inputNickChk()
 	{
-		//alert("확인");
+		//alert("inputNickChk() 실행");
 		// 닉네임 칸에 새로 입력할 때마다 중복확인 여부를 uncheck로
 		document.joinForm.duplication.value = "nickUncheck";
 	}
@@ -146,7 +146,7 @@ JoinForm.jsp
 					else if (data == 1) 
 					{
 						alert("이미 사용 중인 닉네임입니다.");
-						$("#nickname").val("");
+						//$("#nickname").val("");
 					}
 				}
 				, error:function(e)
@@ -342,7 +342,7 @@ JoinForm.jsp
 			return false;
 		}
 		
-		f.submit();
+		//f.submit();
 	}
 	
 	// 회원가입 제이쿼리 에이젝스 처리
@@ -376,7 +376,7 @@ JoinForm.jsp
 						location.href = "main.action";
 					}
 				}
-				//, beforeSend:formCheck
+				, beforeSend:formCheck
 				, error:function(e)
 				{
 					alert(e.responseText);

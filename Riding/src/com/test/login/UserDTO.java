@@ -7,8 +7,8 @@ public class UserDTO
 	
 	// 주요 속성 구성
 	private int profile_id, mood_p_id, eat_p_id, pimg_id, dining_p_id,
-	            sex_p_id, age_p_id, user_id;
-	private String email, birthday, sex, password, nickname;
+	            sex_p_id, age_p_id, user_id, agegroup;
+	private String email, birthday, sex, password, nickname, pi_address, introduce;
 	
 	// getter / setter 구성
 	public int getProfile_id()
@@ -18,14 +18,6 @@ public class UserDTO
 	public void setProfile_id(int profile_id)
 	{
 		this.profile_id = profile_id;
-	}
-	public int getUser_id()
-	{
-		return user_id;
-	}
-	public void setUser_id(int user_id)
-	{
-		this.user_id = user_id;
 	}
 	public int getMood_p_id()
 	{
@@ -75,6 +67,22 @@ public class UserDTO
 	{
 		this.age_p_id = age_p_id;
 	}
+	public int getUser_id()
+	{
+		return user_id;
+	}
+	public void setUser_id(int user_id)
+	{
+		this.user_id = user_id;
+	}
+	public int getAgegroup()
+	{
+		return agegroup;
+	}
+	public void setAgegroup(int agegroup)
+	{
+		this.agegroup = agegroup;
+	}
 	public String getEmail()
 	{
 		return email;
@@ -114,5 +122,21 @@ public class UserDTO
 	public void setNickname(String nickname)
 	{
 		this.nickname = nickname;
+	}
+	public String getPi_address()
+	{
+		return pi_address;
+	}
+	public void setPi_address(String pi_address)
+	{
+		this.pi_address = pi_address;
+	}
+	public String getIntroduce()
+	{
+		return introduce;
+	}
+	public void setIntroduce(String introduce)
+	{
+		this.introduce = introduce;
 	}
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
-import com.test.login.RidingDTO;
 import com.test.login.UserDTO;
 
 @Controller
@@ -25,24 +24,51 @@ public class RidingDetailController
 	@RequestMapping(value = "/ridingdetail.action", method = RequestMethod.GET)
 	public String ridingDetail(Model model, RidingDTO dto, UserDTO udto)
 	{
-		String result = null;
+		String result = "";
 		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
 		model.addAttribute("ridingDetailList", dao.ridingDetailList(Integer.parseInt(dto.getRiding_id())));
 		
-		//System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
+		System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
 		
 		// 참여한 회원 user_id 명단
 		ArrayList<RidingDTO> ridingMember = new ArrayList<RidingDTO>();
 		ridingMember = dao.ridingMember(Integer.parseInt(dto.getRiding_id()));
+		ArrayList<UserDTO> memberProfile = new ArrayList<UserDTO>();
+		//memberProfile = dao.memberProfile(user_id);
 		
+		System.out.println("ridingMember.size() = " + ridingMember.size());
+		
+		result += "[";
 		for (int i = 0; i < ridingMember.size(); i++)
 		{
-			System.out.println(i + " = " + ridingMember.get(i).getUser_id());
-		}
+			
+			
+			result += "{\"user_id\":\"" + ridingMember.get(i).getUser_id() + "\",";
+			
+			memberProfile = dao.memberProfile(ridingMember.get(i).getUser_id());
+			System.out.println("memberProfile.size() = " + memberProfile.size());
+			
+			result += "\"pi_address\":\"" + memberProfile.get(0).getPi_address() + "\",";
+			result += "\"nickname\":\"" + memberProfile.get(0).getNickname() + "\",";
+			result += "\"introduce\":\"" + memberProfile.get(0).getIntroduce() + "\",";
+			result += "\"sex\":\"" + memberProfile.get(0).getSex() + "\",";
+			result += "\"agegroup\":\"" + memberProfile.get(0).getAgegroup() + "\"}";
+			
+			if (i != ridingMember.size()-1)
+			{
+				result += ",";
+			}
 		
-		result = "/WEB-INF/riding/RidingDetail.jsp";
-		return result;
+			
+		}
+		result += "]";
+		System.out.println(result);
+		model.addAttribute("memberList", result);
+		
+		String url = "WEB-INF/riding/RidingDetail.jsp";
+		
+		return url;
 	}
 }

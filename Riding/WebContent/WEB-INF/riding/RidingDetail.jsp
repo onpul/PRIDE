@@ -21,7 +21,6 @@ RidingDetail.jsp
 <title>RidingDetail.jsp</title>
 <!-- 제이쿼리 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 <script type="text/javascript">
 	$(document).ready(function()
 	{
@@ -65,7 +64,58 @@ RidingDetail.jsp
 			});
 			
 		});
+		
+		var memberList = JSON.parse('${memberList}');
+		//alert(memberList);
+		
+		console.log(memberList.length);
+		
+		var result = "";
+		
+		for (var i = 0; i < memberList.length; i++)
+		{
+			console.log(i);
+			console.log(memberList[i].pi_address);
+			console.log(memberList[i].nickname);
+			console.log(memberList[i].introduce);
+			
+			result += "<div><ul class=\"memberBox\">";
+			
+			if (memberList[i].pi_address != null && memberList[i].pi_address != "")
+				result += "<li><img src=\"" + memberList[i].pi_address + "\"class=\"img-circle\"/></li>";
+			if (memberList[i].nickname != null && memberList[i].nickname != "")
+				result += "<li><ul><li>" + memberList[i].nickname + "</li>";
+			if (memberList[i].introduce != null && memberList[i].introduce != "")
+			{
+				console.log(i + "여기");
+				
+				if (memberList[i].introduce == "null")
+				{
+					result += "<li>" + "같이 달려요~" + "</li></ul>";
+				}
+				else
+					result += "<li>" + memberList[i].introduce + "</li></ul>";
+			}
+			if (memberList[i].sex != null && memberList[i].sex != "")
+			{
+				if (memberList[i].sex == "F")
+				{
+					result += "<li><ul><li>여성</li>";
+				}
+				else
+					result += "<li><ul><li>남성</li>";
+			}
+			if (memberList[i].agegroup != null && memberList[i].agegroup != "")
+				result += "<li>" + memberList[i].agegroup + "대</li>";
+				
+			result += "</ul></div>"
+		}
+		console.log(result);
+		
+		$("#memberContainer").html(result);
 	});
+	
+	
 </script>
 <style type="text/css">
 	.memberBox
@@ -109,6 +159,10 @@ RidingDetail.jsp
 		width: 200px;
 		border: 1px solid gray;
 		border-radius: 30px;
+	}
+	.memberBox
+	{	
+		width: 500px;
 	}
 </style>
 </head>
@@ -169,63 +223,13 @@ RidingDetail.jsp
 		<!-- 비회원은 블러 처리 후 로그인 페이지로 이동 버튼 -->
 		<h3>멤버 정보</h3>
 		<!-- 사용자 프로필 -->
-		<div>
-			<ul class="memberBox">
-				<li><img src="https://bigxdata.io/common/img/default_profile.png" alt="" class="img-circle"/></li>
-				<li>
-					<ul>
-						<li>방장 달리는 고양이 🚲🧢</li>
-						<li>야옹. 난 오늘도 달린다. <br>함께 달리자.</li>
-					</ul>
-				</li>
-				<li>
-					<ul>
-						<li>여성</li>
-						<!-- 친구관계일 때는 친구 버튼 보이지 않게 구현 -->
-						<li><input type="button" class="btn btn-default" value="친구 추가"/></li>
-					</ul>
-				</li>
-			</ul>
+		<div id="memberContainer">
+		
 		</div>
-		<div>
-			<ul class="memberBox">
-				<li><img src="https://bigxdata.io/common/img/default_profile.png" alt="" class="img-circle"/></li>
-				<li>
-					<ul>
-						<li>방장 달리는 고양이 🚲🧢</li>
-						<li>야옹. 난 오늘도 달린다. <br>함께 달리자.</li>
-					</ul>
-				</li>
-				<li>
-					<ul>
-						<li>여성</li>
-						<!-- 친구관계일 때는 친구 버튼 보이지 않게 구현 -->
-						<li><input type="button" class="btn btn-default" value="친구 추가"/></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<ul class="memberBox">
-				<li><img src="https://bigxdata.io/common/img/default_profile.png" alt="" class="img-circle"/></li>
-				<li>
-					<ul>
-						<li>방장 달리는 고양이 🚲🧢</li>
-						<li>야옹. 난 오늘도 달린다. <br>함께 달리자.</li>
-					</ul>
-				</li>
-				<li>
-					<ul>
-						<li>여성</li>
-						<!-- 친구관계일 때는 친구 버튼 보이지 않게 구현 -->
-						<li><input type="button" class="btn btn-default" value="친구 추가"/></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
+		
 		<div>
 			<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
-			<input type="button" class="btn btn-default" value="참여하기" id="attendBtn" onclick="location.href='JoinRoom.jsp'"/>
+			<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
 		</div>
 	</div>
 <!-- 푸터 -->

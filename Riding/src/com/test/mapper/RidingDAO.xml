@@ -113,22 +113,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 나의 라이딩 스타일 조회(검색 분류 적용) -->
-	<select id="myRidingStyle" resultType="com.test.login.RidingDTO">
+	<select id="myRidingStyle" resultType="com.test.riding.RidingDTO">
 		SELECT MOOD_P_ID, EAT_P_ID, DINING_P_ID, SEX_P_ID, AGE_P_ID
 		FROM VIEW_MY_RIDING_STYLE
 		WHERE USER_ID = #{user_id}
 	</select>
 	
 	<!-- 리스트 조회 -->
-	<select id="ridingList" resultType="com.test.login.RidingDTO">
-		SELECT RIDING_ID, RIDING_NAME, MAXIMUM, OPEN, START_DATE, END_DATE
+	<select id="ridingList" resultType="com.test.riding.RidingDTO">
+		SELECT RIDING_ID, RIDING_NAME, MAXIMUM, OPEN, START_DATE, END_DATE, STATUS
 		FROM VIEW_RIDING_LIST
 		${where}
-		${orderby}
+		${orderBy}
 	</select>
 	
 	<!-- 라이딩 상세 보기 -->
-	<select id="ridingDetailList" resultType="com.test.login.RidingDTO">
+	<select id="ridingDetailList" resultType="com.test.riding.RidingDTO">
 		SELECT R.RIDING_ID, R.LEADER_ID, R.STEP_ID, R.SPEED_ID, R.MOOD_P_ID, R.DINING_P_ID
 		    , R.EAT_P_ID, R.AGE_P_ID, R.SEX_P_ID, R.EV_GRADE_ID, R.RIDING_NAME, R.START_DATE
 		    , R.END_DATE, R.CREATED_DATE, R.MAXIMUM, R.MEET_LATI, R.MEET_LONGI, R.MEET_ADDRESS
@@ -147,10 +147,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 참여한 회원 조회 -->
-	<select id="ridingMember" resultType="com.test.login.RidingDTO">
-		SELECT USER_ID
-		FROM RIDING R JOIN PARTICIPATED_MEMBER P
-		ON R.RIDING_ID = P.RIDING_ID
-		WHERE R.RIDING_ID = #{riding_id}
+	<select id="ridingMember" resultType="com.test.riding.RidingDTO">
+		SELECT PA.USER_ID
+		FROM RIDING RI JOIN PARTICIPATED_MEMBER PA
+		ON RI.RIDING_ID = PA.RIDING_ID
+		WHERE RI.RIDING_ID = #{riding_id}
+	</select>
+	
+	<!-- 참여한 회원의 프로필 -->
+	<select id="memberProfile" resultType="com.test.login.UserDTO">
+		SELECT B.PI_ADDRESS, A.NICKNAME, A.INTRODUCE, A.SEX
+		     , TO_CHAR(ROUND((TO_NUMBER(EXTRACT(YEAR FROM SYSDATE)) - TO_NUMBER(EXTRACT(YEAR FROM BIRTHDAY)+1)) / 10)) || '0' AS AGEGROUP
+		FROM PROFILE A JOIN PROFILE_IMG B
+		ON A.PIMG_ID = B.PIMG_ID
+		WHERE USER_ID = #{user_id}
 	</select>
 </mapper>

@@ -59,9 +59,7 @@ Header.jsp
     <!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav">
-        	<li><a href="ridinglist.action">라이딩 모임 <span class="sr-only">(current)</span></a></li>
-        	<li><a href="/Riding/ListReview.jsp">맛집 후기</a></li>
-        	<li><a href="#">지도</a></li>
+        	<li><a href="ridinglist.action">라이딩 모임 보기 <span class="sr-only">(current)</span></a></li>
       	</ul>
 		<ul class="nav navbar-nav navbar-right">
 	   		<li class="dropdown">
