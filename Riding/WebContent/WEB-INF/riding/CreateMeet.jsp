@@ -318,9 +318,8 @@
 			// ex) 현재 24일 12시라면, 시작 날짜는 3일 후(27일 12시)부터 가능한데
 			//     이 때, 27일을 선택했으면 시간은 27일 12시부터 선택 가능.
 			//     만약 28일, 29일 등을 선택했으면 0~24시 자유롭게 선택 가능
-			var start_time = $("#start_day").datepicker("getDate").getDate() > min.getDate()
+			var start_time = $("#start_day").datepicker("getDate") > min
 								? '0' : min_hour_minute;
-			//alert(start_time);	
 			
 			// start_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 			$("#span_start_time").empty();

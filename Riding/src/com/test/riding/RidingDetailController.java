@@ -32,6 +32,10 @@ public class RidingDetailController
 		
 		System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
 		
+		// 경유지 존재한다면 경유지 리스트 뽑아오기
+		if ( dao.checkRidingPoint(dto.getRiding_id()) > 0 )
+			model.addAttribute("ridingPoint", dao.ridingPointDetailList( dto.getRiding_id() ));
+		
 		// 참여한 회원 user_id 명단
 		ArrayList<RidingDTO> ridingMember = new ArrayList<RidingDTO>();
 		ridingMember = dao.ridingMember(Integer.parseInt(dto.getRiding_id()));
