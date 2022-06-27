@@ -2,6 +2,8 @@ package com.test.main;
 
 import java.util.Calendar;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,14 +227,16 @@ public class MainController
 	}
 	
 	// 모임 생성 패널티 조회
-	@RequestMapping(value = "/ridingcheck.action", method = RequestMethod.GET)
+	@RequestMapping(value = "/ridingcheck.action", method = RequestMethod.POST)
 	@ResponseBody
-	public String ridingCheck(String user_id)
+	public String ridingCheck(HttpSession session)
 	{
 				
 		System.out.println("-----ridingCheck() 진입 성공-----");
 		
 		String result = "0";
+		
+		String user_id = String.valueOf(session.getAttribute("user_id"));
 		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
