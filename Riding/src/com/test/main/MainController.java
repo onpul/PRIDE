@@ -288,11 +288,11 @@ public class MainController
 			if (dao.participationCheck(user_id) > 0)
 			{
 				// 요청하는 모임이 현재 참여 중인 모임이라면 
-				if (riding_id = )
-				{
-					
-				}
-				result = "2";
+				//if (riding_id = )
+				//{
+				//	
+				//}
+				//result = "2";
 			}
 			// 모임 성별 제한 체크
 			if (dao.ridingGender(riding_id) != "0" && !dao.userGender(user_id).equals(dao.ridingGender(riding_id)))

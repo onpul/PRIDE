@@ -86,6 +86,6 @@ public interface IRidingDAO
 	public int Participation(@Param("user_id")String user_id, @Param("riding_id")int riding_id);
 	
 	// 요청하는 모임이 현재 참여 중인 모임인지 판별
-	public int checkRiding
+	//public int checkRiding 
 
 }
