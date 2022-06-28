@@ -319,4 +319,39 @@ public class MainController
 		return result;
 	}
 	
+	// 해당 모임 체크
+	@RequestMapping(value = "/participationCheck.action", method = RequestMethod.POST)
+	@ResponseBody
+	public String participationCheck2(HttpSession session, @RequestParam int riding_id)
+	{
+		System.out.println("-----participationCheck2() 진입 성공-----");
+		
+		String result = "0";
+		
+		String user_id = String.valueOf(session.getAttribute("user_id"));
+		
+		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
+		
+		try
+		{
+			// 현재 참여 중인 모임 여부 체크
+			if (dao.participationCheck(user_id) > 0)
+			{
+				// 요청하는 모임이 현재 참여 중인 모임이라면 
+				if (dao.checkRiding(user_id, riding_id) > 0)
+				{
+					result = "0";
+				}
+				else
+					result = "1";
+			}
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}     
+		System.out.println("result = " + result);
+		return result;
+	}
+	
 }
