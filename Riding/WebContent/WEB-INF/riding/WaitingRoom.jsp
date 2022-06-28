@@ -47,7 +47,7 @@ RidingDetail.jsp
 				, url:"participation.action?user_id="+user_id+"&riding_id="+riding_id
 				, success:function(data)
 				{
-					if (data == riding_id) // 참여 인서트 완료, 해당 모임
+					if (data == 0) // 참여 인서트 완료
 					{
 						location.href="waitingroom.action?user_id="+user_id+"&riding_id="+riding_id;
 					}
