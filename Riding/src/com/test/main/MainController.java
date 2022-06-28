@@ -232,7 +232,6 @@ public class MainController
 	@ResponseBody
 	public String ridingCheck(HttpSession session)
 	{
-				
 		System.out.println("-----ridingCheck() 진입 성공-----");
 		
 		// 아무 제약도 걸리지 않았을 때 0
@@ -288,18 +287,22 @@ public class MainController
 			if (dao.participationCheck(user_id) > 0)
 			{
 				// 요청하는 모임이 현재 참여 중인 모임이라면 
-				//if (riding_id = )
-				//{
-				//	
-				//}
-				//result = "2";
+				if (dao.checkRiding(user_id, riding_id) > 0)
+				{
+					result = "4";
+				}
+				else
+					result = "2";
 			}
 			// 모임 성별 제한 체크
-			if (dao.ridingGender(riding_id) != "0" && !dao.userGender(user_id).equals(dao.ridingGender(riding_id)))
+			if (dao.ridingGender(riding_id) != "0") // 성별 속성이 있고
 			{
-				System.out.println("dao.ridingGender(riding_id) = " + dao.ridingGender(riding_id));
-				System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
-				result = "3";
+				if ( !((dao.userGender(user_id)).equals(dao.ridingGender(riding_id))) ) // 유저 성별과 라이딩 성별이 다를 때
+				{
+					System.out.println("dao.ridingGender(riding_id) = " + dao.ridingGender(riding_id));
+					System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
+					result = "3";
+				}
 			}
 			
 			if (result == "0")
@@ -307,7 +310,6 @@ public class MainController
 				// 모임 참여
 				System.out.println("모임 참여 메소드 실행");
 				dao.Participation(user_id, riding_id);
-				//result = String.valueOf(riding_id);
 			}
 			
 		} catch (Exception e)
