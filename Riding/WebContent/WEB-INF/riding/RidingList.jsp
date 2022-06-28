@@ -201,9 +201,11 @@ RidingList.jsp
 			{
 				type:"POST"
 				, url:params
+				, contentType: "charset:UTF-8"
 				, success:function(data)
 				{
 					var jObj = JSON.parse(data);
+					console.log(jObj);
 					
 					$(".ridingList > tbody").empty();
 					
@@ -221,7 +223,7 @@ RidingList.jsp
 						for (var i = 0; i < jObj.length; i++)
 						{
 							if (jObj[i].riding_name != undefined)
-								content += "<tbody><tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+7].riding_id + "'>" + jObj[i].riding_name + "</a></td>";
+								content += "<tbody><tr><td><a href='" + "ridingdetail.action?riding_id=" + jObj[i+7].riding_id + "&status=\"" + jObj[i+6].status + "\"'>" + jObj[i].riding_name + "</a></td>";
 							if (jObj[i].maximum != undefined)
 								content += "<td>" + jObj[i].maximum + "</td>";
 							if (jObj[i].open != undefined)
