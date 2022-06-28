@@ -163,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 참여한 회원 조회 -->
 	<select id="ridingMember" resultType="com.test.riding.RidingDTO">
-		SELECT PA.USER_ID
+		SELECT PA.USER_ID, PA.PARTICI_DATE
 		FROM RIDING RI JOIN PARTICIPATED_MEMBER PA
 		ON RI.RIDING_ID = PA.RIDING_ID
 		WHERE RI.RIDING_ID = #{riding_id}
@@ -207,5 +207,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PARTICIPATED_MEMBER
 		WHERE USER_ID = #{user_id}
 		AND RIDING_ID = #{riding_id}
+	</select>
+	
+	<!-- 해당 모임에서 준비를 했는지 안 했는지 -->
+	<select id="checkReady" resultType="java.lang.Integer">
+		SELECT CASE WHEN PA.PARTICI_DATE IS NULL THEN 0
+		            WHEN PA.PARTICI_DATE IS NOT NULL THEN 1
+		            END CHECK_READY
+		FROM RIDING RI JOIN PARTICIPATED_MEMBER PA
+		ON RI.RIDING_ID = PA.RIDING_ID
+		WHERE PA.RIDING_ID = #{riding_id}
+		  AND PA.USER_ID = #{user_id}
 	</select>
 </mapper>
