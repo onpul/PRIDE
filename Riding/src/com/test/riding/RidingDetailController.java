@@ -47,8 +47,6 @@ public class RidingDetailController
 		result += "[";
 		for (int i = 0; i < ridingMember.size(); i++)
 		{
-			
-			
 			result += "{\"user_id\":\"" + ridingMember.get(i).getUser_id() + "\",";
 			
 			memberProfile = dao.memberProfile(ridingMember.get(i).getUser_id());
@@ -64,8 +62,6 @@ public class RidingDetailController
 			{
 				result += ",";
 			}
-		
-			
 		}
 		result += "]";
 		System.out.println(result);

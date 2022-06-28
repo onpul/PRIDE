@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
-import com.test.login.UserDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
@@ -296,10 +294,12 @@ public class MainController
 				System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
 				result = "3";
 			}
-			
+			// 모임 참여
 			if (result == "0")
 			{
 				// 모임 참여
+				System.out.println("모임 참여 메소드 실행");
+				dao.Participation(user_id, riding_id);
 			}
 			
 		} catch (Exception e)

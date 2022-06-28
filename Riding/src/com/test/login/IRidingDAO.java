@@ -82,5 +82,6 @@ public interface IRidingDAO
 	// 모임의 성별 제한
 	public String ridingGender(@Param("riding_id")int riding_id);
 	
-	
+	// 모임 참여 
+	public int Participation(@Param("user_id")String user_id, @Param("riding_id")int riding_id);
 }
