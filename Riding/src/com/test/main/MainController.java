@@ -296,11 +296,14 @@ public class MainController
 					result = "2";
 			}
 			// 모임 성별 제한 체크
-			if (dao.ridingGender(riding_id) != "0" && !dao.userGender(user_id).equals(dao.ridingGender(riding_id)))
+			if (dao.ridingGender(riding_id) != "0") // 성별 속성이 있고
 			{
-				System.out.println("dao.ridingGender(riding_id) = " + dao.ridingGender(riding_id));
-				System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
-				result = "3";
+				if ( !((dao.userGender(user_id)).equals(dao.ridingGender(riding_id))) ) // 유저 성별과 라이딩 성별이 다를 때
+				{
+					System.out.println("dao.ridingGender(riding_id) = " + dao.ridingGender(riding_id));
+					System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
+					result = "3";
+				}
 			}
 			
 			if (result == "0")
