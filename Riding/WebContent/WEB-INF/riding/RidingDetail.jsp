@@ -34,12 +34,12 @@ RidingDetail.jsp
 		
 		$("#attendBtn").click(function()
 		{
-			alert("확인");
+			//alert("확인");
 			
 			var riding_id = $("#riding_id").val();
 			var user_id = $("#user_id").val();
 			
-			alert(riding_id);
+			//alert(riding_id);
 			
 			$.ajax(
 			{
