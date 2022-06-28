@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
-import com.test.login.UserDTO;
 
 @Controller
 @SessionAttributes("user_id") // 세션 객체에 저장
