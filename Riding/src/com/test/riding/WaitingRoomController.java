@@ -64,7 +64,7 @@ public class WaitingRoomController
 		System.out.println(result);
 		model.addAttribute("memberList", result);
 		
-		String url = "WEB-INF/riding/RidingDetail.jsp";
+		String url = "WEB-INF/riding/WaitingRoom.jsp";
 		
 		return url;
 	}

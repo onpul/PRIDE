@@ -18,7 +18,7 @@ RidingDetail.jsp
 <html>
 <head>
 <meta charset="UTF-8">
-<title>RidingDetail.jsp</title>
+<title>WatingRoom.jsp</title>
 <!-- 제이쿼리 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -114,8 +114,13 @@ RidingDetail.jsp
 			}
 			if (memberList[i].agegroup != null && memberList[i].agegroup != "")
 				result += "<li>" + memberList[i].agegroup + "대</li>";
-				
-			result += "</ul></div>"
+			
+			result += "</ul>"
+			
+			result += "<li><ul><li><button type='button' value='ready'>준비하기</button></li>"
+			result += "<li><button type='button' value='ready'>모임 나가기</button></li></ul></li>"
+			
+			result += "</div>"
 		}
 		console.log(result);
 		
@@ -203,44 +208,38 @@ RidingDetail.jsp
 			</c:if>
 		</div>
 	</div>
-
-	<div>
-		<h3>경로 보기</h3>
-		<div class="map-box">지도 들어갈 div</div>
-	</div>
 	
 	<div>
-		<h3>모임 정보</h3>
-		<table class="table">
-			<tr>
-				<td>모임 시작 일시</td>
-				<td>${info.start_date }</td>
-			</tr>
-			<tr>
-				<td>모임 종료 일시</td>
-				<td>${info.end_date }</td>
-			</tr>
-			<tr>
-				<td>최대 인원수</td>
-				<td>${info.maximum }명</td>
-			</tr>
+		<table class="table table-bordered" style="width: 400px; margin-left: auto; margin-right: auto; text-align: center;">
+			<thead>
+				<tr>
+					<th>준비</th>
+					<th>대기</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>4</td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<th colspan="2">확정</th>
+				</tr>
+				<tr>
+					<td colspan="2">○</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
+	
+	
 	</c:forEach>
 	<div>
 		<!-- 비회원은 블러 처리 후 로그인 페이지로 이동 버튼 -->
 		<h3>멤버 정보</h3>
 		<!-- 사용자 프로필 -->
-		<div id="memberContainer">
-		
-		</div>
-		
-		<div>
-			<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
-			<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
-		</div>
+		<div id="memberContainer"></div>
 	</div>
-	
 	
 	<input type="text" style="display: none;" name="user_id" id="user_id" value="${user_id}"/>
 <!-- 푸터 -->

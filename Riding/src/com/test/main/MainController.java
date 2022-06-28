@@ -232,7 +232,6 @@ public class MainController
 	@ResponseBody
 	public String ridingCheck(HttpSession session)
 	{
-				
 		System.out.println("-----ridingCheck() 진입 성공-----");
 		
 		// 아무 제약도 걸리지 않았을 때 0
