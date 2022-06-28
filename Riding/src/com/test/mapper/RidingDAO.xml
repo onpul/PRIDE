@@ -193,10 +193,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM RIDING
 		WHERE RIDING_ID = #{riding_id}
 	</select>
-	
-	<!-- 모임 참여 -->
-	<insert id="Participation">
-		INSERT INTO PARTICIPATED_MEMBER
-		VALUES(SEQ_PARTICIPATED_MEMBER.NEXTVAL, #{user_id}, #{riding_id}, SYSDATE)
-	</insert>
 </mapper>
