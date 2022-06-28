@@ -52,10 +52,10 @@ RidingDetail.jsp
 		
 		for (var i = 0; i < memberList.length; i++)
 		{
-			console.log(i);
-			console.log(memberList[i].pi_address);
-			console.log(memberList[i].nickname);
-			console.log(memberList[i].introduce);
+			//console.log(i);
+			//console.log(memberList[i].pi_address);
+			//console.log(memberList[i].nickname);
+			//console.log(memberList[i].introduce);
 			
 			result += "<div><ul class=\"memberBox\">";
 			
@@ -65,7 +65,7 @@ RidingDetail.jsp
 				result += "<li><ul><li>" + memberList[i].nickname + "</li>";
 			if (memberList[i].introduce != null && memberList[i].introduce != "")
 			{
-				console.log(i + "여기");
+				//console.log(i + "여기");
 				
 				if (memberList[i].introduce == "null")
 				{
@@ -97,7 +97,7 @@ RidingDetail.jsp
 			
 			result += "</div>"
 		}
-		console.log(result);
+		//console.log(result);
 		
 		$("#memberContainer").html(result);
 	});
@@ -158,9 +158,21 @@ RidingDetail.jsp
 		setCenter(centerLat, centerLng)
 	}
 	
-	function getReady()
+	function getReady(ready)
 	{
-		
+		$.ajax(
+		{
+			type:"GET"
+			, url:"getready.action?ready=" + ready + "&user_id=" + $("#user_id").val()
+			, success:function(args)
+			{
+				alert("변경");				
+			}
+			, error:function(e)
+			{
+				console.log(e.responseText);
+			}
+		});
 	}
 	
 </script>

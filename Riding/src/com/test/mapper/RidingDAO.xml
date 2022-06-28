@@ -219,4 +219,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PA.RIDING_ID = #{riding_id}
 		  AND PA.USER_ID = #{user_id}
 	</select>
+	
+	<!-- 준비 완료하거나 준비 취소하거나 -->
+	<update id="getReady">
+		UPDATE PARTICIPATED_MEMBER
+		SET PARTICI_DATE = ${ready}
+		WHERE USER_ID=#{user_id}
+	</update>
+	
+	
 </mapper>

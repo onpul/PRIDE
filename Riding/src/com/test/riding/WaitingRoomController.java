@@ -2,6 +2,7 @@ package com.test.riding;
 
 import java.util.ArrayList;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
@@ -21,7 +23,7 @@ public class WaitingRoomController
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 라이딩 상세보기 페이지 요청(waitingroom.action) 
+	// 라이딩 대기실 페이지 요청(waitingroom.action) 
 	@RequestMapping(value = "/waitingroom.action", method = RequestMethod.GET)
 	public String ridingDetail(Model model, @RequestParam("user_id")int user_id, @RequestParam("riding_id")int riding_id)
 	{
@@ -69,8 +71,6 @@ public class WaitingRoomController
 			// 참여한 날짜도 뽑아줌
 			result += "\"partici_date\":\"" + ridingMember.get(i).getPartici_date() + "\",";
 			
-			System.out.println("user_id: " +  ridingMember.get(i).getUser_id());
-			System.out.println("partici_date: " + ridingMember.get(i).getPartici_date());
 			result += "\"agegroup\":\"" + memberProfile.get(0).getAgegroup() + "\"}";
 			
 			if (i != ridingMember.size()-1)
@@ -85,5 +85,21 @@ public class WaitingRoomController
 		String url = "WEB-INF/riding/WaitingRoom.jsp";
 		
 		return url;
+	}
+	
+	// 준비 완료 or 준비 취소 AJAX
+	@RequestMapping(value = "getready.action", method= RequestMethod.GET)
+	@ResponseBody
+	public String getReady(String ready, String user_id)
+	{
+		String result = "";
+		
+		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
+		
+		result = String.valueOf(dao.getReady(ready, user_id));
+		
+		System.out.println(result);
+		
+		return result;
 	}
 }
