@@ -53,7 +53,7 @@ RidingDetail.jsp
 				, url:"participation.action?user_id="+user_id+"&riding_id="+riding_id
 				, success:function(data)
 				{
-					if (data == 0) // 참여 인서트 완료, 해당 모임
+					if (data == 0) // 참여 인서트 후 해당 모임의 대기실로 이동
 					{
 						location.href="waitingroom.action?user_id="+user_id+"&riding_id="+riding_id;
 					}
@@ -71,6 +71,7 @@ RidingDetail.jsp
 					}
 					else if (data == 4) 
 					{
+						alert("이미 참여 중인 모임입니다.");
 						location.href="waitingroom.action?user_id="+user_id+"&riding_id="+riding_id;
 					}
 				}
@@ -378,10 +379,17 @@ RidingDetail.jsp
 		<div id="memberContainer">
 		
 		</div>
-		
 		<div>
 			<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
-			<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
+			<c:choose>
+			<c:when test="${status == '\"참여 가능\"'}">
+				<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
+			</c:when>
+			<c:when test="${status == '\"참여 불가\"'}">
+				<input type="button" class="btn btn-default" value="참여불가" id="attendBtn" disabled="disabled"/>
+			</c:when>
+			
+			</c:choose>
 		</div>
 	</div>
 	

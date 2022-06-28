@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
@@ -22,13 +23,16 @@ public class RidingDetailController
 	
 	// 라이딩 상세보기 페이지 요청(ridingdetail.action) 
 	@RequestMapping(value = "/ridingdetail.action", method = RequestMethod.GET)
-	public String ridingDetail(Model model, RidingDTO dto, UserDTO udto)
+	public String ridingDetail(Model model, RidingDTO dto, UserDTO udto, @RequestParam String status)
 	{
 		String result = "";
 		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
+		System.out.println("status = " + status);
+		
 		model.addAttribute("ridingDetailList", dao.ridingDetailList(Integer.parseInt(dto.getRiding_id())));
+		model.addAttribute("status", status);
 		
 		//System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
 		
