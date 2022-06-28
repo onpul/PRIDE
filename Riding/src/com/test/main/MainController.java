@@ -295,7 +295,7 @@ public class MainController
 					result = "2";
 			}
 			// 모임 성별 제한 체크
-			if (dao.ridingGender(riding_id) != "0") // 성별 속성이 있고
+			if (!dao.ridingGender(riding_id).equals("0")) // 성별 속성이 있고
 			{
 				if ( !((dao.userGender(user_id)).equals(dao.ridingGender(riding_id))) ) // 유저 성별과 라이딩 성별이 다를 때
 				{
