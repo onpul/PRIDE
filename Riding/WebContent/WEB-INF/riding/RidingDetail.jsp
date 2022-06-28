@@ -118,13 +118,14 @@ RidingDetail.jsp
 			{
 				if (memberList[i].sex == "F")
 				{
-					result += "<li><ul><li>여성</li>";
+					result += "<li><ul><li class='sex'></li>";
 				}
 				else
-					result += "<li><ul><li>남성</li>";
+					result += "<li><ul><li class='sex'></li>";
 			}
 			if (memberList[i].agegroup != null && memberList[i].agegroup != "")
-				result += "<li>" + memberList[i].agegroup + "대</li>";
+				if(document.getElementById("ap_content") != "" && document.getElementById("ap_content") != null)
+					result += "<li class='age'>" + memberList[i].agegroup + "대</li>";
 				
 			result += "</ul></div>"
 		}
@@ -187,6 +188,17 @@ RidingDetail.jsp
 						+ Number($("input[name='end_longi']").val())) / 2;
 		
 		setCenter(centerLat, centerLng)
+		
+		// 성별 속성 있을 때만 성별 노출, 연령대 속성 있을 때만 연령대 노출
+		/* $(document).ready(function()
+		{
+			if ($("#ap_content").html() != "")
+			{
+				//alert($("#sex").html());
+				var content = $("#ap_content").html()
+				$(".age").html(content);
+			}
+		}); */
 	}
 	
 	
@@ -253,10 +265,10 @@ RidingDetail.jsp
 		<h1>${info.riding_name }</h1>
 		<div class="property">
 			<c:if test="${info.sex_p_id != 0}">
-				<p>${info.sp_content }</p>
+				<p id="sp_content">${info.sp_content }</p>
 			</c:if>
 			<c:if test="${info.age_p_id != 0}">
-				<p>${info.ap_content }</p>
+				<p id="ap_content">${info.ap_content }</p>
 			</c:if>
 			<c:if test="${info.eat_p_id != 0}">
 				<p>${info.ep_content }</p>
