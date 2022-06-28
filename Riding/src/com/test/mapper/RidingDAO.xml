@@ -193,4 +193,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM RIDING
 		WHERE RIDING_ID = #{riding_id}
 	</select>
+	
+	<!-- 모임 참여 -->
+	<insert id="Participation">
+		INSERT INTO PARTICIPATED_MEMBER
+		VALUES(SEQ_PARTICIPATED_MEMBER.NEXTVAL, #{user_id}, #{riding_id}, SYSDATE)
+	</insert>
+	
+	<!-- 대기실로 입장하고자 하는 모임이 현재 참여 중인 모임인지 -->
+	<select id="checkRiding" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM PARTICIPATED_MEMBER
+		WHERE USER_ID = #{user_id}
+		AND RIDING_ID = #{riding_id}
+	</select>
 </mapper>
