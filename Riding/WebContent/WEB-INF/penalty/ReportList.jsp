@@ -195,7 +195,7 @@
 		ajaxPage();
 	}
 	
-	// ajax 이용. 문의 리스트 불러오기
+	// ajax 이용. 신고 리스트 불러오기
 	function ajaxList()
 	{
 		// where 및 order by 조건 추가.

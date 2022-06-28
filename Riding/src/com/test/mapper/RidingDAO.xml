@@ -155,9 +155,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 경유지 리스트 조회 -->
 	<select id="ridingPointDetailList" resultType="com.test.riding.RidingPointDTO">
-		SELECT POINT_ID, RIDING_ID, LATITUDE, LONGITUDE, ADDRESS, DETAIL_ADDRESS
+		SELECT RIDING_ID, ADDRESS, DETAIL_ADDRESS, LATITUDE, LONGITUDE
 		FROM RIDING_POINT
 		WHERE RIDING_ID = #{riding_id}
+		ORDER BY POINT_ID ASC
 	</select>
 	
 	<!-- 참여한 회원 조회 -->

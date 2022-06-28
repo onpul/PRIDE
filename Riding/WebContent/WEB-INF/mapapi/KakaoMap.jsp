@@ -63,7 +63,6 @@
 		
 		infoWindows.push(infowindow);
 		
-		
 		function reset()
 		{
 			for ( var i = 0; i < markers.length; i++ ) {
@@ -168,6 +167,10 @@
 			return markerImage;
 		}
 		
+		function setCenter(lat, lng)
+		{
+			map.setCenter(new kakao.maps.LatLng(Number(lat), Number(lng)));
+		}
 	</script>
 </body>
 </html>
