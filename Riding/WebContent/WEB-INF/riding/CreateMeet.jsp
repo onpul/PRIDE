@@ -70,7 +70,7 @@
 				
 				var str = "<br>";
 				str +=		'<label class="point'+numIdx+'">경유지'+numIdx+' ';
-				str +=			'<input type="text" class="txt" name="address"/> ';
+				str +=			'<input type="text" class="txt" name="address" readonly="readonly"/> ';
 				str +=			'<input type="text" class="txt" name="detail_address"/>';
 				str +=			'<button type="button" class="searchMap" value="point'+numIdx+'">검색</button>';
 				str += 			'<span class="hidden_point'+numIdx+'" style="display: none;"></span>'
@@ -109,11 +109,10 @@
 			searchMap($(this).val());
 		});
 		
+		// 제출 버튼 눌렀을 때
 		$("#submitRiding").on("click", function()
 		{
-			setRidingDate();
-			
-			$("form#insertRiding").submit();
+			checkSubmit();
 		});
 		
 		
@@ -135,6 +134,58 @@
 		});
 	});
  	
+	function checkSubmit()
+	{
+		// 라이딩 모임 이름 검사
+		if ( $("#riding_name").val() === '' )
+		{
+			$("#riding_name").focus();
+			alert("모임 이름을 입력해주세요.");
+			return;
+		}
+		
+		// 라이딩 기간 입력 여부 검사
+		var check = false;
+		$("input[name='riding_date']").each(function(index, item)
+		{
+			if (item.value === '')
+			{
+				check = true;
+				return false;
+			}				
+		});
+		if (check)
+		{
+			alert("라이딩 기간을 입력해주세요.");
+			return;
+		}
+		
+		// 모임 장소 입력 여부 검사
+		if ( $("input[name=meet_lati]").length === 0 )
+		{
+			alert("모임 장소를 검색 버튼을 통해 입력해주세요.");
+			return;
+		}
+		
+		// 모임 출발 장소 입력 여부 검사
+		if ( $("input[name=start_lati]").length === 0 )
+		{
+			alert("모임 출발 장소를 검색 버튼을 통해 입력해주세요.");
+			return;
+		}
+		
+		// 모임 종료 장소 입력 여부 검사
+		if ( $("input[name=end_lati]").length === 0 )
+		{
+			alert("모임 종료 장소를 검색 버튼을 통해 입력해주세요.");
+			return;
+		}
+		
+		setRidingDate();
+		
+		$("form#insertRiding").submit();
+	}
+	
 	function searchMap(val)
 	{
 		
@@ -323,17 +374,17 @@
 			
 			// start_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 			$("#span_start_time").empty();
-			var start_timepicker = '<input type="text" id="start_time" required size="9" placeholder="시:분(24시)"/>';
+			var start_timepicker = '<input type="text" id="start_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
 			$("#span_start_time").append(start_timepicker);
 			
 			// #end_day datepicker 초기화 후 다시 달기
 			$("#span_end_day").empty();
-			var end_datepicker = '<input type="text" id="end_day" required size="8" placeholder="종료 날짜">';
+			var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜">';
 			$("#span_end_day").append(end_datepicker);
 			
 			// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 			$("#span_end_time").empty();
-			var end_timepicker = '<input type="text" id="end_time" required size="9" placeholder="시:분(24시)"/>';
+			var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
 			$("#span_end_time").append(end_timepicker);
 			
 			//값 변화 관찰용
@@ -362,12 +413,12 @@
 				
 				// #end_day datepicker 초기화 후 다시 달기
 				$("#span_end_day").empty();
-				var end_datepicker = '<input type="text" id="end_day" required size="8" placeholder="종료 날짜">';
+				var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜">';
 				$("#span_end_day").append(end_datepicker);
 				
 				// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 				$("#span_end_time").empty();
-				var end_timepicker = '<input type="text" id="end_time" required size="9" placeholder="시:분(24시)"/>';
+				var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
 				$("#span_end_time").append(end_timepicker);
 				
 		    	// 시 분 변수로 빼내기.
@@ -404,7 +455,7 @@
 					
 					// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 					$("#span_end_time").empty();
-					var end_timepicker = '<input type="text" id="end_time" required size="9" placeholder="시:분(24시)"/>';
+					var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
 					$("#span_end_time").append(end_timepicker);
 					
 					// 종료일의 최대 시:분. 마지노선.
@@ -467,11 +518,11 @@
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<span id="span_start_day"><input type="text" id="start_day" required size="8" placeholder="시작 날짜"></span>
-					<span id="span_start_time"><input type="text" id="start_time" required size="9" placeholder="시:분(24시)"/></span>
+					<span id="span_start_day"><input type="text" id="start_day" name="riding_date" required size="8" placeholder="시작 날짜"></span>
+					<span id="span_start_time"><input type="text" id="start_time" name="riding_date" required size="9" placeholder="시:분(24시)"/></span>
 					~ 
-					<span id="span_end_day"><input type="text" id="end_day" required size="8" placeholder="종료 날짜"></span>
-					<span id="span_end_time"><input type="text" id="end_time" required size="9" placeholder="시:분(24시)"/></span>
+					<span id="span_end_day"><input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜"></span>
+					<span id="span_end_time"><input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/></span>
 					
 					<input type="hidden" id="start_date" name="start_date"/>
 					<input type="hidden" id="end_date" name="end_date"/>
@@ -497,7 +548,7 @@
 				<td>
 					<span class="meet">
 						<input type="text" name="meet_address"
-						id="meet_address" placeholder="주소"/>
+						id="meet_address" placeholder="주소" readonly="readonly"/>
 						<input type="text" name="meet_detail"
 						id="meet_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="meet">검색</button>
@@ -510,7 +561,7 @@
 				<td>
 					<span class="start">
 						<input type="text" class="txt" name="start_address"
-						id="start_address" placeholder="주소"/>
+						id="start_address" placeholder="주소" readonly="readonly"/>
 						<input type="text" class="txt" name="start_detail"
 						id="start_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="start">검색</button>
@@ -524,7 +575,7 @@
 				<td>
 					<span class="end">
 						<input type="text" class="txt" name="end_address"
-						id="end_address" placeholder="주소"/>
+						id="end_address" placeholder="주소" readonly="readonly"/>
 						<input type="text" class="txt" name="end_detail"
 						id="end_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="end">검색</button>
@@ -546,7 +597,7 @@
 					<div class="ridingPoint">
 						<span class="point">
 							<label class="point1">경유지1
-								<input type="text" class="txt" name="address"/>
+								<input type="text" class="txt" name="address" readonly="readonly"/>
 								<input type="text" class="txt" name="detail_address"/>
 								<button type="button" class="searchMap" value="point1">검색</button>
 								<span class="hidden_point1" style="display: none;"></span>
@@ -554,6 +605,7 @@
 						</span>
 						<span class="pointBtn">
 							<button type="button">추가</button>
+							button[type=]
 							<button type="button" style="display:none;">삭제</button>
 						</span>		
 					</div>	
