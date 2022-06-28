@@ -296,10 +296,12 @@ public class MainController
 				System.out.println("dao.userGender(user_id) = " + dao.userGender(user_id));
 				result = "3";
 			}
-			
+			// 모임 참여
 			if (result == "0")
 			{
 				// 모임 참여
+				System.out.println("모임 참여 메소드 실행");
+				dao.Participation(user_id, riding_id);
 			}
 			
 		} catch (Exception e)
