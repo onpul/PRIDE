@@ -244,6 +244,7 @@ RidingDetail.jsp
 	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 </div>
 
+<!-- 라이딩 모임 상세 정보 변수-->
 <c:set var="info" value="${ridingDetailList.get(0)}"/>
 
 <div class="container">

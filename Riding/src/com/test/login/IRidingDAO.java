@@ -87,5 +87,8 @@ public interface IRidingDAO
 	
 	// 요청하는 모임이 현재 참여 중인 모임인지 판별
 	public int checkRiding(@Param("user_id")String user_id, @Param("riding_id")int riding_id);
+	
+	// 해당 모임에서 준비를 했는지 안 했는지 판별
+	public int checkReady(@Param("riding_id")int riding_id, @Param("user_id")int user_id);
 
 }
