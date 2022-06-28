@@ -36,6 +36,8 @@ public class RidingDetailController
 		if ( dao.checkRidingPoint(dto.getRiding_id()) > 0 )
 			model.addAttribute("ridingPoint", dao.ridingPointDetailList( dto.getRiding_id() ));
 		
+		//System.out.println(dao.ridingPointDetailList( dto.getRiding_id() ));
+		
 		// 참여한 회원 user_id 명단
 		ArrayList<RidingDTO> ridingMember = new ArrayList<RidingDTO>();
 		ridingMember = dao.ridingMember(Integer.parseInt(dto.getRiding_id()));

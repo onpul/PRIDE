@@ -13,6 +13,8 @@ RidingDetail.jsp
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	System.out.println(request.getAttribute("ridingDetailList"));
 %>
 <!DOCTYPE html>
 <html>
@@ -177,8 +179,9 @@ RidingDetail.jsp
 <div>
 	<c:import url="${request.contextPath}/WEB-INF/layout/Header.jsp"/>
 </div>
+
+<c:set var="info" value="${ridingDetailList.get(0)}"/>
 <div class="container">
-	<c:forEach var="info" items="${ridingDetailList }">
 	<div>
 		<input type="text" style="display: none;" name="riding_id" id="riding_id" value="${info.riding_id }"/>
 		<h1>${info.riding_name }</h1>
@@ -203,11 +206,6 @@ RidingDetail.jsp
 			</c:if>
 		</div>
 	</div>
-
-	<div>
-		<h3>경로 보기</h3>
-		<div class="map-box">지도 들어갈 div</div>
-	</div>
 	
 	<div>
 		<h3>모임 정보</h3>
@@ -226,7 +224,22 @@ RidingDetail.jsp
 			</tr>
 		</table>
 	</div>
-	</c:forEach>
+	
+	<div>
+		<div>
+			<h3>경로 보기</h3>
+			<div class="map-box">지도 들어갈 div</div>
+		</div>
+		<div>
+			경로 정보
+		</div>
+	
+		<div>
+			경유지 정보(존재한다면)
+		</div>
+	</div>
+	
+	
 	<div>
 		<!-- 비회원은 블러 처리 후 로그인 페이지로 이동 버튼 -->
 		<h3>멤버 정보</h3>
