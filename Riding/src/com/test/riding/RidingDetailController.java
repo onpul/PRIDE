@@ -30,7 +30,7 @@ public class RidingDetailController
 		
 		model.addAttribute("ridingDetailList", dao.ridingDetailList(Integer.parseInt(dto.getRiding_id())));
 		
-		System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
+		//System.out.println("dto.getRiding_id() = " + dto.getRiding_id());
 		
 		// 경유지 존재한다면 경유지 리스트 뽑아오기
 		if ( dao.checkRidingPoint(dto.getRiding_id()) > 0 )
@@ -44,7 +44,7 @@ public class RidingDetailController
 		ArrayList<UserDTO> memberProfile = new ArrayList<UserDTO>();
 		//memberProfile = dao.memberProfile(user_id);
 		
-		System.out.println("ridingMember.size() = " + ridingMember.size());
+		//System.out.println("ridingMember.size() = " + ridingMember.size());
 		
 		result += "[";
 		for (int i = 0; i < ridingMember.size(); i++)
@@ -54,7 +54,7 @@ public class RidingDetailController
 			result += "{\"user_id\":\"" + ridingMember.get(i).getUser_id() + "\",";
 			
 			memberProfile = dao.memberProfile(ridingMember.get(i).getUser_id());
-			System.out.println("memberProfile.size() = " + memberProfile.size());
+			//System.out.println("memberProfile.size() = " + memberProfile.size());
 			
 			result += "\"pi_address\":\"" + memberProfile.get(0).getPi_address() + "\",";
 			result += "\"nickname\":\"" + memberProfile.get(0).getNickname() + "\",";
@@ -70,7 +70,7 @@ public class RidingDetailController
 			
 		}
 		result += "]";
-		System.out.println(result);
+		//System.out.println(result);
 		model.addAttribute("memberList", result);
 		
 		String url = "WEB-INF/riding/RidingDetail.jsp";

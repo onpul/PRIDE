@@ -14,7 +14,7 @@ public class RidingDTO
 	
 	private String sex;
 	
-	private String meet_lati, meet_longi, meet_detail, start_lati, start_longi, start_address
+	private String meet_address, meet_lati, meet_longi, meet_detail, start_lati, start_longi, start_address
 			, start_detail, end_lati, end_longi, end_address, end_detail, confirm_date, comments;
 	
 	// (다인라이딩) 참여한 회원정보
@@ -28,6 +28,27 @@ public class RidingDTO
 
 	// 참여가능 참여불가
 	private String status;
+	
+
+	public String getMeet_address()
+	{
+		return meet_address;
+	}
+
+	public void setMeet_address(String meet_address)
+	{
+		this.meet_address = meet_address;
+	}
+
+	public void setEv_grede_id(int ev_grede_id)
+	{
+		this.ev_grede_id = ev_grede_id;
+	}
+
+	public void setPa_member_id(String pa_member_id)
+	{
+		this.pa_member_id = pa_member_id;
+	}
 	
 	public String getStatus()
 	{
