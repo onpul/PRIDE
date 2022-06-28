@@ -304,7 +304,6 @@ public class MainController
 					result = "3";
 				}
 			}
-			
 			if (result == "0")
 			{
 				// 모임 참여
