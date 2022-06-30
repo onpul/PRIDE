@@ -19,6 +19,55 @@ RidingDetail.jsp
 <head>
 <meta charset="UTF-8">
 <title>WatingRoom.jsp</title>
+<style type="text/css">
+	.memberBox
+	{
+		border: 1px solid lightgray;
+		border-radius: 30px;
+		padding: 20px;
+		list-style: none;
+		display: inline-flex;
+		flex-direction: row;
+	    flex-wrap: nowrap;
+	    align-content: stretch;
+	    justify-content: space-between;
+	    align-items: center;
+	}
+	li
+	{
+		display: block;
+	}
+	img
+	{
+		width: 80px;
+	}
+	.container
+	{
+		text-align: center;
+	}
+	.map-box
+	{
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+		width: 500px;
+		height: 400px;
+		background-color: lightgray;
+	}
+	.property > p
+	{
+		margin-left: auto;
+		margin-right: auto;
+		width: 200px;
+		border: 1px solid gray;
+		border-radius: 30px;
+	}
+	.memberBox
+	{	
+		width: 500px;
+	}
+</style>
+
 <!-- 제이쿼리 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -41,65 +90,6 @@ RidingDetail.jsp
 		{
 			getReady($(this).val());
 		});
-		
-		
-		var memberList = JSON.parse('${memberList}');
-		//alert(memberList);
-		
-		//console.log(memberList.length);
-		
-		var result = "";
-		
-		for (var i = 0; i < memberList.length; i++)
-		{
-			//console.log(i);
-			//console.log(memberList[i].pi_address);
-			//console.log(memberList[i].nickname);
-			//console.log(memberList[i].introduce);
-			
-			result += "<div><ul class=\"memberBox\">";
-			
-			if (memberList[i].pi_address != null && memberList[i].pi_address != "")
-				result += "<li><img src=\"" + memberList[i].pi_address + "\"class=\"img-circle\"/></li>";
-			if (memberList[i].nickname != null && memberList[i].nickname != "")
-				result += "<li><ul><li>" + memberList[i].nickname + "</li>";
-			if (memberList[i].introduce != null && memberList[i].introduce != "")
-			{
-				//console.log(i + "여기");
-				
-				if (memberList[i].introduce == "null")
-				{
-					result += "<li>" + "같이 달려요~" + "</li></ul>";
-				}
-				else
-					result += "<li>" + memberList[i].introduce + "</li></ul>";
-			}
-			if (memberList[i].sex != null && memberList[i].sex != "")
-			{
-				if (memberList[i].sex == "F")
-				{
-					result += "<li><ul><li>여성</li>";
-				}
-				else
-					result += "<li><ul><li>남성</li>";
-			}
-			if (memberList[i].agegroup != null && memberList[i].agegroup != "")
-				result += "<li>" + memberList[i].agegroup + "대</li>";
-			
-			result += "</ul>"
-			
-			if (memberList[i].partici_date != 'null' && memberList[i].partici_date != "")
-				result += "<li><ul><li>준비 완료</li></ul></li>";
-			else
-				result += "<li><ul><li>준비 X</li></ul></li>";
-			//result += "<li><ul><li><button type='button' value='ready'>준비하기</button></li>"
-			//result += "<li><button type='button' value='ready'>모임 나가기</button></li></ul></li>"
-			
-			result += "</div>"
-		}
-		//console.log(result);
-		
-		$("#memberContainer").html(result);
 	});
 	
 	// 지도에 마커 넣기
@@ -160,13 +150,28 @@ RidingDetail.jsp
 	
 	function getReady(ready)
 	{
+		var user_id = $("#user_id").val();
+		
 		$.ajax(
 		{
 			type:"GET"
-			, url:"getready.action?ready=" + ready + "&user_id=" + $("#user_id").val()
+			, url:"getready.action?ready=" + ready + "&user_id=" + user_id
 			, success:function(args)
 			{
-				alert("변경");				
+				//alert("변경");
+				if(Number(args) > 0)
+				{
+					var str = String($("li#user_id"+user_id).html());
+					
+					if ( str.includes("X") )
+						$("li#user_id"+user_id).html("준비 O");
+					else
+						$("li#user_id"+user_id).html("준비 X");
+					
+					$(".readyBtn").toggle();
+					
+				}
+				
 			}
 			, error:function(e)
 			{
@@ -176,54 +181,6 @@ RidingDetail.jsp
 	}
 	
 </script>
-<style type="text/css">
-	.memberBox
-	{
-		border: 1px solid lightgray;
-		border-radius: 30px;
-		padding: 20px;
-		list-style: none;
-		display: inline-flex;
-		flex-direction: row;
-	    flex-wrap: nowrap;
-	    align-content: stretch;
-	    justify-content: space-between;
-	    align-items: center;
-	}
-	li
-	{
-		display: block;
-	}
-	img
-	{
-		width: 80px;
-	}
-	.container
-	{
-		text-align: center;
-	}
-	.map-box
-	{
-		margin-left: auto;
-		margin-right: auto;
-		text-align: center;
-		width: 500px;
-		height: 400px;
-		background-color: lightgray;
-	}
-	.property > p
-	{
-		margin-left: auto;
-		margin-right: auto;
-		width: 200px;
-		border: 1px solid gray;
-		border-radius: 30px;
-	}
-	.memberBox
-	{	
-		width: 500px;
-	}
-</style>
 </head>
 <body>
 <div>
@@ -325,6 +282,8 @@ RidingDetail.jsp
 			</table>
 		</div>
 		<br />
+		
+		<!-- 경유지 정보 -->
 		<div>
 			<table class="table table-bordered">
 				<c:choose>
@@ -358,6 +317,7 @@ RidingDetail.jsp
 		</div>
 	</div>
 	
+	<!-- 현재 대기실 상황 -->
 	<div>
 		<table class="table table-bordered" style="width: 400px; margin-left: auto; margin-right: auto; text-align: center;">
 			<thead>
@@ -386,7 +346,64 @@ RidingDetail.jsp
 		<!-- 비회원은 블러 처리 후 로그인 페이지로 이동 버튼 -->
 		<h3>멤버 정보</h3>
 		<!-- 사용자 프로필 -->
-		<div id="memberContainer"></div>
+		<div id="memberContainer">
+			<c:forEach var="member" items="${members }">
+			<ul class="memberBox">
+				<li>
+					<c:if test="${member.pi_address != null && member.pi_address !='' }">
+						<img src="${member.pi_address }" class="img-circle" />
+					</c:if>
+				</li>
+				<li>
+					<ul>
+						<c:if test='${member.nickname != null && member.nickname != "" }'>
+							<li>${member.nickname }</li>
+						</c:if>
+						<c:choose>
+							<c:when test='${member.introduce == null || member.introduce == "" }'>
+								<li>같이 달려요~</li>
+							</c:when>
+							<c:otherwise>
+								<li>${member.introduce }</li>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</li>
+				<li>
+					<ul>
+						<c:if test='${member.sex != null && member.sex !="" }'>
+							<c:choose>
+							<c:when test="${member.sex == 'F' }">
+								<li>여성</li>
+							</c:when>
+							<c:otherwise>
+								<li>남성</li>
+							</c:otherwise>		
+							</c:choose>
+						</c:if>
+						
+						<c:if test='${member.agegroup != null && member.agegroup != "" }'>
+							<li>${member.agegroup } 대</li>
+						</c:if>
+					</ul>
+				</li>
+				<li>
+					<ul>
+						<li id="user_id${member.user_id }">
+							<c:choose>
+							<c:when test='${member.partici_date != null && member.partici_date != "" }'>
+								준비 O
+							</c:when>
+							<c:otherwise>
+								준비 X
+							</c:otherwise>
+							</c:choose>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			</c:forEach>
+		</div>
 		
 		
 		<c:if test="${info.leader_id != user_id }">
@@ -394,16 +411,17 @@ RidingDetail.jsp
 			<c:when test="${checkReady != 1}">
 				<div>
 					<button type="button" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
+					<button type="button" style="display:none;" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
 				</div>	
 			</c:when>
 			<c:otherwise>
 				<div>
+					<button type="button" style="display:none;" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
 					<button type="button" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
 				</div>
 			</c:otherwise>
 			</c:choose>		
 		</c:if>
-		
 		<br />
 		<div>
 			<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
