@@ -130,7 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 라이딩 상세 보기 -->
 	<select id="ridingDetailList" resultType="com.test.riding.RidingDTO">
 		SELECT R.RIDING_ID, R.LEADER_ID, R.STEP_ID, R.SPEED_ID, R.MOOD_P_ID, R.DINING_P_ID
-		    , R.EAT_P_ID, R.AGE_P_ID, R.SEX_P_ID, R.EV_GRADE_ID, R.RIDING_NAME, R.START_DATE
+		    , R.EAT_P_ID, R.AGE_P_ID, R.SEX_P_ID, R.ev_grade_id, R.RIDING_NAME, R.START_DATE
 		    , R.END_DATE, R.CREATED_DATE, R.MAXIMUM, R.MEET_LATI, R.MEET_LONGI, R.MEET_ADDRESS
 		    , R.MEET_DETAIL, R.START_LATI, R.START_LONGI, R.START_ADDRESS, R.START_DETAIL
 		    , R.END_LATI, R.END_LONGI, R.END_ADDRESS, R.END_DETAIL, R.CONFIRM_DATE, R.COMMENTS
@@ -228,5 +228,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID=#{user_id}
 	</update>
 	
+	<!-- 성별과 나이 조건용 -->
+	<resultMap type="Map" id="preferMap">
+		<id column="SEX" property="sex"/>
+		<id column="AGE_P_ID" property="age_p_id"/>
+	</resultMap>
 	
+	<select id="preference" resultMap="preferMap">
+		SELECT SEX
+		     , TO_CHAR(CASE WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 60
+		            THEN 6
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 50
+		            THEN 5
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 40
+		            THEN 4
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 30
+		            THEN 3
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 20
+		            THEN 2
+		            WHEN ROUND((SYSDATE - BIRTHDAY)/365) >= 10
+		            THEN 1
+		            ELSE 0
+		       END) "AGE_P_ID"
+		FROM PROFILE
+		WHERE USER_ID = #{user_id}
+	</select>
 </mapper>

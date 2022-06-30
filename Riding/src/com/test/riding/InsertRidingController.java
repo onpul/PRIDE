@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.test.login.IRidingDAO;
+
 
 // 컨트롤러 등록
 @Controller
@@ -78,13 +80,13 @@ public class InsertRidingController
 		
 		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
 		
-		if (dto.getMeet_detail().equals(""))
+		if (dto.getMeet_detail().trim().equals(""))
 			dto.setMeet_detail("없음");
-		if (dto.getStart_detail().equals(""))
+		if (dto.getStart_detail().trim().equals(""))
 			dto.setStart_detail("없음");
-		if (dto.getEnd_detail().equals(""))
+		if (dto.getEnd_detail().trim().equals(""))
 			dto.setEnd_detail("없음");
-		if (dto.getComments().equals(""))
+		if (dto.getComments().trim().equals(""))
 			dto.setComments("없음");
 		
 		dto.setUser_id(user_id);
@@ -110,7 +112,7 @@ public class InsertRidingController
 						
 						String detail_address = "없음";
 						
-						if (!dto.getDetail_address().get(i).equals(""))
+						if (!dto.getDetail_address().get(i).trim().equals(""))
 							detail_address = dto.getDetail_address().get(i);
 						
 						dao.insertRidingPoint(riding_id, latitude, longitude, address, detail_address);
@@ -129,8 +131,42 @@ public class InsertRidingController
 		return result;
 	}
 	
+	// 라이딩 모임 수정 폼
+	@RequestMapping(value = "/updateridingform.action", method = RequestMethod.GET )
+	public String updateRidingForm(HttpServletRequest request, Model model, String riding_id)
+	{
+		String result = "";
+		
+		HttpSession session = request.getSession();
+		
+		String user_id= String.valueOf(session.getAttribute("user_id"));
+		
+		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
+		
+		RidingDTO dto = dao.ridingDetailList(Integer.parseInt(riding_id)).get(0);
+		
+		model.addAttribute("riding", dto);
+		
+		// 경유지 존재하면 가져오기
+		if ( dao.checkRidingPoint(riding_id) > 0 )
+			model.addAttribute("points", dao.ridingPointDetailList(riding_id));
+		
+		// 방장의 성별 조건, 나이 조건 가져오기
+		Map<String, String> preference = dao.preference(user_id);
+		
+		// 방장의 성별 조건, 나이 조건 보내주기
+		String sex = preference.get("sex");
+		String age_p_id = preference.get("age_p_id");
+		
+		model.addAttribute("sex", sex);
+		model.addAttribute("age_p_id", age_p_id);
+		
+		result = "/WEB-INF/riding/UpdateMeet.jsp";
+		
+		return result;
+	}
 	
-	// 지도 열기
+	// 지도 검색 열기
 	@RequestMapping(value = "/searchmap.action", method = RequestMethod.GET )
 	public String searchMap(Model model, String openType)
 	{
@@ -143,7 +179,7 @@ public class InsertRidingController
 		return result;
 	}
 	
-	// 지도 열기
+	// 생성 폼에서 지점 지도 열기
 	@RequestMapping(value = "/displaymap.action", method = RequestMethod.GET )
 	public String displayMap()
 	{
@@ -153,4 +189,6 @@ public class InsertRidingController
 		
 		return result;
 	}
+	
+	
 }
