@@ -1,16 +1,27 @@
+<%@page import="com.test.riding.RidingDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 	
+	RidingDTO dto = (RidingDTO)request.getAttribute("riding");
 	
+	String start_day = dto.getStart_date().split(" ")[0];
+	String start_time = dto.getStart_date().split(" ")[1];
+	start_time = start_time.substring(0, start_time.length()-3 );
+	
+	String end_day = dto.getEnd_date().split(" ")[0];
+	String end_time = dto.getEnd_date().split(" ")[1];
+	end_time = end_time.substring(0, end_time.length()-3 );
+	
+	int ev_grade_id = dto.getEv_grede_id();
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>모임 생성</title>
+<title>모임 수정</title>
 
 <!-- 제이쿼리 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
@@ -47,7 +58,7 @@
 		addDate();
 				
 		// 라이딩 스타일 최초 '제한없음' 선택으로 초기화
-		$(".riding-style input[value='0']").prop('checked', 'checked');
+		//$(".riding-style input[value='0']").prop('checked', 'checked');
 		
 		$("#riding_name").on("keydown", function()
 		{
@@ -501,10 +512,11 @@
 </head>
 <body>
 <div>
-	<h3>다인 라이딩 모임 생성 폼입니다</h3>
+	<h3>다인 라이딩 모임 수정 폼입니다</h3>
     <hr>
 </div>
 
+<!-- 라이딩 모임 상세 정보 변수-->
 <div class="container">
 	<form id="insertRiding" action ="insertriding.action" method="post">
 		<table class="table table-bordered">
@@ -512,20 +524,32 @@
 				<th>모임 이름</th>
 				<td>
 					<input type="text" id="riding_name" name="riding_name" 
-					maxlength="20" placeholder="20자 이내로 입력하세요"/>
+					maxlength="20" placeholder="20자 이내로 입력하세요" value="${riding.riding_name }"/>
 				</td>
 			</tr>
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<span id="span_start_day"><input type="text" id="start_day" name="riding_date" required size="8" placeholder="시작 날짜"></span>
-					<span id="span_start_time"><input type="text" id="start_time" name="riding_date" required size="9" placeholder="시:분(24시)"/></span>
+					<span id="span_start_day">
+						<input type="text" id="start_day" name="riding_date" required size="8"
+						placeholder="시작 날짜" value='<%=start_day%>'>
+					</span>
+					<span id="span_start_time">
+						<input type="text" id="start_time" name="riding_date" required size="9" 
+						placeholder="시:분(24시)" value='<%=start_time%>'/>
+					</span>
 					~ 
-					<span id="span_end_day"><input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜"></span>
-					<span id="span_end_time"><input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/></span>
+					<span id="span_end_day">
+						<input type="text" id="end_day" name="riding_date" required size="8" 
+						placeholder="종료 날짜" value='<%=end_day%>'>
+					</span>
+					<span id="span_end_time">
+						<input type="text" id="end_time" name="riding_date" required size="9" 
+						placeholder="시:분(24시)" value='<%=end_time%>'/>
+					</span>
 					
-					<input type="hidden" id="start_date" name="start_date"/>
-					<input type="hidden" id="end_date" name="end_date"/>
+					<input type="hidden" id="start_date" name="start_date" value="${riding.start_date }"/>
+					<input type="hidden" id="end_date" name="end_date" value="${riding.end_date }"/>
 				</td>
 			</tr>
 			<tr>
@@ -547,12 +571,15 @@
 				<th>모임 장소</th>
 				<td>
 					<span class="meet">
-						<input type="text" name="meet_address"
-						id="meet_address" placeholder="주소" readonly="readonly"/>
-						<input type="text" name="meet_detail"
-						id="meet_detail" placeholder="상세주소를 입력하세요"/>
+						<input type="text" name="meet_address" id="meet_address" 
+						placeholder="주소" readonly="readonly" value="${riding.meet_address }"/>
+						<input type="text" name="meet_detail" id="meet_detail"
+						placeholder="상세주소를 입력하세요" value="${riding.meet_detail }"/>
 						<button type="button" class="searchMap" value="meet">검색</button>
-						<span class="hidden_meet" style="display: none;"></span>
+						<span class="hidden_meet" style="display: none;">
+							<input type="hidden" name="meet_lati" value="${riding.meet_lati }"/> 
+							<input type="hidden" name="meet_longi" value="${riding.meet_longi }"/>
+						</span>
 					</span>
 				</td>
 			</tr>
@@ -560,12 +587,15 @@
 				<th>모임 출발 장소</th>
 				<td>
 					<span class="start">
-						<input type="text" class="txt" name="start_address"
-						id="start_address" placeholder="주소" readonly="readonly"/>
-						<input type="text" class="txt" name="start_detail"
-						id="start_detail" placeholder="상세주소를 입력하세요"/>
+						<input type="text" name="start_address"	id="start_address" 
+						placeholder="주소" readonly="readonly" value="${riding.start_address }"/>
+						<input type="text" name="start_detail" id="start_detail" 
+						placeholder="상세주소를 입력하세요" value="${riding.start_detail }"/>
 						<button type="button" class="searchMap" value="start">검색</button>
-						<span class="hidden_start" style="display: none;"></span>
+						<span class="hidden_start" style="display: none;">
+							<input type="hidden" name="start_lati" value="${riding.start_lati }"/> 
+							<input type="hidden" name="start_longi" value="${riding.start_longi }"/> 
+						</span>
 					</span>
 					
 				</td>
@@ -574,12 +604,15 @@
 				<th>모임 종료 장소</th>
 				<td>
 					<span class="end">
-						<input type="text" class="txt" name="end_address"
-						id="end_address" placeholder="주소" readonly="readonly"/>
-						<input type="text" class="txt" name="end_detail"
-						id="end_detail" placeholder="상세주소를 입력하세요"/>
+						<input type="text" name="end_address" id="end_address" 
+						placeholder="주소" readonly="readonly" value="${riding.end_address }"/>
+						<input type="text" name="end_detail" id="end_detail" 
+						placeholder="상세주소를 입력하세요" value="${riding.end_detail }"/>
 						<button type="button" class="searchMap" value="end">검색</button>
-						<span class="hidden_end" style="display: none;"></span>
+						<span class="hidden_end" style="display: none;">
+							<input type="hidden" name="end_lati" value="${riding.end_lati }"/> 
+							<input type="hidden" name="end_longi" value="${riding.end_longi }"/>
+						</span>
 					</span>
 				</td>
 			</tr>
@@ -613,7 +646,7 @@
 			<tr>
 				<th>공지사항</th>
 				<td>
-					<textarea name="comments" cols="50" rows="5"></textarea>
+					<textarea name="comments" cols="50" rows="5">${riding.comments }</textarea>
 				</td>
 			</tr>
 		</table>
@@ -638,16 +671,19 @@
 				<th>성별</th>
 				<td>
 					<label>
-						<input type="radio" name="sex_p_id" value="0"/>제한없음
+						<input type="radio" name="sex_p_id" value="0"
+						<c:if test="${riding.sex_p_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
-					
 					<label>
 					<c:choose>
 						<c:when test="${sex eq'M' }">
-							<input type="radio" name="sex_p_id" value="1"/>남
+							<input type="radio" name="sex_p_id" value="1"
+							<c:if test="${riding.sex_p_id eq 1 }"> checked="checked"</c:if> />남
 						</c:when>
 						<c:otherwise>
-							<input type="radio" name="sex_p_id" value="2" />여
+							<input type="radio" name="sex_p_id" value="2"
+							<c:if test="${riding.sex_p_id eq 2 }"> checked="checked"</c:if> />여
 						</c:otherwise>
 					</c:choose>
 					</label>
@@ -657,11 +693,15 @@
 				<th>연령 제한</th>
 				<td>
 					<label>
-						<input type="radio" name="age_p_id"  value="0"/>제한없음
+						<input type="radio" name="age_p_id"  value="0"
+						<c:if test="${riding.age_p_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
 					<label>
 					<c:if test="${age_p_id != '0' }">
-						<input type="radio" name="age_p_id" value="${age_p_id }">${age_p_id }0대 
+						<input type="radio" name="age_p_id" value="${age_p_id }"
+						<c:if test="${riding.age_p_id == age_p_id }"> checked="checked"</c:if>
+						/>${age_p_id }0대 
 						<c:if test="${age_p_id == '6' }">이상
 						</c:if>
 					</c:if>
@@ -672,16 +712,23 @@
 				<th>속도</th>
 				<td>
 					<label>
-						<input type="radio" name="speed_id" value="0"/>제한없음
+						<input type="radio" name="speed_id" value="0"
+						<c:if test="${riding.speed_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="speed_id" value="1"/>20미만
+						<input type="radio" name="speed_id" value="1"
+						<c:if test="${riding.speed_id eq 1 }"> checked="checked"</c:if>/>20미만
 					</label>
 					<label>
-						<input type="radio" name="speed_id" value="2"/>20이상 24미만
+						<input type="radio" name="speed_id" value="2"
+						<c:if test="${riding.speed_id eq 2 }"> checked="checked"</c:if>
+						/>20이상 24미만
 					</label>
 					<label>
-						<input type="radio" name="speed_id" value="3"/>24이상
+						<input type="radio" name="speed_id" value="3"
+						<c:if test="${riding.speed_id eq 3 }"> checked="checked"</c:if>
+						/>24이상
 					</label>
 				</td>
 			</tr>
@@ -689,19 +736,29 @@
 				<th>숙련도</th>
 				<td>
 					<label>
-						<input type="radio" name="step_id" value="0" />제한없음
+						<input type="radio" name="step_id" value="0" 
+						<c:if test="${riding.step_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="step_id" value="1" />1년 미만
+						<input type="radio" name="step_id" value="1" 
+						<c:if test="${riding.step_id eq 1 }"> checked="checked"</c:if>
+						/>1년 미만
 					</label>
 					<label>
-						<input type="radio" name="step_id" value="2" />1~3년
+						<input type="radio" name="step_id" value="2" 
+						<c:if test="${riding.step_id eq 2 }"> checked="checked"</c:if>
+						/>1~3년
 					</label>
 					<label>
-						<input type="radio" name="step_id" value="3" />3~5년
+						<input type="radio" name="step_id" value="3"
+						<c:if test="${riding.step_id eq 3 }"> checked="checked"</c:if>
+						/>3~5년
 					</label>
 					<label>
-						<input type="radio" name="step_id" value="4" />6년 이상
+						<input type="radio" name="step_id" value="4"
+						<c:if test="${riding.step_id eq 4 }"> checked="checked"</c:if>
+						/>6년 이상
 					</label>
 				</td>
 			</tr>
@@ -709,13 +766,19 @@
 				<th>식사 여부</th>
 				<td>
 					<label>
-						<input type="radio" name="eat_p_id" value="0" />제한없음
+						<input type="radio" name="eat_p_id" value="0" 
+						<c:if test="${riding.eat_p_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="eat_p_id" value="1" />밥 안 먹고 달려요
+						<input type="radio" name="eat_p_id" value="1" 
+						<c:if test="${riding.eat_p_id eq 1 }"> checked="checked"</c:if>
+						/>밥 안 먹고 달려요
 					</label>
 					<label>
-						<input type="radio" name="eat_p_id" value="2" />밥 먹고 달려요
+						<input type="radio" name="eat_p_id" value="2" 
+						<c:if test="${riding.eat_p_id eq 2 }"> checked="checked"</c:if>
+						/>밥 먹고 달려요
 					</label>
 				</td>
 			</tr>
@@ -723,13 +786,19 @@
 				<th>회식 여부</th>
 				<td>
 					<label>
-						<input type="radio" name="dining_p_id" value="0" />제한없음
+						<input type="radio" name="dining_p_id" value="0" 
+						<c:if test="${riding.dining_p_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="dining_p_id" value="1" />끝나고 회식 안 해요
+						<input type="radio" name="dining_p_id" value="1" 
+						<c:if test="${riding.dining_p_id eq 1 }"> checked="checked"</c:if>
+						/>끝나고 회식 안 해요
 					</label>
 					<label>
-						<input type="radio" name="dining_p_id" value="2" />끝나고 회식 해요
+						<input type="radio" name="dining_p_id" value="2" 
+						<c:if test="${riding.dining_p_id eq 2 }"> checked="checked"</c:if>
+						/>끝나고 회식 해요
 					</label>
 				</td>
 			</tr>
@@ -737,39 +806,60 @@
 				<th>분위기</th>
 				<td>
 					<label>
-						<input type="radio" name="mood_p_id" value="0"/>제한없음
+						<input type="radio" name="mood_p_id" value="0"
+						<c:if test="${riding.mood_p_id eq 0 }"> checked="checked"</c:if>
+						/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="mood_p_id" value="1"/>침묵이 좋아요
+						<input type="radio" name="mood_p_id" value="1"
+						<c:if test="${riding.mood_p_id eq 1 }"> checked="checked"</c:if>
+						/>침묵이 좋아요
 					</label>
 					<label>
-						<input type="radio" name="mood_p_id" value="2"/>친목이 좋아요
+						<input type="radio" name="mood_p_id" value="2"
+						<c:if test="${riding.mood_p_id eq 2 }"> checked="checked"</c:if>
+						/>친목이 좋아요
 					</label>
 				</td>
 			</tr>
+			
 			<tr>
+				
 				<th>참여자 제한 등급</th>
 				<td>
 					<label>
-						<input type="radio" name="ev_grade_id" value="0" />제한없음
+						<input type="radio" name="ev_grade_id" value="0" 
+						<% if(ev_grade_id == 0) { %> checked="checked" <%} %>
+						/>제한없음
 					</label>
 					<label>
-						<input type="radio" name="ev_grade_id" value="1" />다이아전거
+						<input type="radio" name="ev_grade_id" value="1" 
+						<% if(ev_grade_id == 1) { %> checked="checked" <%} %>
+						/>다이아전거
 					</label>
 					<label>
-						<input type="radio" name="ev_grade_id" value="2" />금전거
+						<input type="radio" name="ev_grade_id" value="2" 
+						<% if(ev_grade_id == 2) { %> checked="checked" <%} %>
+						/>금전거
 					</label>
 					<label>
-						<input type="radio" name="ev_grade_id" value="3" />은전거
+						<input type="radio" name="ev_grade_id" value="3" 
+						<% if(ev_grade_id == 3) { %> checked="checked" <%} %>
+						/>은전거
 					</label>
 					<label>
-						<input type="radio" name="ev_grade_id" value="4" />동전거
+						<input type="radio" name="ev_grade_id" value="4" 
+						<% if(ev_grade_id == 4) { %> checked="checked" <%} %>
+						/>동전거
 					</label>
 					<label>
-						<input type="radio" name="ev_grade_id" value="5" />돌전거
+						<input type="radio" name="ev_grade_id" value="5" 
+						<% if(ev_grade_id == 5) { %> checked="checked" <%} %>
+						/>돌전거
 					</label>
 				</td>
 			</tr>
+			
         </table>
         
 		<div>

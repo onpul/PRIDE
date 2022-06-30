@@ -90,6 +90,12 @@ RidingDetail.jsp
 		{
 			getReady($(this).val());
 		});
+		
+		// 수정 버튼 눌렀을 때
+		$(".updateBtn").on("click", function()
+		{
+			updateRiding($(this).val());
+		});
 	});
 	
 	// 지도에 마커 넣기
@@ -178,6 +184,11 @@ RidingDetail.jsp
 				console.log(e.responseText);
 			}
 		});
+	}
+	
+	function updateRiding(riding_id)
+	{
+		location.href = "updateridingform.action?riding_id="+riding_id;
 	}
 	
 </script>
@@ -405,23 +416,30 @@ RidingDetail.jsp
 			</c:forEach>
 		</div>
 		
-		
-		<c:if test="${info.leader_id != user_id }">
-			<c:choose>
-			<c:when test="${checkReady != 1}">
-				<div>
-					<button type="button" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
-					<button type="button" style="display:none;" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
-				</div>	
+		<c:choose>
+			<c:when test="${info.leader_id != user_id }">
+				<c:choose>
+				<c:when test="${checkReady != 1}">
+					<div>
+						<button type="button" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
+						<button type="button" style="display:none;" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
+					</div>	
+				</c:when>
+				<c:otherwise>
+					<div>
+						<button type="button" style="display:none;" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
+						<button type="button" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
+					</div>
+				</c:otherwise>
+				</c:choose>	
 			</c:when>
 			<c:otherwise>
 				<div>
-					<button type="button" style="display:none;" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
-					<button type="button" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
+					<button type="button" class="btn btn-warning updateBtn" value="${info.riding_id }">수정하기</button>
 				</div>
+			
 			</c:otherwise>
-			</c:choose>		
-		</c:if>
+		</c:choose>
 		<br />
 		<div>
 			<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
