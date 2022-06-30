@@ -9,7 +9,16 @@ public class UserDTO
 	private int profile_id, mood_p_id, eat_p_id, pimg_id, dining_p_id,
 	            sex_p_id, age_p_id, user_id, agegroup;
 	private String email, birthday, sex, password, nickname, pi_address, introduce;
+	private String partici_date;
 	
+	public String getPartici_date()
+	{
+		return partici_date;
+	}
+	public void setPartici_date(String partici_date)
+	{
+		this.partici_date = partici_date;
+	}
 	// getter / setter 구성
 	public int getProfile_id()
 	{

@@ -173,6 +173,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="memberProfile" resultType="com.test.login.UserDTO">
 		SELECT B.PI_ADDRESS, A.NICKNAME, A.INTRODUCE, A.SEX
 		     , TO_CHAR(ROUND((TO_NUMBER(EXTRACT(YEAR FROM SYSDATE)) - TO_NUMBER(EXTRACT(YEAR FROM BIRTHDAY)+1)) / 10)) || '0' AS AGEGROUP
+		     , A.USER_ID
 		FROM PROFILE A JOIN PROFILE_IMG B
 		ON A.PIMG_ID = B.PIMG_ID
 		WHERE USER_ID = #{user_id}

@@ -27,8 +27,6 @@ public class WaitingRoomController
 	@RequestMapping(value = "/waitingroom.action", method = RequestMethod.GET)
 	public String ridingDetail(Model model, @RequestParam("user_id")int user_id, @RequestParam("riding_id")int riding_id)
 	{
-		String result = "";
-		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
 		model.addAttribute("ridingDetailList", dao.ridingDetailList(riding_id));
@@ -49,40 +47,24 @@ public class WaitingRoomController
 		ArrayList<RidingDTO> ridingMember = new ArrayList<RidingDTO>();
 		ridingMember = dao.ridingMember(riding_id);
 		
-		ArrayList<UserDTO> memberProfile = new ArrayList<UserDTO>();
-		//memberProfile = dao.memberProfile(user_id);
+		// 라이딩 멤버들의 프로필 리스트
+		ArrayList<UserDTO> members = new ArrayList<UserDTO>();
 		
-		//System.out.println("ridingMember.size() = " + ridingMember.size());
-		
-		result += "[";
+		// 참여자 명단 토대로 프로필 뽑아내기
 		for (int i = 0; i < ridingMember.size(); i++)
 		{
-			result += "{\"user_id\":\"" + ridingMember.get(i).getUser_id() + "\",";
-			
-			//해당 user의 profile 정보 가져오기.
-			memberProfile = dao.memberProfile(ridingMember.get(i).getUser_id());
-			//System.out.println("memberProfile.size() = " + memberProfile.size());
-			
 			// 해당 user 프로필 정보
-			result += "\"pi_address\":\"" + memberProfile.get(0).getPi_address() + "\",";
-			result += "\"nickname\":\"" + memberProfile.get(0).getNickname() + "\",";
-			result += "\"introduce\":\"" + memberProfile.get(0).getIntroduce() + "\",";
-			result += "\"sex\":\"" + memberProfile.get(0).getSex() + "\",";
+			UserDTO dto = dao.memberProfile(ridingMember.get(i).getUser_id()).get(0);
+			
 			// 참여한 날짜도 뽑아줌
-			result += "\"partici_date\":\"" + ridingMember.get(i).getPartici_date() + "\",";
+			dto.setPartici_date(ridingMember.get(i).getPartici_date());
 			
-			result += "\"agegroup\":\"" + memberProfile.get(0).getAgegroup() + "\"}";
-			
-			if (i != ridingMember.size()-1)
-			{
-				result += ",";
-			}
+			members.add(dto);
 		}
-		result += "]";
 		//System.out.println(result);
-		model.addAttribute("memberList", result);
+		model.addAttribute("members", members);
 		
-		String url = "WEB-INF/riding/WaitingRoom.jsp";
+		String url = "/WEB-INF/riding/WaitingRoom.jsp";
 		
 		return url;
 	}
@@ -98,7 +80,7 @@ public class WaitingRoomController
 		
 		result = String.valueOf(dao.getReady(ready, user_id));
 		
-		System.out.println(result);
+		//System.out.println(result);
 		
 		return result;
 	}
