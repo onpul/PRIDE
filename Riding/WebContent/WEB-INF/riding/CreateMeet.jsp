@@ -43,8 +43,8 @@
 	{
 		//alert("확인");
 				
-		// 기간 선택 기능
-		addDate();
+		// 기간 선택 기능 추가
+		addStartDay();
 				
 		// 라이딩 스타일 최초 '제한없음' 선택으로 초기화
 		$(".riding-style input[value='0']").prop('checked', 'checked');
@@ -59,47 +59,18 @@
 		// 경유지 추가 버튼 눌렀을 때
 		$(".pointBtn button:eq(0)").on("click", function()
 		{
-			// 경유지 2 개 이상부터는 삭제 버튼 생성
-			if($("span.point").children("label").length >= 1)
-				$(".pointBtn button:eq(1)").css("display", "");
-			
 			// 경유지 입력 추가하기
-			if($("span.point").children("label").length < 5 )
-			{
-				var numIdx = $("span.point").children("label").length + 1;
-				
-				var str = "<br>";
-				str +=		'<label class="point'+numIdx+'">경유지'+numIdx+' ';
-				str +=			'<input type="text" class="txt" name="address" readonly="readonly"/> ';
-				str +=			'<input type="text" class="txt" name="detail_address"/>';
-				str +=			'<button type="button" class="searchMap" value="point'+numIdx+'">검색</button>';
-				str += 			'<span class="hidden_point'+numIdx+'" style="display: none;"></span>'
-				str +=		'</label>';
-				 
-				$("span.point").append(str);
-				
-				// 이벤트 다시 활성화
-				$(".searchMap").on("click", function()
-				{
-					searchMap($(this).val());
-				});	
-			}	
+			addInsPointBtn();	
+			
 		});
 		
 		// 경유지 삭제버튼 눌렀을 때
 		$(".pointBtn button:eq(1)").on("click", function()
 		{
 			// 삭제 눌렀을 때
-			if($("span.point").children("label").length > 1 )
-			{
-				$("span.point").children("label:last-child").remove();
-				$("span.point").children("br:last-child").remove();
-			}
+			removeInsPointBtn();
 			
-			// 경유지 1개 남았을 때는 숨기기
-			if($("span.point").children().length < 2)
-				$(".pointBtn button:eq(1)").css("display", "none");
-			
+			// 지도 마커 다시 설정
 			setMarkers();
 		})
 			
@@ -115,23 +86,55 @@
 			checkSubmit();
 		});
 		
-		
+		// 사용자의 라이딩 스타일을 받아와 checked 적용
 		$("#myRidingBtn").click(function()
 		{
 			//alert("확인");
 			
-			// 사용자의 라이딩 스타일 받아오기 전 모든 체크를 해제
-			$("input:radio[name='sex_p_id']").prop("checked", false);
-			$("input:radio[name='age_p_id']").prop("checked", false);
-			$("input:radio[name='eat_p_id']").prop("checked", false);
-			$("input:radio[name='dining_p_id']").prop("checked", false);
-			$("input:radio[name='mood_p_id']").prop("checked", false);
-			
-			// 사용자의 라이딩 스타일을 받아와 checked 적용
 			myRidingCheck();
 		});
 	});
  	
+ 	// 경유지 입력 추가하기
+	function addInsPointBtn()
+	{
+		if($("span.point").children("label").length < 5 )
+		{
+			var numIdx = $("span.point").children("label").length + 1;
+			
+			var str ="";
+			if ($("span.point").children("label").length > 0)
+				str = "<br>";
+			
+			str +=		'<label class="point'+numIdx+'">경유지'+numIdx+' ';
+			str +=			'<input type="text" class="txt" name="address" readonly="readonly"/> ';
+			str +=			'<input type="text" class="txt" name="detail_address"/>';
+			str +=			'<button type="button" class="searchMap" value="point'+numIdx+'">검색</button>';
+			str += 			'<span class="hidden_point'+numIdx+'" style="display: none;"></span>'
+			str +=		'</label>';
+			 
+			$("span.point").append(str);
+			
+			// 이벤트 다시 활성화
+			$(".searchMap").on("click", function()
+			{
+				searchMap($(this).val());
+			});	
+		}
+	}
+	
+	// 경유지 삭제 눌렀을 때
+ 	function removeInsPointBtn()
+ 	{
+		// 경유지 1개 이상일 때는 그냥 삭제.
+ 		if($("span.point").children("label").length > 0 )
+		{
+			$("span.point").children("label:last-child").remove();
+			$("span.point").children("br:last-child").remove();
+		}
+ 	}
+ 	
+	// 제출 전 유효성 검사
 	function checkSubmit()
 	{
 		// 라이딩 모임 이름 검사
@@ -179,19 +182,31 @@
 			return;
 		}
 		
+		// 경유지 비어있는 값은 삭제 처리
+		var maxIndex = $("span.point").children("label").length;
+		for (var i=1; i<=maxIndex; i++)
+		{
+			var parent = "label.point" + i;
+			var element = parent + " input[name=address]";
+			if ($(element).val() == "")
+				$(parent).remove();
+		}
+		
 		setRidingDate();
 		
 		$("form#insertRiding").submit();
 	}
 	
+	// 지도 검색 창 띄우기
 	function searchMap(val)
 	{
-		
 		window.open("searchmap.action?openType="+val , "위치 찾기", "width=800");
 	}
 	
+	// 지도 검색에서 얻은 값 가져오기
 	function getAddr(openType, addr, lat, lng)
 	{
+		// 경유지 추가가 아닐 때
 		if (!openType.includes('point'))
 		{
 			var address = openType + '_address';
@@ -207,9 +222,9 @@
 			$("span.hidden_"+openType).append(latiInput);
 			$("span.hidden_"+openType).append(longiInput);
 		}
+		// 경유지 추가일 때
 		else
 		{
-			
 			$('label.'+openType).children("input[name=address]").val(addr);
 			
 			var latiInput = '<input type="hidden" name="latitude" value="'+lat+'"/>'; 
@@ -224,6 +239,7 @@
 		setMarkers();
 	}
 	
+	// 지도에 마커 추가
 	function setMarkers()
 	{
 		// KakaoMap.jsp 안에 작성된 마커, 인포윈도우 초기화 function
@@ -271,7 +287,7 @@
 		}
 		
 	}
-	
+	// 자신의 라이딩 속성 가져오기
 	function myRidingCheck()
 	{
 		var user_id = ${user_id};
@@ -293,6 +309,14 @@
 				var sex_p_id = jObj[4].sex_p_id;
 				
 				//alert(mood_p_id);
+								
+				// 사용자의 라이딩 스타일 받아오기 전 모든 체크를 해제
+				$("input:radio[name='sex_p_id']").prop("checked", false);
+				$("input:radio[name='age_p_id']").prop("checked", false);
+				$("input:radio[name='eat_p_id']").prop("checked", false);
+				$("input:radio[name='dining_p_id']").prop("checked", false);
+				$("input:radio[name='mood_p_id']").prop("checked", false);
+				
 				
 				$('input:radio[name="age_p_id"][value=' + age_p_id + ']').prop('checked', true);
 				$('input:radio[name="dining_p_id"][value=' + dining_p_id + ']').prop('checked', true);
@@ -302,19 +326,49 @@
 				
 				// 속도, 숙련도는 제한 없음 디폴트
 				//$('input:radio[name="speed_id"][value=0]').prop('checked', true);
-				//$('input:radio[name="step_id"][value=0]').prop('checked', true);
-				
-				
+				//$('input:radio[name="step_id"][value=0]').prop('checked', true);				
 			}
 			, error:function(e)
 			{
 				alert(e.responseText);
 			}
-		})
+		});
 	}
 	
-	// 기간 설정 기능 추가.
-	function addDate()
+	// datepicker, timepicker 초기화시키는 용도.
+	function resetInput(val)
+	{
+		// 리셋 위치에 따른 값(val)
+		// start_time > end_day > end_time
+		// start_time부터 리셋 하면 3
+		// end_day부터 리셋하면 2
+		// end_time부터 리셋하면 1
+		
+		if (val>2)
+		{
+			// start_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
+			$("#span_start_time").empty();
+			var start_timepicker = '<input type="text" id="start_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
+			$("#span_start_time").append(start_timepicker);
+		}
+		if (val>1)
+		{
+			// #end_day datepicker 초기화 후 다시 달기
+			$("#span_end_day").empty();
+			var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜" readonly="readonly">';
+			$("#span_end_day").append(end_datepicker);
+		}
+		if (val>0)
+		{
+			// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
+			$("#span_end_time").empty();
+			var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
+			$("#span_end_time").append(end_timepicker);
+		}
+	}
+	
+	// start_day에 datepicker 추가. 이벤트 추가
+	function addStartDay()
 	{
 		var date = new Date();
 		
@@ -339,150 +393,129 @@
 				// 현재 날짜와 데이트피커의 마지막 입력값 날짜가 다르다면....
 				if (date !== instance.lastVal)
 				{
-					$(this).change();
+					// timepicker, datepicker 초기화
+					resetInput(3);
+					
+					// start_time timepicker 활성화
+					resetStartTime(min);
 				}
 				
 			}
-		})
-		.on("change", function()
+		});
+	}
+	
+	// start_time에 timepicker 추가. 이벤트 추가
+	function resetStartTime(min)
+	{
+		var minute = (Math.ceil(min.getMinutes()/10)*10);
+		var hour = min.getHours();
+		
+		// 60분이면 0분 치환. 시간은 1시간 +.
+		if (minute == 60)
 		{
-			//alert("접속 테스트");
-			
-			// 최소 3일 이후일 때, 최소 시작 시간 시:분 구하기
-			// 27일 12:00 PM     >> 3일 후 >>>>  30일 12:00 PM. 
-			// 분은 10분 단위로 쓰고, 1분 단위는 올림. 
-			var minute = (Math.ceil(min.getMinutes()/10)*10);
-			var hour = min.getHours();
-			
-			// 60분이면 0분 치환. 시간은 1시간 +.
-			if (minute == 60)
+			minute = 0;
+			hour = hour + 1;
+		}
+		
+		// 최소 시작 시:분
+		var min_hour_minute = hour.toString() + ":" + minute.toString();
+		
+		// ex) 현재 24일 12시라면, 시작 날짜는 3일 후(27일 12시)부터 가능한데
+		//     이 때, 27일을 선택했으면 시간은 27일 12시부터 선택 가능.
+		//     만약 28일, 29일 등을 선택했으면 0~24시 자유롭게 선택 가능
+		var start_minTime = $("#start_day").datepicker("getDate") > min
+							? '0' : min_hour_minute;
+		var start_maxTime = "23:59";
+		
+		//값 변화 관찰용
+		var start_time_value="";
+		
+		$("#start_time").timepicker({
+			timeFormat: 'HH:mm'
+			, interval: 10
+			, minTime: start_minTime
+			, maxTime: start_maxTime
+			, scrollbar: true
+			, dynamic: false
+		    , change: function(val)
 			{
-				minute = 0;
-				hour = hour + 1;
+		    	// 값이 변했다면 change
+		    	if (val.toString() !== start_time_value)
+		    	{
+		    		start_time_value = val.toString();
+		    		
+		    		// timepicker, datepicker 초기화
+					resetInput(2);
+		    		
+					// end_day datepicker 활성화
+					resetEndDay();
+		    	}
 			}
-			
-			// 최소 시작 시:분
-			var min_hour_minute = hour.toString() + ":" + minute.toString();
-			
-			// ex) 현재 24일 12시라면, 시작 날짜는 3일 후(27일 12시)부터 가능한데
-			//     이 때, 27일을 선택했으면 시간은 27일 12시부터 선택 가능.
-			//     만약 28일, 29일 등을 선택했으면 0~24시 자유롭게 선택 가능
-			var start_time = $("#start_day").datepicker("getDate") > min
-								? '0' : min_hour_minute;
-			
-			// start_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
-			$("#span_start_time").empty();
-			var start_timepicker = '<input type="text" id="start_time" name="riding_date" required size="9"	placeholder="시:분(24시)" readonly="readonly"/>';
-			$("#span_start_time").append(start_timepicker);
-			
-			// #end_day datepicker 초기화 후 다시 달기
-			$("#span_end_day").empty();
-			var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜" readonly="readonly">';
-			$("#span_end_day").append(end_datepicker);
-			
-			// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
-			$("#span_end_time").empty();
-			var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
-			$("#span_end_time").append(end_timepicker);
-			
-			//값 변화 관찰용
-			var start_time_value="";
-			
-			$("#start_time").timepicker({
-				timeFormat: 'HH:mm'
-				, interval: 10
-				, minTime: start_time
-				, maxTime: '23:59'
-				, scrollbar: true
-				, dynamic: false
-			    , change: function(val)
-				{
-			    	// 값이 변했다면 change
-			    	if (val.toString() !== start_time_value)
-			    	{
-			    		start_time_value = val.toString();
-			    		$(this).change();
-			    	}
-				}
-			})
-			.on("change", function()
+		});
+	}
+	
+	// end_day에 datepicker 추가. 이벤트 추가
+	function resetEndDay()
+	{
+		// 시 분 변수로 빼내기.
+    	var hour = $("#start_time").val().split(":")[0];
+    	var minute = $("#start_time").val().split(":")[1];
+    	
+    	// 최소, 최대 시간 설정
+    	var min = $("#start_day").datepicker("getDate");
+    	var max = $("#start_day").datepicker("getDate"); 	
+    	max.setHours(hour);
+    	max.setMinutes(minute);
+    	max.setDate(max.getDate()+7); // 시작일로부터 최대 7일
+		    	
+    	$("#end_day").datepicker(
+		{
+			dateFormat : "yy-mm-dd"
+			, changeMonth : true
+			, minDate : min
+			, maxDate : max
+			, onSelect : function(date, instance)
 			{
-				// alert("접속 테스트");
-				
-				// #end_day datepicker 초기화 후 다시 달기
-				$("#span_end_day").empty();
-				var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜" readonly="readonly">';
-				$("#span_end_day").append(end_datepicker);
-				
-				// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
-				$("#span_end_time").empty();
-				var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
-				$("#span_end_time").append(end_timepicker);
-				
-		    	// 시 분 변수로 빼내기.
-		    	var h = $("#start_time").val().split(":")[0];
-		    	var m = $("#start_time").val().split(":")[1];
-		    	
-		    	// 최소, 최대 시간 설정
-		    	var min_end = $("#start_day").datepicker("getDate");
-		    	var max_end = $("#start_day").datepicker("getDate"); 	
-		    	max_end.setHours(h);
-		    	max_end.setMinutes(m);
-		    	max_end.setDate(max_end.getDate()+7); // 시작일로부터 최대 7일
-				
-		    	
-		    	$("#end_day").datepicker(
+				// 현재 날짜와 데이트피커의 마지막 입력값 날짜가 다르다면....
+				if (date !== instance.lastVal)
 				{
-					dateFormat : "yy-mm-dd"
-					, changeMonth : true
-					, minDate : min_end
-					, maxDate : max_end
-					, onSelect : function(end_date, end_instance)
-					{
-						// 현재 날짜와 데이트피커의 마지막 입력값 날짜가 다르다면....
-						if (end_date !== end_instance.lastVal)
-						{
-							$(this).change();
-						}
-					}
-				})
-				.on("change", function()
-				{
-					//alert("접속");
-				
+					// timepicker, datepicker 초기화
+					resetInput(1);
 					
-					// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
-					$("#span_end_time").empty();
-					var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
-					$("#span_end_time").append(end_timepicker);
-					
-					// 종료일의 최대 시:분. 마지노선.
-		    		var end_hour_minute = max_end.getHours().toString() + ":" + max_end.getMinutes().toString();
-					
-					// 마지막 날에서, 선택 가능한 minimum 시간과 선택 가능한 maximum 시간 설정하기 
-					// 최초값 설정
-					var end_minTime = end_hour_minute;
-					var end_maxTime = "23:59";
-					
-					
-					// 선택한 종료 날짜가, 시작 날짜와 같지 않을 때
-					if ( $("#end_day").datepicker("getDate").getDate() != $("#start_day").datepicker("getDate").getDate() )
-						end_minTime = '0';
-					// 선택한 종료 날짜가, 최대 선택 가능한 날짜랑 같을 때
-					if ( $("#end_day").datepicker("getDate").getDate() == max_end.getDate() )
-						end_maxTime = end_hour_minute;
-					
-					$("#end_time").timepicker({
-						timeFormat: 'HH:mm'
-						, interval: 10
-						, minTime: end_minTime
-						, maxTime: end_maxTime
-					    , scrollbar: true
-					    , dynamic: false
-					    
-					});
-				});
-			});
+					// end_time timepicker 활성화
+					resetEndTime(max);
+				}
+			}
+		});
+	}
+	
+	// end_time에 timepicker 추가. 이벤트 추가
+	function resetEndTime(max)
+	{
+		// 종료일의 최대 시:분. 마지노선.
+		var end_hour_minute = max.getHours().toString() + ":" + max.getMinutes().toString();
+		
+		// 마지막 날에서, 선택 가능한 minimum 시간과 선택 가능한 maximum 시간 설정하기 
+		// 최초값 설정
+		var end_minTime = end_hour_minute;
+		var end_maxTime = "23:59";
+		
+		
+		// 선택한 종료 날짜가, 시작 날짜와 같지 않을 때
+		if ( $("#end_day").datepicker("getDate").getDate() != $("#start_day").datepicker("getDate").getDate() )
+			end_minTime = '0';
+		// 선택한 종료 날짜가, 최대 선택 가능한 날짜랑 같을 때
+		if ( $("#end_day").datepicker("getDate").getDate() == max.getDate() )
+			end_maxTime = end_hour_minute;
+		
+		
+		$("#end_time").timepicker({
+			timeFormat: 'HH:mm'
+			, interval: 10
+			, minTime: end_minTime
+			, maxTime: end_maxTime
+		    , scrollbar: true
+		    , dynamic: false
 		});
 	}
 	
@@ -516,15 +549,23 @@
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<span id="span_start_day"><input type="text" id="start_day" name="riding_date"
-					required size="8" placeholder="시작 날짜" readonly="readonly"></span>
-					<span id="span_start_time"><input type="text" id="start_time" name="riding_date" 
-					required size="9" placeholder="시:분(24시)" readonly="readonly"/></span>
+					<span id="span_start_day">
+						<input type="text" id="start_day" name="riding_date"
+						required size="8" placeholder="시작 날짜" readonly="readonly">
+					</span>
+					<span id="span_start_time">
+						<input type="text" id="start_time" name="riding_date" 
+						required size="9" placeholder="시:분(24시)" readonly="readonly"/>
+					</span>
 					~ 
-					<span id="span_end_day"><input type="text" id="end_day" name="riding_date" 
-					required size="8" placeholder="종료 날짜" readonly="readonly"></span>
-					<span id="span_end_time"><input type="text" id="end_time" name="riding_date" 
-					required size="9" placeholder="시:분(24시)" readonly="readonly"/></span>
+					<span id="span_end_day">
+						<input type="text" id="end_day" name="riding_date" 
+						required size="8" placeholder="종료 날짜" readonly="readonly">
+					</span>
+					<span id="span_end_time">
+						<input type="text" id="end_time" name="riding_date" 
+						required size="9" placeholder="시:분(24시)" readonly="readonly"/>
+					</span>
 					
 					<input type="hidden" id="start_date" name="start_date"/>
 					<input type="hidden" id="end_date" name="end_date"/>
@@ -534,14 +575,9 @@
 				<th>최대 인원수</th>
 				<td>
 					<select name="maximum" id="maximum">
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
+						<c:forEach var="i" begin="2" end="9">
+						<option value="${i}">${i}</option>	
+						</c:forEach>
 					</select>
 				</td>
 			</tr>
@@ -562,9 +598,9 @@
 				<th>모임 출발 장소</th>
 				<td>
 					<span class="start">
-						<input type="text" class="txt" name="start_address"
+						<input type="text" name="start_address"
 						id="start_address" placeholder="주소" readonly="readonly"/>
-						<input type="text" class="txt" name="start_detail"
+						<input type="text" name="start_detail"
 						id="start_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="start">검색</button>
 						<span class="hidden_start" style="display: none;"></span>
@@ -576,9 +612,9 @@
 				<th>모임 종료 장소</th>
 				<td>
 					<span class="end">
-						<input type="text" class="txt" name="end_address"
+						<input type="text" name="end_address"
 						id="end_address" placeholder="주소" readonly="readonly"/>
-						<input type="text" class="txt" name="end_detail"
+						<input type="text" name="end_detail"
 						id="end_detail" placeholder="상세주소를 입력하세요"/>
 						<button type="button" class="searchMap" value="end">검색</button>
 						<span class="hidden_end" style="display: none;"></span>
@@ -588,26 +624,11 @@
 			<tr>
 				<th>경유지</th>
 				<td>
-					<%-- 
-					<div>
-						<button type="button" onclick="searchList()">경유지 찾아보기</button>
-					</div>
-					<div>
-						<jsp:include page="bicycle.jsp"></jsp:include>
-					</div>
-					--%>
 					<div class="ridingPoint">
-						<span class="point">
-							<label class="point1">경유지1
-								<input type="text" class="txt" name="address" readonly="readonly"/>
-								<input type="text" class="txt" name="detail_address"/>
-								<button type="button" class="searchMap" value="point1">검색</button>
-								<span class="hidden_point1" style="display: none;"></span>
-							</label>
-						</span>
+						<span class="point"></span>
 						<span class="pointBtn">
 							<button type="button">추가</button>
-							<button type="button" style="display:none;">삭제</button>
+							<button type="button">삭제</button>
 						</span>		
 					</div>	
 				</td>
@@ -623,7 +644,6 @@
 		<br />
 		
 		<div>
-			<%-- <c:import url="${request.contextPath }/KakaoMap.jsp"/> --%>
 			<c:import url="/displaymap.action"/>			
 		</div>
 				

@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, END_ADDRESS, END_DETAIL, CONFIRM_DATE, COMMENTS)
 		VALUES (SEQ_RIDING.NEXTVAL, #{user_id}, #{step_id}
 			, #{speed_id}, #{mood_p_id}, #{dining_p_id}, #{eat_p_id}
-			, #{age_p_id}, #{sex_p_id}, #{ev_grede_id}, #{riding_name}, TO_DATE('${start_date}', 'YYYY-MM-DD HH24:MI')
+			, #{age_p_id}, #{sex_p_id}, #{ev_grade_id}, #{riding_name}, TO_DATE('${start_date}', 'YYYY-MM-DD HH24:MI')
 			, TO_DATE('${end_date}', 'YYYY-MM-DD HH24:MI'), SYSDATE, #{maximum}, #{meet_lati}
 			, #{meet_longi}, #{meet_address}, #{meet_detail}
 			, #{start_lati}, #{start_longi}, #{start_address}

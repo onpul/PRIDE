@@ -74,11 +74,14 @@ public class InsertRidingController
 		
 		user_id = String.valueOf(session.getAttribute("user_id"));
 		
-		// 세션에 아이디가 없다면... 임시..
+		// 세션에 아이디가 없다면..
 		if(user_id == null)
-			user_id = "2";
-		
-		//System.out.println(user_id);
+		{
+			System.out.println("생성 실패");
+			result = "redirect:main.action";
+			
+			return result;
+		}
 		
 		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
 		
@@ -94,35 +97,38 @@ public class InsertRidingController
 		dto.setUser_id(user_id);
 		
 		
-		// 모임 insert 후, 경유지도 insert
+		// 모임 insert 후 성공했다면 경유지도 insert
 		if (dao.insertRiding(dto) > 0)
 		{
-			//System.out.println(dto.getRiding_id());
-			// 경유지 없어도 "" 로 1개는 무조건 들어오기 때문에..
-			if ( !(dto.getAddress().size() == 1 && dto.getAddress().get(0).trim().equals("")) )
+			// 경유지 수는?
+			int numOfPoints = 0;
+			try
+			{
+				numOfPoints = dto.getAddress().size();
+			} catch (NullPointerException e)
+			{
+				numOfPoints = 0;
+			}
+			
+			// 경유지가 1개 이상이라면 insert.
+			if (numOfPoints > 0)
 			{
 				String riding_id = dto.getRiding_id();
 				
-				// 경유지 insert 하는 과정
-				for (int i = 0; i < dto.getAddress().size(); i++)
+				for (int i=0; i<numOfPoints; i++)
 				{
-					if(!dto.getAddress().get(0).trim().equals(""))
-					{
-						String latitude = ((ArrayList<String>)dto.getLatitude()).get(i);
-						String longitude = ((ArrayList<String>)dto.getLongitude()).get(i);
-						String address = ((ArrayList<String>)dto.getAddress()).get(i);
-						
-						String detail_address = "없음";
-						
-						if (!dto.getDetail_address().get(i).trim().equals(""))
-							detail_address = dto.getDetail_address().get(i);
-						
-						dao.insertRidingPoint(riding_id, latitude, longitude, address, detail_address);
-					}				
+					String latitude = ((ArrayList<String>)dto.getLatitude()).get(i);
+					String longitude = ((ArrayList<String>)dto.getLongitude()).get(i);
+					String address = ((ArrayList<String>)dto.getAddress()).get(i);
+					
+					String detail_address = "없음";
+					
+					if (!dto.getDetail_address().get(i).trim().equals(""))
+						detail_address = dto.getDetail_address().get(i);
+					
+					dao.insertRidingPoint(riding_id, latitude, longitude, address, detail_address);
 				}
 			}
-			
-			//System.out.println(dto.getCreated_date());
 			
 			// 방장 자신을 참여중인 명단에 추가
 			dao.insertParticipatedMember(dto);
@@ -200,7 +206,7 @@ public class InsertRidingController
 		if (dto.getComments().trim().equals(""))
 			dto.setComments("없음");
 		
-		// 모임 insert 후, 경유지 update
+		// 모임 insert 후 성공했다면 경유지 update
 		if (dao.updateRiding(dto) > 0)
 		{
 			String riding_id = dto.getRiding_id();
@@ -211,34 +217,35 @@ public class InsertRidingController
 			// 이 위치에서 DELETE를 실행시키는 것이 맞다.
 			dao.deleteRidingPoint(riding_id);
 			
-			// 경유지 없어도 "" 로 1개는 무조건 들어오기 때문에..
-			if ( !(dto.getAddress().size() == 1 && dto.getAddress().get(0).trim().equals("")) )
+			// 경유지 수는?
+			int numOfPoints = 0;
+			try
 			{
-				// 경유지 insert 하는 과정
-				for (int i = 0; i < dto.getAddress().size(); i++)
-				{
-					if(!dto.getAddress().get(0).trim().equals(""))
-					{
-						String latitude = ((ArrayList<String>)dto.getLatitude()).get(i);
-						String longitude = ((ArrayList<String>)dto.getLongitude()).get(i);
-						String address = ((ArrayList<String>)dto.getAddress()).get(i);
-						
-						String detail_address = "없음";
-						
-						if (!dto.getDetail_address().get(i).trim().equals(""))
-							detail_address = dto.getDetail_address().get(i);
-						
-						dao.insertRidingPoint(riding_id, latitude, longitude, address, detail_address);
-					}				
-				}
+				numOfPoints = dto.getAddress().size();
+			} catch (NullPointerException e)
+			{
+				numOfPoints = 0;
 			}
 			
-			//System.out.println(dto.getCreated_date());
-			
-			// 방장 자신을 참여중인 명단에 추가
-			//dao.insertParticipatedMember(dto);
+			// 경유지가 1개 이상이라면....
+			if (numOfPoints > 0)
+			{
+				for (int i=0; i<numOfPoints; i++)
+				{
+					String latitude = ((ArrayList<String>)dto.getLatitude()).get(i);
+					String longitude = ((ArrayList<String>)dto.getLongitude()).get(i);
+					String address = ((ArrayList<String>)dto.getAddress()).get(i);
+					
+					String detail_address = "없음";
+					
+					if (!dto.getDetail_address().get(i).trim().equals(""))
+						detail_address = dto.getDetail_address().get(i);
+					
+					dao.insertRidingPoint(riding_id, latitude, longitude, address, detail_address);
+					
+				}
+			}
 		}
-		
 		result = "redirect:main.action";
 		
 		return result;
