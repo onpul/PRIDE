@@ -205,13 +205,19 @@ RidingDetail.jsp
 	
 	function deleteRiding(riding_id)
 	{
-		location.href = "deleteriding.action?riding_id="+riding_id;
+		if (confirm("정말 삭제하시겠습니까?"))
+		{
+			location.href = "deleteriding.action?riding_id="+riding_id;
+		}
 	}
 	
 	// 나가기
 	function exitRiding(riding_id)
 	{
-		location.href = "exitriding.action?riding_id="+riding_id+"&user_id="+$("#user_id").val();
+		if (confirm("정말 나가시겠습니까?"))
+		{
+			location.href = "exitriding.action?riding_id="+riding_id+"&user_id="+$("#user_id").val();
+		}
 	}
 	
 </script>
