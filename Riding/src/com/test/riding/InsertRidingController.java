@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.login.IRidingDAO;
 
@@ -186,6 +187,21 @@ public class InsertRidingController
 		String result = null;
 		
 		result = "/WEB-INF/mapapi/KakaoMap.jsp";
+		
+		return result;
+	}
+	
+	// 모임 삭제하기
+	@RequestMapping(value = "/deleteriding.action")
+	public String deleteRiding(@RequestParam String riding_id)
+	{
+		String result = null;
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		dao.deleteRiding(riding_id);
+		
+		result = "ridinglist.action";
 		
 		return result;
 	}

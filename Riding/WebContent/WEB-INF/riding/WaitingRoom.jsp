@@ -96,6 +96,12 @@ RidingDetail.jsp
 		{
 			updateRiding($(this).val());
 		});
+		
+		// 삭제 버튼 눌렀을 때
+		$(".deleteBtn").on("click", function()
+		{
+			deleteRiding($(this).val());
+		});
 	});
 	
 	// 지도에 마커 넣기
@@ -189,6 +195,11 @@ RidingDetail.jsp
 	function updateRiding(riding_id)
 	{
 		location.href = "updateridingform.action?riding_id="+riding_id;
+	}
+	
+	function deleteRiding(riding_id)
+	{
+		location.href = "deleteriding.action?riding_id="+riding_id;
 	}
 	
 </script>
@@ -436,6 +447,7 @@ RidingDetail.jsp
 			<c:otherwise>
 				<div>
 					<button type="button" class="btn btn-warning updateBtn" value="${info.riding_id }">수정하기</button>
+					<button type="button" class="btn btn-warning deleteBtn" value="${info.riding_id }">삭제하기</button>
 				</div>
 			
 			</c:otherwise>

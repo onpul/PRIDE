@@ -16,4 +16,7 @@ public interface IInsertRidingDAO
 	public int insertParticipatedMember(InsertRidingDTO dto);
 	
 	public Map<String, String> preference(String user_id);
+	
+	// 모임 삭제하기
+	public int deleteRiding(@Param("riding_id")String riding_id);
 }

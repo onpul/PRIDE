@@ -104,7 +104,6 @@ public class RidingListController
 		System.out.println("riding_name = " + riding_name);
 		
 		// 라이딩 분류
-		where += "WHERE RIDING_ID IS NOT NULL";
 		if (riding_name != "" && riding_name != null)
 			where += " AND RIDING_NAME LIKE '%" + riding_name + "%'";
 		if (sex_p_id != -1) // 전체 선택이 아니면
