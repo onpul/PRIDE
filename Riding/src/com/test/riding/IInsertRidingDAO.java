@@ -13,6 +13,10 @@ public interface IInsertRidingDAO
 			, @Param("latitude")String latitude, @Param("longitude")String longitude
 			, @Param("address")String address, @Param("detail_address")String detail_address);
 	
+	public int deleteRidingPoint(@Param("riding_id")String riding_id);
+	
+	public int updateRiding(InsertRidingDTO dto);
+	
 	public int insertParticipatedMember(InsertRidingDTO dto);
 	
 	public Map<String, String> preference(String user_id);

@@ -27,23 +27,27 @@ public class RidingListController
 	// 나의 라이딩 스타일 조회
 	@RequestMapping(value = "/myRidingCheck.action", method = RequestMethod.POST)
 	@ResponseBody
-	public String myRidingStyle(RidingDTO dto, Model model, int user_id)
+	public String myRidingStyle(int user_id)
 	{
 		System.out.println("-----myRidingStyle() 진입 성공-----");
 		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
+		RidingDTO styleDTO = dao.myRidingStyle(user_id).get(0);
+		
+		/*
 		dto.setAge_p_id(dao.myRidingStyle(user_id).get(0).getAge_p_id());
 		dto.setDining_p_id(dao.myRidingStyle(user_id).get(0).getDining_p_id());
 		dto.setEat_p_id(dao.myRidingStyle(user_id).get(0).getEat_p_id());
 		dto.setMood_p_id(dao.myRidingStyle(user_id).get(0).getMood_p_id());
 		dto.setSex_p_id(dao.myRidingStyle(user_id).get(0).getSex_p_id());
-
-		String age_p_id = Integer.toString(dto.getAge_p_id());
-		String dining_p_id = Integer.toString(dto.getDining_p_id());
-		String eat_p_id = Integer.toString(dto.getEat_p_id());
-		String mood_p_id = Integer.toString(dto.getMood_p_id());
-		String sex_p_id = Integer.toString(dto.getSex_p_id());
+		*/
+		
+		String age_p_id = Integer.toString(styleDTO.getAge_p_id());
+		String dining_p_id = Integer.toString(styleDTO.getDining_p_id());
+		String eat_p_id = Integer.toString(styleDTO.getEat_p_id());
+		String mood_p_id = Integer.toString(styleDTO.getMood_p_id());
+		String sex_p_id = Integer.toString(styleDTO.getSex_p_id());
 		
 		String result = "";
 		result += "[";

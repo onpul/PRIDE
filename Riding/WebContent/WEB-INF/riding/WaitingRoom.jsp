@@ -188,7 +188,16 @@ RidingDetail.jsp
 	
 	function updateRiding(riding_id)
 	{
-		location.href = "updateridingform.action?riding_id="+riding_id;
+		var updatable_date = new Date($("#start_date").html());
+		
+		updatable_date.setHours(updatable_date.getHours()-49);
+		
+		var now_date = new Date();
+		
+		if (updatable_date - now_date > 0)
+			location.href = "updateridingform.action?riding_id="+riding_id;
+		else
+			alert("수정 불가 기간");
 	}
 	
 </script>
@@ -233,11 +242,11 @@ RidingDetail.jsp
 		<table class="table">
 			<tr>
 				<td>모임 시작 일시</td>
-				<td>${info.start_date }</td>
+				<td id="start_date">${info.start_date }</td>
 			</tr>
 			<tr>
 				<td>모임 종료 일시</td>
-				<td>${info.end_date }</td>
+				<td id="end_date">${info.end_date }</td>
 			</tr>
 			<tr>
 				<td>최대 인원수</td>
