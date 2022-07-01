@@ -262,7 +262,7 @@ public class MainController
 		return result;
 	}
 	
-	// 모임 생성 체크 ... 문정용(복사)
+	// 모임 참여 체크 ... 문정용(복사)
 	@RequestMapping(value = "/participation.action", method = RequestMethod.POST)
 	@ResponseBody
 	public String participationCheck(HttpSession session, @RequestParam int riding_id)
@@ -326,7 +326,7 @@ public class MainController
 	{
 		System.out.println("-----participationCheck2() 진입 성공-----");
 		
-		String result = "0";
+		String result = "-1";
 		
 		String user_id = String.valueOf(session.getAttribute("user_id"));
 		
@@ -336,7 +336,8 @@ public class MainController
 		{
 			// 현재 참여 중인 모임 여부 체크
 			if (dao.participationCheck(user_id) > 0)
-			{
+			{	
+				System.out.println("dao.participationCheck(user_id) = " + dao.participationCheck(user_id));
 				// 요청하는 모임이 현재 참여 중인 모임이라면 
 				if (dao.checkRiding(user_id, riding_id) > 0)
 				{
