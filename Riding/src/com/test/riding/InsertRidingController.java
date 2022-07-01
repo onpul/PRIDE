@@ -168,6 +168,82 @@ public class InsertRidingController
 		return result;
 	}
 	
+	// 라이딩 모임 수정
+	@RequestMapping(value = "/updateriding.action", method = RequestMethod.POST)
+	public String updateMeet(HttpServletRequest request, InsertRidingDTO dto)
+	{
+		String result = null;
+		
+		HttpSession session = request.getSession();
+		
+		String user_id = null;
+		
+		user_id = String.valueOf(session.getAttribute("user_id"));
+		
+		// 세션 아이디와 일치하지 않는다면..
+		if(!user_id.equals( dto.getUser_id()))
+		{
+			System.out.println("수정 실패");
+			result = "redirect:main.action";
+			
+			return result;
+		}
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		if (dto.getMeet_detail().trim().equals(""))
+			dto.setMeet_detail("없음");
+		if (dto.getStart_detail().trim().equals(""))
+			dto.setStart_detail("없음");
+		if (dto.getEnd_detail().trim().equals(""))
+			dto.setEnd_detail("없음");
+		if (dto.getComments().trim().equals(""))
+			dto.setComments("없음");
+		
+		// 모임 insert 후, 경유지 update
+		if (dao.updateRiding(dto) > 0)
+		{
+			String riding_id = dto.getRiding_id();
+			
+			// 갯수가 다르면 수정이 어렵기 때문에, riding_point를 모두 delete 하고
+			// riding_point를 새로 insert 한다.
+			// 만약 수정 폼에서 경유지를 모두 삭제했다면, 경유지가 존재하지 않는 것이기 때문에
+			// 이 위치에서 DELETE를 실행시키는 것이 맞다.
+			dao.deleteRidingPoint(riding_id);
+			
+			// 경유지 없어도 "" 로 1개는 무조건 들어오기 때문에..
+			if ( !(dto.getAddress().size() == 1 && dto.getAddress().get(0).trim().equals("")) )
+			{
+				// 경유지 insert 하는 과정
+				for (int i = 0; i < dto.getAddress().size(); i++)
+				{
+					if(!dto.getAddress().get(0).trim().equals(""))
+					{
+						String latitude = ((ArrayList<String>)dto.getLatitude()).get(i);
+						String longitude = ((ArrayList<String>)dto.getLongitude()).get(i);
+						String address = ((ArrayList<String>)dto.getAddress()).get(i);
+						
+						String detail_address = "없음";
+						
+						if (!dto.getDetail_address().get(i).trim().equals(""))
+							detail_address = dto.getDetail_address().get(i);
+						
+						dao.insertRidingPoint(riding_id, latitude, longitude, address, detail_address);
+					}				
+				}
+			}
+			
+			//System.out.println(dto.getCreated_date());
+			
+			// 방장 자신을 참여중인 명단에 추가
+			//dao.insertParticipatedMember(dto);
+		}
+		
+		result = "redirect:main.action";
+		
+		return result;
+	}
+	
 	// 지도 검색 열기
 	@RequestMapping(value = "/searchmap.action", method = RequestMethod.GET )
 	public String searchMap(Model model, String openType)

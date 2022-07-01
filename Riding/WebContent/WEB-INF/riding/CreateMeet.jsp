@@ -123,8 +123,6 @@
 			// 사용자의 라이딩 스타일 받아오기 전 모든 체크를 해제
 			$("input:radio[name='sex_p_id']").prop("checked", false);
 			$("input:radio[name='age_p_id']").prop("checked", false);
-			$("input:radio[name='speed_id']").prop("checked", false);
-			$("input:radio[name='step_id']").prop("checked", false);
 			$("input:radio[name='eat_p_id']").prop("checked", false);
 			$("input:radio[name='dining_p_id']").prop("checked", false);
 			$("input:radio[name='mood_p_id']").prop("checked", false);
@@ -303,8 +301,8 @@
 				$('input:radio[name="sex_p_id"][value=' + sex_p_id + ']').prop('checked', true);
 				
 				// 속도, 숙련도는 제한 없음 디폴트
-				$('input:radio[name="speed_id"][value=0]').prop('checked', true);
-				$('input:radio[name="step_id"][value=0]').prop('checked', true);
+				//$('input:radio[name="speed_id"][value=0]').prop('checked', true);
+				//$('input:radio[name="step_id"][value=0]').prop('checked', true);
 				
 				
 			}
@@ -374,17 +372,17 @@
 			
 			// start_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 			$("#span_start_time").empty();
-			var start_timepicker = '<input type="text" id="start_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
+			var start_timepicker = '<input type="text" id="start_time" name="riding_date" required size="9"	placeholder="시:분(24시)" readonly="readonly"/>';
 			$("#span_start_time").append(start_timepicker);
 			
 			// #end_day datepicker 초기화 후 다시 달기
 			$("#span_end_day").empty();
-			var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜">';
+			var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜" readonly="readonly">';
 			$("#span_end_day").append(end_datepicker);
 			
 			// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 			$("#span_end_time").empty();
-			var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
+			var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
 			$("#span_end_time").append(end_timepicker);
 			
 			//값 변화 관찰용
@@ -413,12 +411,12 @@
 				
 				// #end_day datepicker 초기화 후 다시 달기
 				$("#span_end_day").empty();
-				var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜">';
+				var end_datepicker = '<input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜" readonly="readonly">';
 				$("#span_end_day").append(end_datepicker);
 				
 				// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 				$("#span_end_time").empty();
-				var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
+				var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
 				$("#span_end_time").append(end_timepicker);
 				
 		    	// 시 분 변수로 빼내기.
@@ -455,7 +453,7 @@
 					
 					// end_time timepicker를 지웠다가 다시 달아줌.(초기화 후 재사용)
 					$("#span_end_time").empty();
-					var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/>';
+					var end_timepicker = '<input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)" readonly="readonly"/>';
 					$("#span_end_time").append(end_timepicker);
 					
 					// 종료일의 최대 시:분. 마지노선.
@@ -518,11 +516,15 @@
 			<tr>
 				<th>라이딩 기간</th>
 				<td>
-					<span id="span_start_day"><input type="text" id="start_day" name="riding_date" required size="8" placeholder="시작 날짜"></span>
-					<span id="span_start_time"><input type="text" id="start_time" name="riding_date" required size="9" placeholder="시:분(24시)"/></span>
+					<span id="span_start_day"><input type="text" id="start_day" name="riding_date"
+					required size="8" placeholder="시작 날짜" readonly="readonly"></span>
+					<span id="span_start_time"><input type="text" id="start_time" name="riding_date" 
+					required size="9" placeholder="시:분(24시)" readonly="readonly"/></span>
 					~ 
-					<span id="span_end_day"><input type="text" id="end_day" name="riding_date" required size="8" placeholder="종료 날짜"></span>
-					<span id="span_end_time"><input type="text" id="end_time" name="riding_date" required size="9" placeholder="시:분(24시)"/></span>
+					<span id="span_end_day"><input type="text" id="end_day" name="riding_date" 
+					required size="8" placeholder="종료 날짜" readonly="readonly"></span>
+					<span id="span_end_time"><input type="text" id="end_time" name="riding_date" 
+					required size="9" placeholder="시:분(24시)" readonly="readonly"/></span>
 					
 					<input type="hidden" id="start_date" name="start_date"/>
 					<input type="hidden" id="end_date" name="end_date"/>

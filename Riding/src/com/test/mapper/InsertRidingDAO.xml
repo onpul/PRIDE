@@ -45,12 +45,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				      		   , LONGITUDE, ADDRESS, DETAIL_ADDRESS)
 		VALUES (SEQ_RIDING_POINT.NEXTVAL, #{riding_id}, #{latitude}
 			 , #{longitude}, #{address}, #{detail_address})
-	</insert>	
+	</insert>
+	
+	<delete id="deleteRidingPoint">
+		DELETE RIDING_POINT
+		WHERE RIDING_ID=#{riding_id}
+	</delete>
 	
 	<insert id="insertParticipatedMember">
 		INSERT INTO PARTICIPATED_MEMBER (PA_MEMBER_ID, USER_ID, RIDING_ID, PARTICI_DATE)
 		VALUES (SEQ_PARTICIPATED_MEMBER.NEXTVAL, #{user_id}, #{riding_id}, TO_DATE(#{created_date}, 'yyyy-mm-dd hh24:mi:ss'))
 	</insert>
+	
+	<update id="updateRiding">
+		UPDATE RIDING
+		SET STEP_ID=#{step_id}, SPEED_ID = #{speed_id}, MOOD_P_ID = #{mood_p_id}, DINING_P_ID = #{dining_p_id}
+		  , EAT_P_ID=#{eat_p_id}, AGE_P_ID=#{age_p_id}, SEX_P_ID=#{sex_p_id}, EV_GRADE_ID=#{ev_grade_id}, RIDING_NAME=#{riding_name}
+		  , START_DATE=TO_DATE(#{start_date}, 'YYYY-MM-DD HH24:MI')
+		  , END_DATE=TO_DATE(#{end_date}, 'YYYY-MM-DD HH24:MI')
+		  , MAXIMUM=#{maximum}, MEET_LATI = #{meet_lati}, MEET_LONGI=#{meet_longi}, MEET_ADDRESS=#{meet_address}, MEET_DETAIL=#{meet_detail}
+		  , START_LATI=#{start_lati}, START_LONGI=#{start_longi}, START_ADDRESS=#{start_address}, START_DETAIL =#{start_detail}
+		  , END_LATI=#{end_lati}, END_LONGI=#{end_longi}, END_ADDRESS=#{end_address}, END_DETAIL=#{end_detail}
+		  , COMMENTS=#{comments}
+		WHERE RIDING_ID=#{riding_id}
+	</update>
 	
 	<resultMap type="Map" id="preferMap">
 		<id column="SEX" property="sex"/>

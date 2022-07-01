@@ -10,7 +10,7 @@ public class InsertRidingDTO
 	private int mood_p_id, eat_p_id, dining_p_id, sex_p_id, age_p_id, step_id, speed_id;
 	
 	private String riding_id, leader_id, riding_name, start_date, end_date, created_date;
-	private int ev_grede_id, maximum;
+	private int ev_grade_id, maximum;
 	
 	private String meet_lati, meet_longi, meet_address, meet_detail, start_lati, start_longi, start_address
 			, start_detail, end_lati, end_longi, end_address, end_detail, confirm_date, comments;
@@ -170,14 +170,14 @@ public class InsertRidingDTO
 		this.created_date = created_date;
 	}
 
-	public int getEv_grede_id()
+	public int getEv_grade_id()
 	{
-		return ev_grede_id;
+		return ev_grade_id;
 	}
 
-	public void setEv_grede_id(int ev_grede_id)
+	public void setEv_grade_id(int ev_grade_id)
 	{
-		this.ev_grede_id = ev_grede_id;
+		this.ev_grade_id = ev_grade_id;
 	}
 
 	public int getMaximum()
