@@ -77,4 +77,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID = #{user_id}
 	</select>
 	
+	<!-- 모임 삭제하기 -->
+	<insert id="deleteRiding">
+		INSERT INTO DELETED_RIDING
+		VALUES(SEQ_DEL_RIDING.NEXTVAL, #{riding_id}, SYSDATE)
+	</insert>
 </mapper>
