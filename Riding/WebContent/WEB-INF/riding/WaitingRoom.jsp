@@ -440,6 +440,7 @@ RidingDetail.jsp
 					<div>
 						<button type="button" style="display:none;" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
 						<button type="button" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
+						<button type="button" class="btn btn-warning cancelBtn" value="NULL">나가기</button>
 					</div>
 				</c:otherwise>
 				</c:choose>	

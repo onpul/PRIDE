@@ -106,10 +106,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 현재 진행중인 모임 조회 -->
 	<select id="participationCheck" resultType="java.lang.Integer">
 		SELECT COUNT(*) AS COUNT
-		FROM PARTICIPATED_MEMBER P, RIDING R
-		WHERE P.USER_ID= #{user_id}
-		  AND P.RIDING_ID=R.RIDING_ID
-		  AND R.END_DATE <![CDATA[>]]> SYSDATE
+		FROM PARTICIPATED_MEMBER A JOIN RIDING B
+		ON A.RIDING_ID = B.RIDING_ID
+		LEFT JOIN DELETED_RIDING C
+		ON A.RIDING_ID = C.RIDING_ID
+		WHERE C.RIDING_ID IS NULL
+		AND B.END_DATE <![CDATA[>]]> SYSDATE
+		AND A.USER_ID = #{user_id}
 	</select>
 	
 	<!-- 나의 라이딩 스타일 조회(검색 분류 적용) -->
