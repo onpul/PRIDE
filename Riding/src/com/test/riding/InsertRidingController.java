@@ -206,5 +206,19 @@ public class InsertRidingController
 		return result;
 	}
 	
+	// 모임 나가기
+	@RequestMapping(value = "/exitriding.action")
+	public String exitRiding(@RequestParam String riding_id, @RequestParam String user_id)
+	{
+		String result = null;
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		dao.exitRiding(user_id, riding_id);
+		
+		result = "ridinglist.action";
+		
+		return result;
+	}
 	
 }
