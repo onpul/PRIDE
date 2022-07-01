@@ -95,4 +95,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID = #{user_id}
 	</select>
 	
+	<!-- 모임 삭제하기 -->
+	<insert id="deleteRiding">
+		INSERT INTO DELETED_RIDING
+		VALUES(SEQ_DEL_RIDING.NEXTVAL, #{riding_id}, SYSDATE)
+	</insert>
+	
+	<!-- 모임 나가기 -->
+	<!-- 우선 확정 신경 안 쓰고 참여자 리스트에서 딜리트만 -->
+	<delete id="exitRiding">
+		DELETE
+		FROM PARTICIPATED_MEMBER
+		WHERE RIDING_ID = #{riding_id}
+		AND USER_ID = #{user_id}
+	</delete>
+	
+	<!-- 모임 확정 -->
+	<update id="confirmRiding">
+		UPDATE RIDING
+		SET CONFIRM_DATE = ${confirm}
+		WHERE RIDING_ID = #{riding_id}
+	</update>
 </mapper>

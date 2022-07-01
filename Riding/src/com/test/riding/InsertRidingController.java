@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.test.login.IRidingDAO;
 
@@ -266,5 +268,55 @@ public class InsertRidingController
 		return result;
 	}
 	
+	// 모임 삭제하기
+	@RequestMapping(value = "/deleteriding.action")
+	public String deleteRiding(@RequestParam String riding_id)
+	{
+		String result = null;
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		dao.deleteRiding(riding_id);
+		
+		result = "ridinglist.action";
+		
+		return result;
+	}
+	
+	// 모임 나가기
+	@RequestMapping(value = "/exitriding.action")
+	public String exitRiding(@RequestParam String riding_id, @RequestParam String user_id)
+	{
+		String result = null;
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		dao.exitRiding(user_id, riding_id);
+		
+		result = "ridinglist.action";
+		
+		return result;
+	}
+	
+	// 모임 확정하기
+	@RequestMapping(value = "/confirm.action")
+	@ResponseBody
+	public String confirmRiding(@RequestParam String confirm, @RequestParam String riding_id)
+	{
+		System.out.println("-----confirmRiding 진입 성공-----");
+		
+		int result = 0;
+		
+		IInsertRidingDAO dao = sqlSession.getMapper(IInsertRidingDAO.class);
+		
+		System.out.println(confirm);
+		System.out.println(riding_id);
+			
+		result = dao.confirmRiding(confirm, riding_id);
+		
+		System.out.println("dao 실행 성공 result는 " + result + "임");
+			
+		return String.valueOf(result);
+	}
 	
 }

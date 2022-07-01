@@ -20,4 +20,13 @@ public interface IInsertRidingDAO
 	public int insertParticipatedMember(InsertRidingDTO dto);
 	
 	public Map<String, String> preference(String user_id);
+	
+	// 모임 삭제하기
+	public int deleteRiding(@Param("riding_id")String riding_id);
+	
+	// 모임 나가기
+	public int exitRiding(@Param("user_id")String user_id, @Param("riding_id")String riding_id);
+	
+	// 모임 확정
+	public int confirmRiding(@Param("confirm")String confirm, @Param("riding_id")String riding_id);
 }
