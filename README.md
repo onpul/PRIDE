@@ -42,6 +42,15 @@
 ![image](https://user-images.githubusercontent.com/70316215/176847106-63b40b01-77c0-4436-955c-c4a150d09dbf.png)
 - 지도 API를 사용하여 모임에 필요한 장소를 선택
 
+### 5. 프로젝트 문서
+1) [표지, 목차](https://docs.google.com/document/d/1pwpWewvLs-Ntk_O1EB-ZqdGQv_zlBz3HbXgUUwgHmKM/edit?usp=sharing)
+2) [기획안](https://docs.google.com/document/d/19g1JoS6nhVnfybVJ3t4QulIetCY6jjFEWWDfW9Sfj2w/edit?usp=sharing)
+3) [프로젝트 일정](https://docs.google.com/document/d/1xCkvqDeK7ZP2eyaK3m-8PNOSI2Ulp58QfnRxypHkfD4/edit?usp=sharing)
+4) [요구사항 분석서](https://docs.google.com/document/d/1xCkvqDeK7ZP2eyaK3m-8PNOSI2Ulp58QfnRxypHkfD4/edit?usp=sharing)
+5) [플로우차트](https://docs.google.com/document/d/1fG-PI7GiL5IQ4OTyYRbraa273oaqbYS9lHIGX-ufwE4/edit?usp=sharing)
+6) [데이터베이스 모델링](https://docs.google.com/document/d/19zsuLZ_NsP8KNjTtgLLTiV4bqADGkuzeJwtbJp0Te3w/edit?usp=sharing)
+7) [파일 구조도](https://docs.google.com/spreadsheets/d/1xwfCYZIIYtxOnWHx9FEk3xbR_F3_nRVF0s7RrnLc_zs/edit?usp=sharing)
+
 
 
 
