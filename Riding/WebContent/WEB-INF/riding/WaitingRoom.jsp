@@ -91,6 +91,12 @@ RidingDetail.jsp
 			getReady($(this).val());
 		});
 		
+		// 나가기 버튼 눌렀을 때
+		$(".exitBtn").on("click", function()
+		{
+			exitRiding($(this).val());
+		});
+		
 		// 수정 버튼 눌렀을 때
 		$(".updateBtn").on("click", function()
 		{
@@ -200,6 +206,12 @@ RidingDetail.jsp
 	function deleteRiding(riding_id)
 	{
 		location.href = "deleteriding.action?riding_id="+riding_id;
+	}
+	
+	// 나가기
+	function exitRiding(riding_id)
+	{
+		location.href = "exitriding.action?riding_id="+riding_id+"&user_id="+$("#user_id").val();
 	}
 	
 </script>
@@ -440,7 +452,7 @@ RidingDetail.jsp
 					<div>
 						<button type="button" style="display:none;" class="btn btn-success readyBtn" value="SYSDATE">준비하기</button>
 						<button type="button" class="btn btn-warning readyBtn" value="NULL">준비 취소</button>
-						<button type="button" class="btn btn-warning cancelBtn" value="NULL">나가기</button>
+						<button type="button" class="btn btn-warning exitBtn" value="${info.riding_id }">나가기</button>
 					</div>
 				</c:otherwise>
 				</c:choose>	
