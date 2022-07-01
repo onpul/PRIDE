@@ -19,7 +19,6 @@ public class MyPageMainController implements Controller
 	public void setDao(IMyPageMainDAO dao)
 	{
 		this.dao = dao;
-		System.out.println("dao 문제");
 	}
 
 	@Override

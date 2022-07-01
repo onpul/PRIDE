@@ -15,7 +15,6 @@
 	String end_time = dto.getEnd_date().split(" ")[1];
 	end_time = end_time.substring(0, end_time.length()-3 );
 	
-	int ev_grade_id = dto.getEv_grade_id();
 %>
 <!DOCTYPE html>
 <html>
@@ -72,9 +71,6 @@
 		// 경유지 추가 버튼 눌렀을 때
 		$(".pointBtn button:eq(0)").on("click", function()
 		{
-			// 경유지 2 개 이상부터는 삭제 버튼 생성
-			//addDelPointBtn();
-			
 			// 경유지 입력 추가하기
 			addInsPointBtn();				
 		});
@@ -127,15 +123,6 @@
 		
 	}
  	
- 	// 경유지 2 개 이상부터는 삭제 버튼 생성
-	
- 	function addDelPointBtn()
-	{
-		// 경유지 2 개 이상부터는 삭제 버튼 생성
-		if($("span.point").children("label").length >= 1)
-			$(".pointBtn button:eq(1)").css("display", "");
-	}
-	
  	// 경유지 입력 추가하기
 	function addInsPointBtn()
 	{
@@ -167,20 +154,12 @@
 	// 경유지 삭제 눌렀을 때
  	function removeInsPointBtn()
  	{
-		// 경유지 2개 이상일 때는 그냥 삭제.
- 		if($("span.point").children("label").length > 1 )
+		// 경유지 1개 이상일 때는 그냥 삭제.
+ 		if($("span.point").children("label").length > 0 )
 		{
 			$("span.point").children("label:last-child").remove();
 			$("span.point").children("br:last-child").remove();
 		}
- 		else
- 		{
- 			// 경유지 1개에서 삭제하면, 내용만 삭제....
- 			$("span.point").children("label:last-child").remove();
-			$("span.point").children("br:last-child").remove();
-			
-			addInsPointBtn();
- 		}
  	}
  	
 	// 제출 전 유효성 검사
@@ -231,6 +210,16 @@
 			return;
 		}
 		
+		// 경유지 비어있는 값은 삭제 처리
+		var maxIndex = $("span.point").children("label").length;
+		for (var i=1; i<=maxIndex; i++)
+		{
+			var parent = "label.point" + i;
+			var element = parent + " input[name=address]";
+			if ($(element).val() == "")
+				$(parent).remove();
+		}
+		
 		setRidingDate();
 		
 		$("form#updateRiding").submit();
@@ -245,6 +234,7 @@
 	// 지도 검색에서 얻은 값 가져오기
 	function getAddr(openType, addr, lat, lng)
 	{
+		// 경유지 추가가 아닐 때
 		if (!openType.includes('point'))
 		{
 			var address = openType + '_address';
@@ -260,9 +250,9 @@
 			$("span.hidden_"+openType).append(latiInput);
 			$("span.hidden_"+openType).append(longiInput);
 		}
+		// 경유지 추가일 때
 		else
 		{
-			
 			$('label.'+openType).children("input[name=address]").val(addr);
 			
 			var latiInput = '<input type="hidden" name="latitude" value="'+lat+'"/>'; 
@@ -397,10 +387,16 @@
 		$("#end_day").datepicker("setDate", $("#end_day").val());
 		
 		// 선택 마지노선 시간 입력
-		var max_end = $("#start_day").datepicker("getDate");
+		var hour = $("#start_time").val().split(":")[0];
+    	var minute = $("#start_time").val().split(":")[1];
+		var max = $("#start_day").datepicker("getDate");
+
+		max.setHours(hour);
+    	max.setMinutes(minute);
+    	max.setDate(max.getDate()+7); // 시작일로부터 최대 7일
 		
 		// 강제로 리셋하고, 이벤트 추가
-		resetEndTime(max_end);
+		resetEndTime(max);
 		
 		// 기존 end_time 값 입력
 		//$("#end_time").timepicker({defaultTime: $("#end_time").val()});
@@ -453,7 +449,6 @@
 		var max = new Date();
 		max.setMonth(max.getMonth()+3);
 		
-		
 		$("#start_day").datepicker(
 		{
 			dateFormat : "yy-mm-dd"
@@ -494,15 +489,14 @@
 		// ex) 현재 24일 12시라면, 시작 날짜는 3일 후(27일 12시)부터 가능한데
 		//     이 때, 27일을 선택했으면 시간은 27일 12시부터 선택 가능.
 		//     만약 28일, 29일 등을 선택했으면 0~24시 자유롭게 선택 가능
-		var start_time = $("#start_day").datepicker("getDate") > min
+		var start_minTime = $("#start_day").datepicker("getDate") > min
 							? '0' : min_hour_minute;
+		var start_maxTime = "23:59";
 		
 		//값 변화 관찰용
 		var start_time_value="";
 		
-		
 		// 시작 시간까지 7일 미만 남았다면 시작 시간 변경 불가능
-		
 		var limit = true;
 		
 		var limit_date = new Date($("#start_date").val());
@@ -520,8 +514,8 @@
 		$("#start_time").timepicker({
 			timeFormat: 'HH:mm'
 			, interval: 10
-			, minTime: start_time
-			, maxTime: '23:59'
+			, minTime: start_minTime
+			, maxTime: start_maxTime
 			, scrollbar: true
 			, dynamic: false
 			, dropdown: limit
@@ -545,44 +539,43 @@
 	// end_day에 datepicker 추가. 이벤트 추가
 	function resetEndDay()
 	{
-
     	// 시 분 변수로 빼내기.
-    	var h = $("#start_time").val().split(":")[0];
-    	var m = $("#start_time").val().split(":")[1];
+    	var hour = $("#start_time").val().split(":")[0];
+    	var minute = $("#start_time").val().split(":")[1];
     	
     	// 최소, 최대 시간 설정
-    	var min_end = $("#start_day").datepicker("getDate");
-    	var max_end = $("#start_day").datepicker("getDate"); 	
-    	max_end.setHours(h);
-    	max_end.setMinutes(m);
-    	max_end.setDate(max_end.getDate()+7); // 시작일로부터 최대 7일
+    	var min = $("#start_day").datepicker("getDate");
+    	var max = $("#start_day").datepicker("getDate"); 	
+    	max.setHours(hour);
+    	max.setMinutes(minute);
+    	max.setDate(max.getDate()+7); // 시작일로부터 최대 7일
 		    	
     	$("#end_day").datepicker(
 		{
 			dateFormat : "yy-mm-dd"
 			, changeMonth : true
-			, minDate : min_end
-			, maxDate : max_end
-			, onSelect : function(end_date, end_instance)
+			, minDate : min
+			, maxDate : max
+			, onSelect : function(date, instance)
 			{
 				// 현재 날짜와 데이트피커의 마지막 입력값 날짜가 다르다면....
-				if (end_date !== end_instance.lastVal)
+				if (date !== instance.lastVal)
 				{
 					// timepicker, datepicker 초기화
 					resetInput(1);
 					
 					// end_time timepicker 활성화
-					resetEndTime(max_end);
+					resetEndTime(max);
 				}
 			}
 		});
 	}
 	
 	// end_time에 timepicker 추가. 이벤트 추가
-	function resetEndTime(max_end)
+	function resetEndTime(max)
 	{
 		// 종료일의 최대 시:분. 마지노선.
-		var end_hour_minute = max_end.getHours().toString() + ":" + max_end.getMinutes().toString();
+		var end_hour_minute = max.getHours().toString() + ":" + max.getMinutes().toString();
 		
 		// 마지막 날에서, 선택 가능한 minimum 시간과 선택 가능한 maximum 시간 설정하기 
 		// 최초값 설정
@@ -594,7 +587,7 @@
 		if ( $("#end_day").datepicker("getDate").getDate() != $("#start_day").datepicker("getDate").getDate() )
 			end_minTime = '0';
 		// 선택한 종료 날짜가, 최대 선택 가능한 날짜랑 같을 때
-		if ( $("#end_day").datepicker("getDate").getDate() == max_end.getDate() )
+		if ( $("#end_day").datepicker("getDate").getDate() == max.getDate() )
 			end_maxTime = end_hour_minute;
 		
 		
@@ -727,14 +720,6 @@
 			<tr>
 				<th>경유지</th>
 				<td>
-					<%-- 
-					<div>
-						<button type="button" onclick="searchList()">경유지 찾아보기</button>
-					</div>
-					<div>
-						<jsp:include page="bicycle.jsp"></jsp:include>
-					</div>
-					--%>
 					<div class="ridingPoint">
 						<span class="point">
 							<c:choose>
@@ -756,17 +741,6 @@
 								</label>
 								</c:forEach>
 							</c:when>
-							<c:otherwise>
-								<label class="point1">경유지1
-									<input type="text" class="txt" name="address" readonly="readonly"/>
-									<input type="text" class="txt" name="detail_address"/>
-									<button type="button" class="searchMap" value="point1">검색</button>
-									<span class="hidden_point1" style="display: none;">
-										<input type="hidden" name="latitude" value=""/> 
-										<input type="hidden" name="longitude" value=""/>
-									</span>
-								</label>
-							</c:otherwise>
 							</c:choose>
 						</span>
 						<span class="pointBtn">
@@ -787,7 +761,6 @@
 		<br />
 		
 		<div>
-			<%-- <c:import url="${request.contextPath }/KakaoMap.jsp"/> --%>
 			<c:import url="/displaymap.action"/>			
 		</div>
 				
@@ -961,33 +934,33 @@
 				<th>참여자 제한 등급</th>
 				<td>
 					<label>
-						<input type="radio" name="ev_grade_id" value="0" 
-						<% if(ev_grade_id == 0) { %> checked="checked" <%} %>
+						<input type="radio" name="ev_grade_id" value="0"
+						<c:if test="${riding.ev_grade_id == 0 }"> checked="checked"</c:if> 
 						/>제한없음
 					</label>
 					<label>
 						<input type="radio" name="ev_grade_id" value="1" 
-						<% if(ev_grade_id == 1) { %> checked="checked" <%} %>
+						<c:if test="${riding.ev_grade_id == 1 }"> checked="checked"</c:if> 
 						/>다이아전거
 					</label>
 					<label>
 						<input type="radio" name="ev_grade_id" value="2" 
-						<% if(ev_grade_id == 2) { %> checked="checked" <%} %>
+						<c:if test="${riding.ev_grade_id == 2 }"> checked="checked"</c:if> 
 						/>금전거
 					</label>
 					<label>
 						<input type="radio" name="ev_grade_id" value="3" 
-						<% if(ev_grade_id == 3) { %> checked="checked" <%} %>
+						<c:if test="${riding.ev_grade_id == 3 }"> checked="checked"</c:if> 
 						/>은전거
 					</label>
 					<label>
 						<input type="radio" name="ev_grade_id" value="4" 
-						<% if(ev_grade_id == 4) { %> checked="checked" <%} %>
+						<c:if test="${riding.ev_grade_id == 4 }"> checked="checked"</c:if> 
 						/>동전거
 					</label>
 					<label>
 						<input type="radio" name="ev_grade_id" value="5" 
-						<% if(ev_grade_id == 5) { %> checked="checked" <%} %>
+						<c:if test="${riding.ev_grade_id == 5 }"> checked="checked"</c:if> 
 						/>돌전거
 					</label>
 				</td>
