@@ -30,6 +30,26 @@ public class RidingDTO
 	private String status;
 	
 
+	public int getEv_grede_id()
+	{
+		return ev_grede_id;
+	}
+
+	public void setEv_grede_id(int ev_grede_id)
+	{
+		this.ev_grede_id = ev_grede_id;
+	}
+
+	public String getPa_member_id()
+	{
+		return pa_member_id;
+	}
+
+	public void setPa_member_id(String pa_member_id)
+	{
+		this.pa_member_id = pa_member_id;
+	}
+	
 	public String getMeet_address()
 	{
 		return meet_address;
@@ -39,16 +59,7 @@ public class RidingDTO
 	{
 		this.meet_address = meet_address;
 	}
-
-	public void setEv_grede_id(int ev_grede_id)
-	{
-		this.ev_grede_id = ev_grede_id;
-	}
-
-	public void setPa_member_id(String pa_member_id)
-	{
-		this.pa_member_id = pa_member_id;
-	}
+	
 	
 	public String getStatus()
 	{
@@ -211,16 +222,6 @@ public class RidingDTO
 		this.created_date = created_date;
 	}
 
-	public int getEv_grede_id()
-	{
-		return ev_grede_id;
-	}
-
-	public void setE_grede_id(int ev_grede_id)
-	{
-		this.ev_grede_id = ev_grede_id;
-	}
-
 	public int getMaximum()
 	{
 		return maximum;
@@ -371,15 +372,6 @@ public class RidingDTO
 		this.comments = comments;
 	}
 
-	public String getPa_member_id()
-	{
-		return pa_member_id;
-	}
-
-	public void setP_member_id(String pa_member_id)
-	{
-		this.pa_member_id = pa_member_id;
-	}
 
 	public String getPartici_date()
 	{

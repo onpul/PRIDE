@@ -2,6 +2,7 @@ package com.test.login;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -90,5 +91,11 @@ public interface IRidingDAO
 	
 	// 해당 모임에서 준비를 했는지 안 했는지 판별
 	public int checkReady(@Param("riding_id")int riding_id, @Param("user_id")int user_id);
+	
+	// 준비 완료하거나 준비 취소하거나
+	public int getReady(@Param("ready")String ready, @Param("user_id")String user_id);
+	
+	// 성별, 나이 조건 얻기
+	public Map<String, String> preference(String user_id);
 
 }

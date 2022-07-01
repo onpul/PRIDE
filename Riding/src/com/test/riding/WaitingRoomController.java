@@ -2,6 +2,7 @@ package com.test.riding;
 
 import java.util.ArrayList;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.test.login.IRidingDAO;
@@ -21,12 +23,10 @@ public class WaitingRoomController
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 라이딩 상세보기 페이지 요청(waitingroom.action) 
+	// 라이딩 대기실 페이지 요청(waitingroom.action) 
 	@RequestMapping(value = "/waitingroom.action", method = RequestMethod.GET)
 	public String ridingDetail(Model model, @RequestParam("user_id")int user_id, @RequestParam("riding_id")int riding_id)
 	{
-		String result = "";
-		
 		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
 		
 		model.addAttribute("ridingDetailList", dao.ridingDetailList(riding_id));
@@ -47,43 +47,41 @@ public class WaitingRoomController
 		ArrayList<RidingDTO> ridingMember = new ArrayList<RidingDTO>();
 		ridingMember = dao.ridingMember(riding_id);
 		
-		ArrayList<UserDTO> memberProfile = new ArrayList<UserDTO>();
-		//memberProfile = dao.memberProfile(user_id);
+		// 라이딩 멤버들의 프로필 리스트
+		ArrayList<UserDTO> members = new ArrayList<UserDTO>();
 		
-		//System.out.println("ridingMember.size() = " + ridingMember.size());
-		
-		result += "[";
+		// 참여자 명단 토대로 프로필 뽑아내기
 		for (int i = 0; i < ridingMember.size(); i++)
 		{
-			result += "{\"user_id\":\"" + ridingMember.get(i).getUser_id() + "\",";
-			
-			//해당 user의 profile 정보 가져오기.
-			memberProfile = dao.memberProfile(ridingMember.get(i).getUser_id());
-			//System.out.println("memberProfile.size() = " + memberProfile.size());
-			
 			// 해당 user 프로필 정보
-			result += "\"pi_address\":\"" + memberProfile.get(0).getPi_address() + "\",";
-			result += "\"nickname\":\"" + memberProfile.get(0).getNickname() + "\",";
-			result += "\"introduce\":\"" + memberProfile.get(0).getIntroduce() + "\",";
-			result += "\"sex\":\"" + memberProfile.get(0).getSex() + "\",";
+			UserDTO dto = dao.memberProfile(ridingMember.get(i).getUser_id()).get(0);
+			
 			// 참여한 날짜도 뽑아줌
-			result += "\"partici_date\":\"" + ridingMember.get(i).getPartici_date() + "\",";
+			dto.setPartici_date(ridingMember.get(i).getPartici_date());
 			
-			System.out.println("user_id: " +  ridingMember.get(i).getUser_id());
-			System.out.println("partici_date: " + ridingMember.get(i).getPartici_date());
-			result += "\"agegroup\":\"" + memberProfile.get(0).getAgegroup() + "\"}";
-			
-			if (i != ridingMember.size()-1)
-			{
-				result += ",";
-			}
+			members.add(dto);
 		}
-		result += "]";
 		//System.out.println(result);
-		model.addAttribute("memberList", result);
+		model.addAttribute("members", members);
 		
-		String url = "WEB-INF/riding/WaitingRoom.jsp";
+		String url = "/WEB-INF/riding/WaitingRoom.jsp";
 		
 		return url;
+	}
+	
+	// 준비 완료 or 준비 취소 AJAX
+	@RequestMapping(value = "getready.action", method= RequestMethod.GET)
+	@ResponseBody
+	public String getReady(String ready, String user_id)
+	{
+		String result = "";
+		
+		IRidingDAO dao = sqlSession.getMapper(IRidingDAO.class);
+		
+		result = String.valueOf(dao.getReady(ready, user_id));
+		
+		//System.out.println(result);
+		
+		return result;
 	}
 }
