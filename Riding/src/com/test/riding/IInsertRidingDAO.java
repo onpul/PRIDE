@@ -22,4 +22,7 @@ public interface IInsertRidingDAO
 	
 	// 모임 나가기
 	public int exitRiding(@Param("user_id")String user_id, @Param("riding_id")String riding_id);
+	
+	// 모임 확정
+	public int confirmRiding(@Param("confirm")String confirm, @Param("riding_id")String riding_id);
 }
