@@ -38,6 +38,34 @@ RidingDetail.jsp
 			location.href="/Riding/ridinglist.action";
 		});
 		
+		$(document).ready(function()
+		{
+			var riding_id = $("#riding_id").val();
+			var user_id = $("#user_id").val();
+			
+			var href = "waitingroom.action?user_id="+user_id+"&riding_id="+riding_id;
+			//alert(riding_id);
+			
+			$.ajax(
+			{
+				type:"POST"
+				, url:"participationCheck.action?user_id="+user_id+"&riding_id="+riding_id
+				, success:function(data)
+				{
+					if (data == 0) // 지금 참여 중인 모임임
+					{
+						$("#attendBox").html("");
+						var content = "<input type=\"button\" class=\"btn btn-default\" value=\"대기실로 이동\" onclick=\"location.href='" + href + "'\"/>"
+						$("#buttonBox").html(content);
+					}
+				}
+				, error:function(e)
+				{
+					alert(e.responseText);
+				}
+			});
+		});
+		
 		$("#attendBtn").click(function()
 		{
 			//alert("확인");
@@ -59,7 +87,7 @@ RidingDetail.jsp
 					}
 					else if (data == 1) // 모임 생성 참여 패널티
 					{
-						alert("모임 생성 및 참여 패널티가 적용 중이므로 참여할 수 없습니다.")
+						alert("모임 생성 및 참여 패널티가 적용 중이므로 참여할 수 없습니다.");
 					}
 					else if (data == 2) // 모임 참여 개수 제한
 					{
@@ -71,7 +99,6 @@ RidingDetail.jsp
 					}
 					else if (data == 4) 
 					{
-						alert("이미 참여 중인 모임입니다.");
 						location.href="waitingroom.action?user_id="+user_id+"&riding_id="+riding_id;
 					}
 				}
@@ -80,7 +107,6 @@ RidingDetail.jsp
 					alert(e.responseText);
 				}
 			});
-			
 		});
 		
 		var memberList = JSON.parse('${memberList}');
@@ -188,17 +214,6 @@ RidingDetail.jsp
 						+ Number($("input[name='end_longi']").val())) / 2;
 		
 		setCenter(centerLat, centerLng)
-		
-		// 성별 속성 있을 때만 성별 노출, 연령대 속성 있을 때만 연령대 노출
-		/* $(document).ready(function()
-		{
-			if ($("#ap_content").html() != "")
-			{
-				//alert($("#sex").html());
-				var content = $("#ap_content").html()
-				$(".age").html(content);
-			}
-		}); */
 	}
 	
 	
@@ -392,8 +407,10 @@ RidingDetail.jsp
 		<div id="memberContainer">
 		
 		</div>
-		<div>
-			<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
+		
+		<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
+		
+		<div id="attendBox">
 			<c:choose>
 			<c:when test="${status == '\"참여 가능\"'}">
 				<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
@@ -401,8 +418,10 @@ RidingDetail.jsp
 			<c:when test="${status == '\"참여 불가\"'}">
 				<input type="button" class="btn btn-default" value="참여불가" id="attendBtn" disabled="disabled"/>
 			</c:when>
-			
 			</c:choose>
+		</div>
+		
+		<div id="buttonBox">
 		</div>
 	</div>
 	
