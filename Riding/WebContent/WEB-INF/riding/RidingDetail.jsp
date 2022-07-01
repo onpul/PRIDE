@@ -43,6 +43,7 @@ RidingDetail.jsp
 			var riding_id = $("#riding_id").val();
 			var user_id = $("#user_id").val();
 			
+			var href = "waitingroom.action?user_id="+user_id+"&riding_id="+riding_id;
 			//alert(riding_id);
 			
 			$.ajax(
@@ -53,7 +54,8 @@ RidingDetail.jsp
 				{
 					if (data == 0) // 지금 참여 중인 모임임
 					{
-						var content = "<input type=\"button\" class=\"btn btn-default\" value=\"대기실로 이동\" id=\"attendBtn\"/>"
+						$("#attendBox").html("");
+						var content = "<input type=\"button\" class=\"btn btn-default\" value=\"대기실로 이동\" onclick=\"location.href='" + href + "'\"/>"
 						$("#buttonBox").html(content);
 					}
 				}
@@ -66,7 +68,7 @@ RidingDetail.jsp
 		
 		$("#attendBtn").click(function()
 		{
-			alert("확인");
+			//alert("확인");
 			
 			var riding_id = $("#riding_id").val();
 			var user_id = $("#user_id").val();
@@ -212,17 +214,6 @@ RidingDetail.jsp
 						+ Number($("input[name='end_longi']").val())) / 2;
 		
 		setCenter(centerLat, centerLng)
-		
-		// 성별 속성 있을 때만 성별 노출, 연령대 속성 있을 때만 연령대 노출
-		/* $(document).ready(function()
-		{
-			if ($("#ap_content").html() != "")
-			{
-				//alert($("#sex").html());
-				var content = $("#ap_content").html()
-				$(".age").html(content);
-			}
-		}); */
 	}
 	
 	
@@ -418,14 +409,18 @@ RidingDetail.jsp
 		</div>
 		
 		<input type="button" class="btn btn-default" value="목록으로" id="goList"/> 
-		<c:choose>
-		<c:when test="${status == '\"참여 가능\"'}">
-			<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
-		</c:when>
-		<c:when test="${status == '\"참여 불가\"'}">
-			<input type="button" class="btn btn-default" value="참여불가" id="attendBtn" disabled="disabled"/>
-		</c:when>
-		</c:choose>
+		
+		<div id="attendBox">
+			<c:choose>
+			<c:when test="${status == '\"참여 가능\"'}">
+				<input type="button" class="btn btn-default" value="참여하기" id="attendBtn"/>
+			</c:when>
+			<c:when test="${status == '\"참여 불가\"'}">
+				<input type="button" class="btn btn-default" value="참여불가" id="attendBtn" disabled="disabled"/>
+			</c:when>
+			</c:choose>
+		</div>
+		
 		<div id="buttonBox">
 		</div>
 	</div>
