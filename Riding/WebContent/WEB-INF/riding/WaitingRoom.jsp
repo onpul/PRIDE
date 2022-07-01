@@ -108,6 +108,12 @@ RidingDetail.jsp
 		{
 			deleteRiding($(this).val());
 		});
+		
+		// 확정 버튼 눌렀을 때
+		$(".confirmBtn").on("click", function()
+		{
+			confirmRiding();
+		});
 	});
 	
 	// 지도에 마커 넣기
@@ -218,6 +224,31 @@ RidingDetail.jsp
 		{
 			location.href = "exitriding.action?riding_id="+riding_id+"&user_id="+$("#user_id").val();
 		}
+	}
+	
+	// 확정하기
+	function confirmRiding()
+	{
+		alert("확정하기 버튼 누름");
+		
+		$.ajax(
+		{
+			type:"GET"
+			, url:"confirm.action?confirm=" + $(".confirmBtn").val() + "&riding_id=" + $("#riding_id").val()
+			, success:function(args)
+			{
+				alert("확정하기 컨트롤러 다녀오기 성공 데이터는 " + args + "임");
+				
+				if (args > 0)
+				{
+					$(".confirmBtn").toggle();
+				}				
+			}
+			, error:function(e)
+			{
+				console.log(e.responseText);
+			}
+		});
 	}
 	
 </script>
@@ -465,6 +496,8 @@ RidingDetail.jsp
 			</c:when>
 			<c:otherwise>
 				<div>
+					<button type="button" class="btn btn-success confirmBtn" value="SYSDATE">확정하기</button>
+					<button type="button" style="display:none;" class="btn btn-warning confirmBtn" value="NULL">확정 취소</button>
 					<button type="button" class="btn btn-warning updateBtn" value="${info.riding_id }">수정하기</button>
 					<button type="button" class="btn btn-warning deleteBtn" value="${info.riding_id }">삭제하기</button>
 				</div>
@@ -478,6 +511,7 @@ RidingDetail.jsp
 	</div>
 	
 	<input type="text" style="display: none;" name="user_id" id="user_id" value="${user_id}"/>
+	<input type="text" style="display: none;" name="riding_id" id="riding_id" value="${riding_id}"/>
 	
 	
 </div>

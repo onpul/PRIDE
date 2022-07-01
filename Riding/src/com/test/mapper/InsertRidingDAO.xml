@@ -91,4 +91,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE RIDING_ID = #{riding_id}
 		AND USER_ID = #{user_id}
 	</delete>
+	
+	<!-- 모임 확정 -->
+	<update id="confirmRiding">
+		UPDATE RIDING
+		SET CONFIRM_DATE = ${confirm}
+		WHERE RIDING_ID = #{riding_id}
+	</update>
 </mapper>
